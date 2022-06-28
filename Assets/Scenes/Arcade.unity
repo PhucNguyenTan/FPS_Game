@@ -464,7 +464,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 451143026}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.3690395, y: 4.65, z: 14.4}
+  m_LocalPosition: {x: 6.3690395, y: -4.4, z: 14.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -980,12 +980,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c50ae971f8933d4eab68e4af4a74478, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 0.5
+  mouseSensitivity: 0.2
   moveSpeed: 5
   isPause: 0
   maxJumpTime: 8
   maxJumpHeight: 0.1
-  MuzzleFlash: {fileID: 1075313814}
+  Pistol: {fileID: 1664594223}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1389,8 +1389,11 @@ GameObject:
   - component: {fileID: 1664594222}
   - component: {fileID: 1664594221}
   - component: {fileID: 1664594220}
+  - component: {fileID: 1664594223}
+  - component: {fileID: 1664594224}
+  - component: {fileID: 1664594225}
   m_Layer: 0
-  m_Name: Gun
+  m_Name: Gun_Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1477,6 +1480,140 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1664594218}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1664594223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664594218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dfd81144a5b7d842bb47f345701c021, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  range: 50
+  fireRate: 5
+  Firing: {fileID: 0}
+  MuzzleFlash: {fileID: 1075313814}
+  impacttest: {fileID: 8154098493202264236, guid: 03889fec60e1a3d47b9f239e3242adff, type: 3}
+--- !u!95 &1664594224
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664594218}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 22221d3a3100e7c4a83f2154ce18500f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!82 &1664594225
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664594218}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 6bf7057a7a3c6f2428ac6c4b46e41daa, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.603
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1843854730
 GameObject:
   m_ObjectHideFlags: 0
@@ -1549,6 +1686,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 4b04ca5d-bc0c-4e7f-80df-d4a26c23464d
     m_ActionName: Gameplay/MouseDelta[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a56aadbc-4b14-4241-9261-ccf93cd5a15f
+    m_ActionName: Gameplay/Shoot[/Mouse/leftButton,/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Gameplay

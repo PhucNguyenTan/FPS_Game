@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -33,9 +31,7 @@ public class Player : MonoBehaviour
     public float maxJumpHeight = 1f;
     private float initialJumpVelocity;
 
-    public ParticleSystem MuzzleFlash;
-    //public GameObject ImpactEffect;
-    public ParticleSystem impacttest;
+    public Gun_Pistol Pistol;
 
     public CharacterController pControl { get; private set; }
 
@@ -90,19 +86,11 @@ public class Player : MonoBehaviour
 
     private void PlayerShoot(InputAction.CallbackContext obj)
     {
-        MuzzleFlash.Play(); 
+        
         RaycastHit hit;
-        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit)) {
-            Enemy enemy = hit.transform.GetComponent<Enemy>();
-            if(enemy != null)
-            {
-                enemy.TakeDamage(10f);
-            }
+        Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit);
+        Pistol.PistolShoot(hit);
 
-            ParticleSystem impact = Instantiate(impacttest, hit.point, Quaternion.LookRotation(hit.normal));
-            impact.Play();
-            Destroy(impact, 2f);
-        }
     }
 
     public void PlayerJump(InputAction.CallbackContext obj)
