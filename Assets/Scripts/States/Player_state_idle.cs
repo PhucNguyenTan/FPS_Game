@@ -11,6 +11,7 @@ public class Player_state_idle : Player_base_state
     public override void Enter()
     {
         base.Enter();
+        player.Grounded();
     }
 
     public override void Exit()
@@ -21,6 +22,13 @@ public class Player_state_idle : Player_base_state
     public override void Logic()
     {
         base.Logic();
-        
+        if (!player.pControl.isGrounded)
+        {
+            stateMachine.ChangeStage(player.stateJump);
+        }
+
+        InputHandler.pInputActrion.Gameplay.Jump.performed += player.PlayerJump;
     }
+
+
 }

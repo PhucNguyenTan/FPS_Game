@@ -21,5 +21,12 @@ public class Player_state_jump : Player_base_state
     public override void Logic()
     {
         base.Logic();
+        if (player.pControl.isGrounded)
+        {
+            stateMachine.ChangeStage(player.stateIdle);
+        }
+        player.AddGravitry();
+
+        InputHandler.pInputActrion.Gameplay.Jump.performed -= player.PlayerJump;
     }
 }
