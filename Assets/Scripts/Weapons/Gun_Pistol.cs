@@ -17,6 +17,8 @@ public class Gun_Pistol : MonoBehaviour
     public ParticleSystem MuzzleFlash;
     public ParticleSystem impacttest;
 
+    public Recoil recoil_S;
+
     public void Awake()
     {
         animtor = GetComponent<Animator>();
@@ -29,6 +31,7 @@ public class Gun_Pistol : MonoBehaviour
         animtor.Play("Fire_Anim");
         MuzzleFlash.Play();
         audio.Play();
+        recoil_S.recoilFire();
         if (hit.transform != null)
         {
             Enemy enemy = hit.transform.GetComponent<Enemy>();
@@ -39,7 +42,7 @@ public class Gun_Pistol : MonoBehaviour
 
             ParticleSystem impact = Instantiate(impacttest, hit.point, Quaternion.LookRotation(hit.normal));
             impact.Play();
-            Destroy(impact, 2f);
+            Destroy(impact.gameObject, 1f);
         }
     }
 }

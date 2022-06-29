@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     public float moveSpeed = 5f;
     #endregion
 
+    [SerializeField]
     private Camera fpsCam;
     [SerializeField]
     private bool isPause = false;
@@ -45,7 +46,7 @@ public class Player : MonoBehaviour
 
         pControl = GetComponent<CharacterController>();
 
-        fpsCam = transform.Find("Main Camera").gameObject.GetComponent<Camera>();
+        //fpsCam = transform.F("Main Camera").gameObject.GetComponent<Camera>();
 
         stateMachine.Initiallized(stateIdle);
 
