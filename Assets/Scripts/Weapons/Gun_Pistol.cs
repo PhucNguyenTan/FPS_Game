@@ -18,6 +18,7 @@ public class Gun_Pistol : MonoBehaviour
     public ParticleSystem impacttest;
 
     public Recoil recoil_S;
+    private string curAnim = "pistol_idle";
 
     public void Awake()
     {
@@ -28,7 +29,7 @@ public class Gun_Pistol : MonoBehaviour
 
     public void PistolShoot(RaycastHit hit)
     {
-        animtor.Play("Fire_Anim");
+        PlayAnim("Fire_Anim");
         MuzzleFlash.Play();
         audio.Play();
         recoil_S.recoilFire();
@@ -45,4 +46,13 @@ public class Gun_Pistol : MonoBehaviour
             Destroy(impact.gameObject, 1f);
         }
     }
+
+    public void PlayAnim(string newAnim)
+    {
+        if (newAnim == curAnim) return;
+        animtor.Play(newAnim);
+        curAnim = newAnim;
+    }
+
+    
 }

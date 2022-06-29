@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     private float initialJumpVelocity;
 
     public Gun_Pistol Pistol;
+    public Vector2 moveInput { get; private set; }
 
     public CharacterController pControl { get; private set; }
 
@@ -72,7 +73,7 @@ public class Player : MonoBehaviour
     {
         if (!isPause) {
             stateMachine.currentState.Logic();
-            Vector2 moveInput = InputHandler.GetMoveInput();
+            moveInput = InputHandler.GetMoveInput();
             Vector2 mouseDelta = InputHandler.GetMouseDelta();
 
             PlayerRotate(mouseDelta);
@@ -145,4 +146,16 @@ public class Player : MonoBehaviour
         gravity = (-2 * maxJumpHeight) / timeToApex * timeToApex;
         initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
     }
+
+    #region Check function
+    public bool isInputingMove()
+    {
+        if(moveInput.x !=0 || moveInput.y != 0)
+        {
+            return true;
+        }
+        return false;
+    }
+    #endregion
+
 }
