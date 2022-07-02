@@ -211,6 +211,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec49dadc5e30d9948bda76abaf9b2ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 0}
+  projectile: {fileID: 8956040469519502834, guid: 48bb18fe619cec24aa38f82bcb9615be, type: 3}
+  coolDownTime: 3
 --- !u!1 &5967105810361037247
 GameObject:
   m_ObjectHideFlags: 0

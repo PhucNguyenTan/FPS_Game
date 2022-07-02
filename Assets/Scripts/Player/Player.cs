@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
     #endregion
 
     [SerializeField]
+    private HUD hudUI;
+
+    [SerializeField]
     private Camera fpsCam;
     [SerializeField]
     private bool isPause = false;
@@ -36,6 +39,8 @@ public class Player : MonoBehaviour
     public Vector2 moveInput { get; private set; }
 
     public CharacterController pControl { get; private set; }
+
+    public float health { get; private set; } = 50f;
 
     void Start()
     {
@@ -58,6 +63,8 @@ public class Player : MonoBehaviour
         SetJumpVar();
 
         SubscribeToInput();
+
+        hudUI.UpdateHealthBar(health);
     }
 
     private void GameManagerOnChangeState(GameManager.GameState arg0)
@@ -158,4 +165,16 @@ public class Player : MonoBehaviour
     }
     #endregion
 
+
+    
+
+    public void TakeDamage(float damage) {
+        health -= damage;
+        hudUI.UpdateHealthBar(health);
+    }
+
+    public Vector3 GetFPScamPosition()
+    {
+        return fpsCam.transform.position;
+    }
 }

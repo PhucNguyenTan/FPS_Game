@@ -1,18 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class Enemy_state_attacking : MonoBehaviour
+
+public class Enemy_state_attacking : Enemy_base_state
 {
-    // Start is called before the first frame update
-    void Start()
+    public Enemy_state_attacking(Enemy enemy, Enemy_state_machine stateMachine, string stringAnim) : base(enemy, stateMachine, stringAnim)
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Enter()
     {
-        
+        base.Enter();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+    }
+
+    public override void Logic()
+    {
+        base.Logic();
+        if(enemy.timeSinceLastShot > enemy.coolDownTime)
+        {
+            enemy.CreateProjectile();
+            enemy.ResetCountDown();
+        }
+        else
+        {
+            enemy.CountingDown();
+        }
+
+
     }
 }
