@@ -9,7 +9,7 @@ public class Player_state_shoot : Player_base_state
     public override void Enter()
     {
         base.Enter();
-        player.Pistol.ToShootAgain();
+        player.Pistol.Wait();
         player.UnsubscribeToShoot();
     }
 

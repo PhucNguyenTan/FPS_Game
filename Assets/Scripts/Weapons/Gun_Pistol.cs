@@ -6,7 +6,7 @@ public class Gun_Pistol : Gun_base
 {
     public Gun_Pistol()
     {
-        fireRate = 2f;
+        fireRate = 250;
     }
     
     
@@ -48,7 +48,6 @@ public class Gun_Pistol : Gun_base
             impact.Play();
             Destroy(impact.gameObject, 1f);
         }
-        ToShootAgain();
     }
 
     public void PlayAnim(string newAnim)

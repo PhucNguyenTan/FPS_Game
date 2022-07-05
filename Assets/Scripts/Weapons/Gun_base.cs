@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class Gun_base : MonoBehaviour
 {
     protected float range;
     protected float damage;
-    protected float fireRate;
+    protected int fireRate; //in milisecond
 
     private Vector3 InitialPos;
     private Quaternion InitialRot;
@@ -180,18 +181,28 @@ public class Gun_base : MonoBehaviour
         //Debug.Log(finalOutcome);
     }
 
-    public void ToShootAgain() {
-        StartCoroutine(WaitSeconds());
-        CanShoot = true;
-    }
-
-    public void Shot() {
+    public void Shot()
+    {
         CanShoot = false;
     }
 
-    public IEnumerator WaitSeconds()
+    //public void ToShootAgain() {
+    //    StartCoroutine(WaitSeconds());
+    //    CanShoot = true;
+    //}
+
+    
+
+    //public IEnumerator WaitSeconds()
+    //{
+    //    yield return new WaitForSeconds(fireRate);
+    //}
+
+    public async void Wait()
     {
-        yield return new WaitForSeconds(fireRate);
+        await Task.Delay(fireRate);
+        CanShoot = true;
+
     }
 }
 
