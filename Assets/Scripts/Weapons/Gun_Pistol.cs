@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Gun_Pistol : Gun_base
 {
-    //public float damage = 10f;
-    //public float range = 50f;
-    //public int fireRate = 5;
+    public Gun_Pistol()
+    {
+        fireRate = 2f;
+    }
     
-
-    public Animation Firing;
+    
 
     //private Animator animtor;
     private AudioSource audio;
@@ -20,6 +20,8 @@ public class Gun_Pistol : Gun_base
     public Recoil recoil_S;
     private string curAnim = "pistol_idle";
 
+    
+
     public void Awake()
     {
         //animtor = GetComponent<Animator>();
@@ -29,7 +31,8 @@ public class Gun_Pistol : Gun_base
 
     public void PistolShoot(RaycastHit hit)
     {
-        RecoilSway();
+        //RecoilFire();
+        Shot();
         MuzzleFlash.Play();
         audio.Play();
         recoil_S.RecoilFire();
@@ -45,6 +48,7 @@ public class Gun_Pistol : Gun_base
             impact.Play();
             Destroy(impact.gameObject, 1f);
         }
+        ToShootAgain();
     }
 
     public void PlayAnim(string newAnim)

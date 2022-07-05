@@ -9,15 +9,23 @@ public class Player_state_shoot : Player_base_state
     public override void Enter()
     {
         base.Enter();
+        player.Pistol.ToShootAgain();
+        player.UnsubscribeToShoot();
     }
 
     public override void Exit()
     {
         base.Exit();
+        player.Pistol.ResetRotation();
     }
 
     public override void Logic()
     {
         base.Logic();
+        player.Pistol.RecoilUpdate();
+        if (player.Pistol.CanShoot)
+        {
+            player.shootingMachine.ChangeStage(player.stateGunidle);
+        }
     }
 }

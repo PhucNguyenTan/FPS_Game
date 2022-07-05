@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
         stateMove = new Player_state_move(this, movementMachine, "move");
         stateJump = new Player_state_jump(this, movementMachine, "jump");
         stateShoot = new Player_state_shoot(this, shootingMachine, "shoot");
-        stateGunidle = new Player_state_gunIdle(this, shootingMachine, "GunIdle");
+        stateGunidle = new Player_state_gunIdle(this, shootingMachine, "gun_idle");
         //InputHandler.pInputActrion.Gameplay.Jump.performed += ;
 
         pControl = GetComponent<CharacterController>();
@@ -98,8 +98,6 @@ public class Player : MonoBehaviour
             shootingMachine.currentState.Logic();
 
             PlayerRotate(mouseDelta);
-
-
             PlayerMove(moveInput);
             Pistol.ActuallyChangeDoChanges();
         }
@@ -107,8 +105,19 @@ public class Player : MonoBehaviour
 
     private void SubscribeToInput() {
         InputHandler.pInputActrion.Gameplay.Jump.performed += PlayerJump;
+    }
+
+    public void SubscibeToShoot()
+    {
         InputHandler.pInputActrion.Gameplay.Shoot.performed += PlayerShoot;
     }
+
+    public void UnsubscribeToShoot()
+    {
+        InputHandler.pInputActrion.Gameplay.Shoot.performed -= PlayerShoot;
+    }
+
+
 
     private void PlayerShoot(InputAction.CallbackContext obj)
     {
@@ -160,6 +169,7 @@ public class Player : MonoBehaviour
     public void AddGravitry()
     {
         v_current += gravity*Time.deltaTime;
+        v_current = Mathf.Max(v_current, gravity);
     }
 
     public void SetJumpVar()

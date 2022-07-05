@@ -21,79 +21,177 @@ public class Gun_base : MonoBehaviour
 
     [SerializeField]
     private float smooth = 10f;
-    [SerializeField]
-    private float currentMove; //run from 0-1
-    private bool forwardDirection;
+
+    private float _currentMove; 
+    private bool _forwardDirection;
     [SerializeField]
     private float speed = 10f;
 
-    private Vector3 MoveAnim;
-    private Vector3 AimAnim;
-    private Vector3 ShootAnim;
+    private bool _forwardRotation;
+    private float _currentLook;
+    private Vector3 _moveAnim;
+    private Vector3 _moveBobAnim;
+    private Vector3 _aimAnim;
+    private Vector3 _shootAnim;
 
-    
+
+    public bool CanShoot;
+
+    private Vector2 _saveInput;
+
+    [SerializeField]  protected float _returnSpeed;
+    [SerializeField] protected float _snappiness;
+    //private Vector3 _targetRotation;
+    //private Vector3 _currentRotation;
+    //[SerializeField]
+    //protected float _recoilX;
+    //[SerializeField]
+    //protected float _recoilY;
+    //[SerializeField]
+    //protected float _recoilZ;
+
+
 
     private Quaternion RecoilAnim;
+
+    private void Awake()
+    {
+        CanShoot = true;
+    }
 
     private void Start()
     {
         InitialPos = transform.localPosition;
         InitialRot = transform.localRotation;
-        currentMove = 0f;
+        _currentMove = 0f;
+        _currentLook = 0f;
+        _forwardRotation = true;
+        _forwardDirection = true;
     }
 
-    public void MovementSway(Vector2 charMove)
+    public void MovementBob(Vector2 charMove)
     {
-        Vector3 test = new Vector3(charMove.x, 0f, charMove.y);
+        Vector3 weaponBob = new Vector3(0f, -0.5f, 0f);
         
-        if(currentMove < 0f || currentMove > 1f)
+        if(_currentMove < 0f)
         {
-            FlipDirection();
+            _currentMove = 0f;
+            _forwardDirection =  FlipBool(_forwardDirection);
+        }
+        else if(_currentMove > 1f)
+        {
+            _currentMove = 1f;
+            _forwardDirection = FlipBool(_forwardDirection);
         }
 
-        if (forwardDirection)
+        if (_forwardDirection)
         {
-            currentMove += Time.deltaTime*speed;
-        }
-        else
-        {
-            currentMove -= Time.deltaTime*speed;
-        }
-        MoveAnim = Vector3.Lerp(InitialPos, test*0.1f + InitialPos, _curve.Evaluate(currentMove));
-    }
-
-    public void FlipDirection()
-    {
-        if (forwardDirection)
-        {
-            forwardDirection = false;
+            _currentMove += Time.deltaTime*speed;
         }
         else
         {
-            forwardDirection = true;
+            _currentMove -= Time.deltaTime*speed;
+        }
+        _moveBobAnim = Vector3.Lerp(InitialPos, weaponBob*0.1f + InitialPos, _curve.Evaluate(_currentMove));
+        //Debug.Log(_currentMove);
+    }
+
+    public bool FlipBool(bool flipBool)
+    {
+        if (flipBool)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
 
-    public void RotationSway(Vector2 camMove)
+    public void MovementSway(Vector2 moveInput)
     {
-        float MoveX = Mathf.Clamp(camMove.x * amount, -maxAmount, maxAmount);
-        float MoveY = Mathf.Clamp(camMove.y * amount, -maxAmount, maxAmount);
-
-        Vector3 finalPos = new Vector3(MoveX, MoveY, 0f);
-
-        AimAnim = Vector3.Lerp(InitialPos, finalPos + InitialPos, Time.deltaTime * smooth);
+        Vector3 test = new Vector3(moveInput.x * 0.5f, 0f, moveInput.y * 0.5f);
+        _moveAnim = Vector3.MoveTowards(Vector3.zero, test, Time.deltaTime);
     }
 
-    public void RecoilSway()
+    //public void MovementSway(Vector2 moveInput)
+    //{
+    //    float MoveX = Mathf.Clamp(moveInput.x * amount, -maxAmount, maxAmount);
+    //    float MoveY = Mathf.Clamp(moveInput.y * amount, -maxAmount, maxAmount);
+
+    //    Vector3 finalPos = new Vector3(MoveX, MoveY, 0f);
+
+    //    AimAnim = Vector3.Lerp(InitialPos, finalPos + InitialPos, Time.deltaTime * smooth);
+    //}
+
+    public void ResetPosition()
     {
-        Quaternion RotY = Quaternion.Euler(10f, 10f ,0f);
-        transform.localRotation = Quaternion.Slerp(InitialRot, InitialRot * RotY, Time.deltaTime);
+        _moveAnim = Vector3.zero;
+        _moveBobAnim = InitialPos;
+        _currentMove = 0f;
+        _forwardDirection = true;
+
+    }
+
+    public void ResetRotation()
+    {
+        _currentLook = 0f;
+        transform.localRotation = InitialRot;
+        _forwardRotation = true;
+
+    }
+
+    public void RecoilUpdate() //???
+    {
+        if (_currentLook < 0f)
+        {
+            _currentLook = 0f;
+            _forwardRotation = FlipBool(_forwardRotation);
+        }
+        else if (_currentLook > 1f)
+        {
+            _currentLook = 1f;
+            _forwardRotation = FlipBool(_forwardRotation);
+        }
+
+        if (_forwardRotation)
+        {
+            _currentLook += Time.deltaTime * _snappiness;
+        }
+        else
+        {
+            _currentLook -= Time.deltaTime * _returnSpeed;
+        }
+        Quaternion RotY = Quaternion.Euler(30f, 0f ,0f);
+        transform.localRotation = Quaternion.Slerp(InitialRot, InitialRot * RotY, _currentLook);
+        //Debug.Log(transform.localRotation.eulerAngles);
+    }
+
+    public void RecoilFire()
+    {
+        
+        //_targetRotation = new Vector3(_recoilX, Random.Range(-_recoilY, _recoilY), Random.Range(-_recoilZ, _recoilZ));
     }
 
     public void ActuallyChangeDoChanges()
     {
-        Vector3 finalOutcome = (AimAnim + MoveAnim) - InitialPos;
+        Vector3 finalOutcome = (_moveBobAnim + _moveAnim);
         transform.localPosition = finalOutcome;
+        //Debug.Log(finalOutcome);
+    }
+
+    public void ToShootAgain() {
+        StartCoroutine(WaitSeconds());
+        CanShoot = true;
+    }
+
+    public void Shot() {
+        CanShoot = false;
+    }
+
+    public IEnumerator WaitSeconds()
+    {
+        yield return new WaitForSeconds(fireRate);
     }
 }
 

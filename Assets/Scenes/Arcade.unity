@@ -1837,9 +1837,10 @@ MonoBehaviour:
   amount: 5
   maxAmount: 10
   smooth: 0.1
-  currentMove: 0
+  _currentMove: 0
   speed: 10
-  Firing: {fileID: 0}
+  _returnSpeed: 0
+  _snappiness: 0
   MuzzleFlash: {fileID: 1075313814}
   impacttest: {fileID: 8154098493202264236, guid: 03889fec60e1a3d47b9f239e3242adff, type: 3}
   recoil_S: {fileID: 500646424}
@@ -2277,9 +2278,10 @@ MonoBehaviour:
   amount: 0.1
   maxAmount: 5
   smooth: 0.2
-  currentMove: 0
+  _currentMove: 0
   speed: 3
-  Firing: {fileID: 0}
+  _returnSpeed: 1
+  _snappiness: 15
   MuzzleFlash: {fileID: 1075313814}
   impacttest: {fileID: 8154098493202264236, guid: 03889fec60e1a3d47b9f239e3242adff, type: 3}
   recoil_S: {fileID: 500646424}
@@ -2320,7 +2322,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 6bf7057a7a3c6f2428ac6c4b46e41daa, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.482
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 0
   Mute: 0
