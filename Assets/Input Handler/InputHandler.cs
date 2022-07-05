@@ -30,6 +30,8 @@ public class InputHandler : MonoBehaviour
         pInputActrion.Gameplay.Shoot.Enable();
         mouseDelta = pInputActrion.Gameplay.MouseDelta;
         pInputActrion.Gameplay.MouseDelta.Enable();
+        pInputActrion.Gameplay.Dash.Enable();
+        pInputActrion.Gameplay.Crouch.Enable();
     }
 
     private void OnDisable()
@@ -38,6 +40,8 @@ public class InputHandler : MonoBehaviour
         pInputActrion.Gameplay.Jump.Disable();
         pInputActrion.Gameplay.MousePosition.Disable();
         pInputActrion.Gameplay.Shoot.Disable();
+        pInputActrion.Gameplay.Dash.Disable();
+        pInputActrion.Gameplay.Crouch.Disable();
     }
 
     private void test(InputAction.CallbackContext obj)

@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun_Pistol : MonoBehaviour
+public class Gun_Pistol : Gun_base
 {
-    public float damage = 10f;
-    public float range = 50f;
-    public int fireRate = 5;
+    //public float damage = 10f;
+    //public float range = 50f;
+    //public int fireRate = 5;
     
 
     public Animation Firing;
 
-    private Animator animtor;
+    //private Animator animtor;
     private AudioSource audio;
 
     public ParticleSystem MuzzleFlash;
@@ -22,17 +22,17 @@ public class Gun_Pistol : MonoBehaviour
 
     public void Awake()
     {
-        animtor = GetComponent<Animator>();
+        //animtor = GetComponent<Animator>();
         audio = GetComponent<AudioSource>();
     }
 
 
     public void PistolShoot(RaycastHit hit)
     {
-        PlayAnim("Fire_Anim");
+        RecoilSway();
         MuzzleFlash.Play();
         audio.Play();
-        recoil_S.recoilFire();
+        recoil_S.RecoilFire();
         if (hit.transform != null)
         {
             Enemy enemy = hit.transform.GetComponent<Enemy>();
@@ -49,9 +49,9 @@ public class Gun_Pistol : MonoBehaviour
 
     public void PlayAnim(string newAnim)
     {
-        if (newAnim == curAnim) return;
-        animtor.Play(newAnim);
-        curAnim = newAnim;
+        //if (newAnim == curAnim) return;
+        //animtor.Play(newAnim);
+        //1curAnim = newAnim;
     }
 
     

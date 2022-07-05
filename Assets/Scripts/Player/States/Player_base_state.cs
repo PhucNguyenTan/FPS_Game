@@ -16,6 +16,7 @@ public abstract class Player_base_state
     public virtual void Enter()
     {
         startTime = Time.time;
+        Debug.Log(animString);
     }
 
     public virtual void Exit()

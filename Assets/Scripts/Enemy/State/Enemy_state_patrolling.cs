@@ -19,6 +19,6 @@ public class Enemy_state_patrolling : Enemy_base_state
     public override void Logic()
     {
         base.Logic();
-        enemy.ChasePlayer();
+        //enemy.ChasePlayer();
     }
 }

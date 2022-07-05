@@ -11,7 +11,6 @@ public class Player_state_move : Player_base_state
     public override void Enter()
     {
         base.Enter();
-        player.Pistol.PlayAnim("pistol_move");
     }
 
     public override void Exit()
@@ -22,14 +21,15 @@ public class Player_state_move : Player_base_state
     public override void Logic()
     {
         base.Logic();
-        if (!player.pControl.isGrounded)
+        /*if (!player.pControl.isGrounded)
         {
             stateMachine.ChangeStage(player.stateJump);
-        }
+        }*/
         if (!player.isInputingMove())
         {
             stateMachine.ChangeStage(player.stateIdle);
         }
+        player.Pistol.MovementSway(player.moveInput);
 
     }
 }

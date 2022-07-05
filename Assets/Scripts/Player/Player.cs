@@ -7,8 +7,11 @@ public class Player : MonoBehaviour
     public Player_state_idle stateIdle { get; private set; }
     public Player_state_jump stateJump { get; private set; }
     public Player_state_move stateMove { get; private set; }
+    public Player_state_shoot stateShoot { get; private set; }
+    public Player_state_gunIdle stateGunidle { get; private set; }
 
-    public Player_state_machine stateMachine;
+    public Player_state_machine movementMachine;
+    public Player_state_machine shootingMachine;
 
     #region To put in GameDATA object
     public float mouseSensitivity = 0.3f;
@@ -42,19 +45,24 @@ public class Player : MonoBehaviour
 
     public float health { get; private set; } = 50f;
 
+    public Vector2 mouseDelta { get; private set; }
     void Start()
     {
-        stateMachine = new Player_state_machine();
-        stateIdle = new Player_state_idle(this, stateMachine, "idle");
-        stateMove = new Player_state_move(this, stateMachine, "move");
-        stateJump = new Player_state_jump(this, stateMachine, "jump");
+        movementMachine = new Player_state_machine();
+        shootingMachine = new Player_state_machine();
+        stateIdle = new Player_state_idle(this, movementMachine, "idle");
+        stateMove = new Player_state_move(this, movementMachine, "move");
+        stateJump = new Player_state_jump(this, movementMachine, "jump");
+        stateShoot = new Player_state_shoot(this, shootingMachine, "shoot");
+        stateGunidle = new Player_state_gunIdle(this, shootingMachine, "GunIdle");
         //InputHandler.pInputActrion.Gameplay.Jump.performed += ;
 
         pControl = GetComponent<CharacterController>();
 
         //fpsCam = transform.F("Main Camera").gameObject.GetComponent<Camera>();
 
-        stateMachine.Initiallized(stateIdle);
+        movementMachine.Initiallized(stateIdle);
+        shootingMachine.Initiallized(stateGunidle);
 
         GameManager.OnChangeState += GameManagerOnChangeState;
 
@@ -65,6 +73,9 @@ public class Player : MonoBehaviour
         SubscribeToInput();
 
         hudUI.UpdateHealthBar(health);
+
+        //InputHandler.pInputActrion.Gameplay.Crouch.performed +=;
+        //InputHandler.pInputActrion.Gameplay.Dash.performed +=;
     }
 
     private void GameManagerOnChangeState(GameManager.GameState arg0)
@@ -79,12 +90,18 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (!isPause) {
-            stateMachine.currentState.Logic();
             moveInput = InputHandler.GetMoveInput();
-            Vector2 mouseDelta = InputHandler.GetMouseDelta();
+            mouseDelta = InputHandler.GetMouseDelta();
+
+            
+            movementMachine.currentState.Logic();
+            shootingMachine.currentState.Logic();
 
             PlayerRotate(mouseDelta);
+
+
             PlayerMove(moveInput);
+            Pistol.ActuallyChangeDoChanges();
         }
     }
 
@@ -110,10 +127,8 @@ public class Player : MonoBehaviour
 
 
 
-    private void PlayerMove(Vector2 moveInput)
+    public void PlayerMove(Vector2 moveInput)
     {
-        
-        
         Vector3 V_gravity = new Vector3(0f, v_current, 0f);
         Vector3 groundMove = (transform.right * moveInput.x + transform.forward * moveInput.y) * moveSpeed * Time.deltaTime;
         pControl.Move(V_gravity+groundMove);
@@ -176,5 +191,15 @@ public class Player : MonoBehaviour
     public Vector3 GetFPScamPosition()
     {
         return fpsCam.transform.position;
+    }
+
+    public void Dash()
+    {
+
+    }
+
+    public void Crouch()
+    {
+
     }
 }
