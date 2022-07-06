@@ -16,11 +16,11 @@ public class Player : MonoBehaviour
 
     #region Components variables
     public Gun_Pistol Pistol;
-    [SerializeField] private HUD hudUI;
     [SerializeField] private Camera fpsCam;
     public CharacterController pController { get; private set; }
 
     [SerializeField] private Player_data P_Data;
+    [SerializeField] private Health_script Health_Data;
     #endregion
 
     #region Input variable
@@ -35,12 +35,11 @@ public class Player : MonoBehaviour
     private float v_current = 0f;
     private float gravity;
     private float initialJumpVelocity;
-    public float Health { get; private set; }
     #endregion
 
 
 
-    #region Unity Flow
+    #region Unity Callbacks
     void Start()
     {
         
@@ -52,7 +51,6 @@ public class Player : MonoBehaviour
         stateShoot = new Player_state_shoot(this, shootingMachine, "shoot");
         stateGunidle = new Player_state_gunIdle(this, shootingMachine, "gun_idle");
         pController = GetComponent<CharacterController>();
-        //InputHandler.pInputActrion.Gameplay.Jump.performed += ;
 
         movementMachine.Initiallized(stateIdle);
         shootingMachine.Initiallized(stateGunidle);
@@ -64,10 +62,6 @@ public class Player : MonoBehaviour
         SetJumpVar();
 
         SubscribeToInput();
-
-        Health = P_Data.MaxHealth;
-
-        hudUI.UpdateHealthBar(Health);
 
         _currentHeight = P_Data.StandHeight;
 
@@ -192,8 +186,7 @@ public class Player : MonoBehaviour
     #region Set Effect function
     public void TakeDamage(float damage)
     {
-        Health -= damage;
-        hudUI.UpdateHealthBar(Health);
+        Health_Data.DecreaseHealth(10f);
     }
     #endregion
 

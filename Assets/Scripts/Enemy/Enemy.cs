@@ -43,7 +43,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        stateMachine.Initialize(statePatrolling);
+        stateMachine.Initialize(stateAttack);
     }
 
     private void Update()

@@ -20,11 +20,4 @@ public class Player_data : ScriptableObject
     public float GroundGravity = -0.5f;
     public float EarthGravity = -9.8f;
     
-
-    
-    
-
-    
-
-    
 }

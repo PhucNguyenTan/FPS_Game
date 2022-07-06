@@ -1010,9 +1010,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pistol: {fileID: 2045723780}
-  hudUI: {fileID: 109939239}
   fpsCam: {fileID: 963194227}
   P_Data: {fileID: 11400000, guid: dc43469b827ed38478dd4b935f471f99, type: 2}
+  Health_Data: {fileID: 11400000, guid: 647e6393b091f274d8c4c211481bfd67, type: 2}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
