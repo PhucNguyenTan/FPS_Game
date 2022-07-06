@@ -4,50 +4,46 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    #region Variable for State
     public Player_state_idle stateIdle { get; private set; }
     public Player_state_jump stateJump { get; private set; }
     public Player_state_move stateMove { get; private set; }
     public Player_state_shoot stateShoot { get; private set; }
     public Player_state_gunIdle stateGunidle { get; private set; }
-
-    public Player_state_machine movementMachine;
-    public Player_state_machine shootingMachine;
-
-    #region To put in GameDATA object
-    public float mouseSensitivity = 0.3f;
-    public float moveSpeed = 5f;
+    public Player_state_machine movementMachine { get; private set; }
+    public Player_state_machine shootingMachine { get; private set; }
     #endregion
 
-    [SerializeField]
-    private HUD hudUI;
+    #region Components variables
+    public Gun_Pistol Pistol;
+    [SerializeField] private HUD hudUI;
+    [SerializeField] private Camera fpsCam;
+    public CharacterController pController { get; private set; }
 
-    [SerializeField]
-    private Camera fpsCam;
-    [SerializeField]
+    [SerializeField] private Player_data P_Data;
+    #endregion
+
+    #region Input variable
+    public Vector2 mouseDelta { get; private set; }
+    public Vector2 moveInput { get; private set; }
+    #endregion
+
+    #region Normal variables
     private bool isPause = false;
-    private Vector2 worldPos;
-
+    public float _currentHeight { get; private set; }
     private float yRotation = 0f;
-
-    private float groundGravity = -0.5f;
-    private float earthGravity = -9.8f;
     private float v_current = 0f;
     private float gravity;
-
-    public float maxJumpTime = 2f;
-    public float maxJumpHeight = 1f;
     private float initialJumpVelocity;
+    public float Health { get; private set; }
+    #endregion
 
-    public Gun_Pistol Pistol;
-    public Vector2 moveInput { get; private set; }
 
-    public CharacterController pControl { get; private set; }
 
-    public float health { get; private set; } = 50f;
-
-    public Vector2 mouseDelta { get; private set; }
+    #region Unity Flow
     void Start()
     {
+        
         movementMachine = new Player_state_machine();
         shootingMachine = new Player_state_machine();
         stateIdle = new Player_state_idle(this, movementMachine, "idle");
@@ -55,11 +51,8 @@ public class Player : MonoBehaviour
         stateJump = new Player_state_jump(this, movementMachine, "jump");
         stateShoot = new Player_state_shoot(this, shootingMachine, "shoot");
         stateGunidle = new Player_state_gunIdle(this, shootingMachine, "gun_idle");
+        pController = GetComponent<CharacterController>();
         //InputHandler.pInputActrion.Gameplay.Jump.performed += ;
-
-        pControl = GetComponent<CharacterController>();
-
-        //fpsCam = transform.F("Main Camera").gameObject.GetComponent<Camera>();
 
         movementMachine.Initiallized(stateIdle);
         shootingMachine.Initiallized(stateGunidle);
@@ -72,24 +65,21 @@ public class Player : MonoBehaviour
 
         SubscribeToInput();
 
-        hudUI.UpdateHealthBar(health);
+        Health = P_Data.MaxHealth;
+
+        hudUI.UpdateHealthBar(Health);
+
+        _currentHeight = P_Data.StandHeight;
 
         //InputHandler.pInputActrion.Gameplay.Crouch.performed +=;
         //InputHandler.pInputActrion.Gameplay.Dash.performed +=;
     }
 
-    private void GameManagerOnChangeState(GameManager.GameState arg0)
-    {
-        switch (GameManager.State)
-        {
-            case (GameManager.GameState.CountDown):
-                break;
-        }
-    }
-
     void Update()
     {
-        if (!isPause) {
+        if (!isPause)
+        {
+            SetJumpVar();
             moveInput = InputHandler.GetMoveInput();
             mouseDelta = InputHandler.GetMouseDelta();
 
@@ -100,11 +90,24 @@ public class Player : MonoBehaviour
             PlayerRotate(mouseDelta);
             PlayerMove(moveInput);
             Pistol.ActuallyChangeDoChanges();
+            Debug.Log(v_current);
+        }
+    }
+    #endregion
+    #region Input turing off and on
+    private void GameManagerOnChangeState(GameManager.GameState arg0)
+    {
+        switch (GameManager.State)
+        {
+            case (GameManager.GameState.CountDown):
+                break;
         }
     }
 
     private void SubscribeToInput() {
         InputHandler.pInputActrion.Gameplay.Jump.performed += PlayerJump;
+        InputHandler.pInputActrion.Gameplay.Dash.performed += PlayerDash;
+        InputHandler.pInputActrion.Gameplay.Crouch.performed += PlayerCrouch;
     }
 
     public void SubscibeToShoot()
@@ -117,8 +120,8 @@ public class Player : MonoBehaviour
         InputHandler.pInputActrion.Gameplay.Shoot.performed -= PlayerShoot;
     }
 
-
-
+    #endregion
+    #region Functions for subscribing
     private void PlayerShoot(InputAction.CallbackContext obj)
     {
         
@@ -134,28 +137,34 @@ public class Player : MonoBehaviour
         Debug.Log(v_current);
     }
 
-
-
     public void PlayerMove(Vector2 moveInput)
     {
         Vector3 V_gravity = new Vector3(0f, v_current, 0f);
-        Vector3 groundMove = (transform.right * moveInput.x + transform.forward * moveInput.y) * moveSpeed * Time.deltaTime;
-        pControl.Move(V_gravity+groundMove);
+        Vector3 groundMove = (transform.right * moveInput.x + transform.forward * moveInput.y) * P_Data.MoveSpeed * Time.deltaTime;
+        pController.Move(V_gravity+groundMove);
     }
-
-    
 
     private void PlayerRotate(Vector2 cameraInput)
     {
-        yRotation -= cameraInput.y * mouseSensitivity; // ???
+        yRotation -= cameraInput.y * P_Data.MouseSensitivity; // ???
         yRotation = Mathf.Clamp(yRotation, -90f, 90f);
 
         fpsCam.transform.localRotation = Quaternion.Euler(yRotation, 0f, 0f);
-        transform.Rotate(Vector3.up * cameraInput.x * mouseSensitivity);
+        transform.Rotate(Vector3.up * cameraInput.x * P_Data.MouseSensitivity);
     }
 
-    
+    public void PlayerDash(InputAction.CallbackContext obj)
+    {
 
+    }
+
+    public void PlayerCrouch(InputAction.CallbackContext obj)
+    {
+        pController.height = P_Data.CrouchHeight;
+        Debug.Log("crouch");
+    }
+    #endregion
+    #region Setup functions
     private void Initialized()
     {
         
@@ -163,21 +172,30 @@ public class Player : MonoBehaviour
 
     public void Grounded()
     {
-        v_current = groundGravity;
-    }
-
-    public void AddGravitry()
-    {
-        v_current += gravity*Time.deltaTime;
-        v_current = Mathf.Max(v_current, gravity);
+        v_current = P_Data.GroundGravity;
     }
 
     public void SetJumpVar()
     {
-        float timeToApex = maxJumpTime / 2;
-        gravity = (-2 * maxJumpHeight) / timeToApex * timeToApex;
-        initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
+        float timeToApex = P_Data.MaxJumpTime / 2;
+        gravity = (-2 * P_Data.MaxJumpHeight) / timeToApex * timeToApex;
+        initialJumpVelocity =  (2 * P_Data.MaxJumpHeight) / timeToApex;
     }
+
+    public void AddGravitry()
+    {
+        v_current += P_Data.EarthGravity * Time.deltaTime;
+        v_current = Mathf.Max(v_current, P_Data.EarthGravity);
+    }
+    #endregion
+
+    #region Set Effect function
+    public void TakeDamage(float damage)
+    {
+        Health -= damage;
+        hudUI.UpdateHealthBar(Health);
+    }
+    #endregion
 
     #region Check function
     public bool isInputingMove()
@@ -189,27 +207,12 @@ public class Player : MonoBehaviour
         return false;
     }
     #endregion
-
-
-    
-
-    public void TakeDamage(float damage) {
-        health -= damage;
-        hudUI.UpdateHealthBar(health);
-    }
-
+    #region Get functions
     public Vector3 GetFPScamPosition()
     {
         return fpsCam.transform.position;
     }
+    #endregion
 
-    public void Dash()
-    {
 
-    }
-
-    public void Crouch()
-    {
-
-    }
 }

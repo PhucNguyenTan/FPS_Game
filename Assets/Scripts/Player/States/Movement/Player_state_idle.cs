@@ -24,7 +24,7 @@ public class Player_state_idle : Player_base_state
     public override void Logic()
     {
         base.Logic();
-        if (!player.pControl.isGrounded)
+        if (!player.pController.isGrounded)
         {
             stateMachine.ChangeStage(player.stateJump);
         }

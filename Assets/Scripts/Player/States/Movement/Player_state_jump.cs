@@ -22,11 +22,11 @@ public class Player_state_jump : Player_base_state
     public override void Logic()
     {
         base.Logic();
-        if(player.pControl.isGrounded && player.isInputingMove())
+        if(player.pController.isGrounded && player.isInputingMove())
         {
             stateMachine.ChangeStage(player.stateMove);
         }
-        if (player.pControl.isGrounded)
+        if (player.pController.isGrounded)
         {
             stateMachine.ChangeStage(player.stateIdle);
         }
