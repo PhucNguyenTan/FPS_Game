@@ -1,4 +1,4 @@
-
+using UnityEngine;
 
 public class Player_state_dash : Player_base_state
 {
@@ -9,15 +9,34 @@ public class Player_state_dash : Player_base_state
     public override void Enter()
     {
         base.Enter();
+        player.UnsubcribeToInput();
     }
 
     public override void Exit()
     {
         base.Exit();
+        player.SubscribeToInput();
     }
 
     public override void Logic()
     {
         base.Logic();
+
+        if (player.Is_xDashStop() && player.Is_zDashStop())
+        {
+            player.StopDash();
+        }
+        if (!player.isDashing && player.isInputingMove())
+        {
+            player.movementMachine.ChangeStage(player.stateMove);
+        }
+        if (!player.isDashing)
+        {
+            player.movementMachine.ChangeStage(player.stateIdle);
+        }
+        player.AddFriction();
+
+
+
     }
 }

@@ -24,13 +24,19 @@ public class Player_state_jump : Player_base_state
         base.Logic();
         if(player.pController.isGrounded && player.isInputingMove())
         {
+            player.Grounded();
             stateMachine.ChangeStage(player.stateMove);
         }
         if (player.pController.isGrounded)
         {
+            player.Grounded();
             stateMachine.ChangeStage(player.stateIdle);
         }
         player.AddGravitry();
+        if (player.isDashing)
+        {
+            stateMachine.ChangeStage(player.stateDash);
+        }
 
     }
 }

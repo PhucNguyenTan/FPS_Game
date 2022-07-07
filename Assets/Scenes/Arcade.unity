@@ -370,6 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72fe154491378ef43a9f53260b4758e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Health_obj: {fileID: 11400000, guid: 647e6393b091f274d8c4c211481bfd67, type: 2}
 --- !u!114 &109939240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1420,7 +1421,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 50
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 50
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

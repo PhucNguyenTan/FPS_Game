@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3e979bdb06dab04bb1b9c1a2b532bd8, type: 3}
   m_Name: Player_data_obj
   m_EditorClassIdentifier: 
-  MaxHealth: 50
-  MaxJumpHeight: 1
-  MaxJumpTime: 3
+  MaxJumpHeight: 0.1
+  MaxJumpTime: 1
   CrouchHeight: 0
   StandHeight: 0
   MouseSensitivity: 0.3

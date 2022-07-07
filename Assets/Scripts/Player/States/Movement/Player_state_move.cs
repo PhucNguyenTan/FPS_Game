@@ -31,8 +31,16 @@ public class Player_state_move : Player_base_state
         {
             stateMachine.ChangeStage(player.stateIdle);
         }
-        player.Pistol.MovementBob(player.moveInput);
-        player.Pistol.MovementSway(player.moveInput);
+        if (player.isDashing)
+        {
+            stateMachine.ChangeStage(player.stateDash);
+        }
+        else if(!player.isDashing)
+        {
+            player.Pistol.MovementBob(player.moveInput);
+            player.Pistol.MovementSway(player.moveInput);
+            player.PlayerMove(player.moveInput);
+        }
 
     }
 }

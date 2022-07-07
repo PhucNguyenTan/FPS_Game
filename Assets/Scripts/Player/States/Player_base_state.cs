@@ -4,7 +4,7 @@ public abstract class Player_base_state
 {
     protected Player player;
     protected Player_state_machine stateMachine;
-    private string animString;
+    protected string animString;
     protected float startTime;
     public Player_base_state(Player player, Player_state_machine stateMachine, string animString)
     {
@@ -16,7 +16,7 @@ public abstract class Player_base_state
     public virtual void Enter()
     {
         startTime = Time.time;
-        Debug.Log(animString);
+        //Debug.Log(animString);
     }
 
     public virtual void Exit()

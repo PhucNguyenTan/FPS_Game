@@ -6,17 +6,20 @@ using UnityEngine;
 public class Player_data : ScriptableObject
 {
     [Header("Player")]
-    public float MaxHealth = 50f;
-    public float MaxJumpHeight = 1f;
-    public float MaxJumpTime = 2f;
+    public float JumpHeight = 0.01f;
+    public float JumpTime = 1f;
     public float CrouchHeight;
     public float StandHeight;
+    public float DropHeight = 1f;
+    public float DropTime = 2f;
+    public float DashSpeed = 3f;
+    public float Friction = 1f;
 
     [Header("Control")]
     public float MouseSensitivity = 0.3f;
     public float MoveSpeed = 5f;
 
-    //Might be put in different section
+    //Might be put in different object
     public float GroundGravity = -0.5f;
     public float EarthGravity = -9.8f;
     
