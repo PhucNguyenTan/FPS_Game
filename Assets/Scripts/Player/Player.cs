@@ -35,15 +35,18 @@ public class Player : MonoBehaviour
     private bool isPause = false;
     public float _currentHeight { get; private set; }
     private float yRotation = 0f;
-    private float _y_vcurrent = 0f;
-    private float _x_vcurrent = 0f;
-    private float _z_vcurrent = 0f;
     private float gravity;
     private float _friction;
     private float _initialJumpVelocity;
-    private float _initialDashVelocity;
-    private int _zDashDirection = 0;
-    private int _xDashDirection = 0;
+
+    private float _up_vcurrent = 0f;
+    private float _side_vcurrent = 0f;
+    private float _forward_vcurrent = 0f;
+
+    public int _yDashDirection { get; private set; } = 0;
+    public int _xDashDirection { get; private set; } = 0;
+    private Vector3 _xDashVector;
+    private Vector3 _yDashVector;
     public bool isDashing { get; private set; } = false;
     #endregion
 
@@ -94,9 +97,9 @@ public class Player : MonoBehaviour
 
             PlayerRotate(mouseDelta);
             PlayerChanges();
-            Pistol.ActuallyChangeDoChanges();
+            Pistol.ActuallyApplyDoChanges();
             //Debug.Log(_y_vcurrent);
-            Debug.Log("Y: " + _z_vcurrent + " X:" + _x_vcurrent);
+            //Debug.Log("Y: " + _z_vcurrent + " X:" + _x_vcurrent);
         }
     }
     #endregion
@@ -148,7 +151,7 @@ public class Player : MonoBehaviour
     public void PlayerJump(InputAction.CallbackContext obj)
     {
         SetJumpVar(P_Data.JumpTime, P_Data.JumpHeight);
-        _y_vcurrent = _initialJumpVelocity;
+        _up_vcurrent = _initialJumpVelocity;
     }
 
     public void PlayerDash(InputAction.CallbackContext obj)
@@ -159,14 +162,16 @@ public class Player : MonoBehaviour
         isDashing = true;
         if(Mathf.Abs(moveInput.y) > 0.5f)
         {
-            _zDashDirection = moveInput.y > 0f ? 1 : -1;
-            _z_vcurrent =  _zDashDirection * P_Data.DashSpeed;
+            _yDashDirection = moveInput.y > 0f ? 1 : -1;
+            _forward_vcurrent =  _yDashDirection * P_Data.DashSpeed;
         }
         if(Mathf.Abs(moveInput.x) > 0.5f)
         {
             _xDashDirection = moveInput.x > 0f ? 1 : -1;
-            _x_vcurrent = _xDashDirection * P_Data.DashSpeed;
+            _side_vcurrent = _xDashDirection * P_Data.DashSpeed;
         }
+        _xDashVector = transform.right;
+        _yDashVector = transform.forward;
     }
 
     public void PlayerCrouch(InputAction.CallbackContext obj)
@@ -177,30 +182,35 @@ public class Player : MonoBehaviour
 
     public void PlayerMove(Vector2 moveInput)
     {
-        _z_vcurrent = moveInput.y * P_Data.MoveSpeed;
-        _x_vcurrent = moveInput.x * P_Data.MoveSpeed;
+        _forward_vcurrent = moveInput.y * P_Data.MoveSpeed;
+        _side_vcurrent = moveInput.x * P_Data.MoveSpeed;
     }
 
     public void AddFriction()
     {
         if (_xDashDirection == 1)
-            _x_vcurrent -= P_Data.Friction;
+            _side_vcurrent -= P_Data.Friction;
         else if(_xDashDirection == -1)
-            _x_vcurrent += P_Data.Friction;
-        if (_zDashDirection == 1)
-            _z_vcurrent -= P_Data.Friction;
-        else if(_zDashDirection == -1)
-            _z_vcurrent += P_Data.Friction;
+            _side_vcurrent += P_Data.Friction;
+        if (_yDashDirection == 1)
+            _forward_vcurrent -= P_Data.Friction;
+        else if(_yDashDirection == -1)
+            _forward_vcurrent += P_Data.Friction;
     }
 
     public void PlayerChanges()
     {
-        if(_y_vcurrent <= 0f)
+        if(_up_vcurrent <= 0f)
         {
             SetJumpVar(P_Data.DropTime, P_Data.DropHeight);
         }
-        Vector3 yVelocity = new Vector3(0f, _y_vcurrent + gravity*Time.deltaTime, 0f);
-        Vector3 groundMove = (transform.right * _x_vcurrent + transform.forward * _z_vcurrent) * Time.deltaTime;
+
+        Vector3 groundMove = (transform.right * _side_vcurrent + transform.forward * _forward_vcurrent) * Time.deltaTime;
+        Vector3 yVelocity = new Vector3(0f, _up_vcurrent + gravity * Time.deltaTime, 0f);
+        if (isDashing)
+        {
+            groundMove = (_xDashVector * _side_vcurrent + _yDashVector * _forward_vcurrent) * Time.deltaTime;
+        }
         pController.Move(yVelocity + groundMove);
     }
 
@@ -219,16 +229,16 @@ public class Player : MonoBehaviour
 
     public void Grounded()
     {
-        _y_vcurrent = P_Data.GroundGravity;
+        _up_vcurrent = P_Data.GroundGravity;
     }
 
     public void StopDash()
     {
         isDashing = false;
         _xDashDirection = 0;
-        _zDashDirection = 0;
-        _z_vcurrent = 0f;
-        _x_vcurrent = 0f;
+        _yDashDirection = 0;
+        _forward_vcurrent = 0f;
+        _side_vcurrent = 0f;
     }
 
     public void SetJumpVar(float maxJumpTime, float maxJumpHeight)
@@ -241,8 +251,8 @@ public class Player : MonoBehaviour
 
     public void AddGravitry()
     {
-        _y_vcurrent += gravity * Time.deltaTime;
-        _y_vcurrent = Mathf.Max(_y_vcurrent, P_Data.EarthGravity);
+        _up_vcurrent += gravity * Time.deltaTime;
+        _up_vcurrent = Mathf.Max(_up_vcurrent, P_Data.EarthGravity);
     }
     #endregion
 
@@ -266,18 +276,18 @@ public class Player : MonoBehaviour
     public bool Is_xDashStop()
     {
         if (_xDashDirection == 1)
-            return _x_vcurrent < 0 ? true : false;
+            return _side_vcurrent < 0 ? true : false;
         else if(_xDashDirection == -1)
-            return _x_vcurrent > 0 ? true : false;
+            return _side_vcurrent > 0 ? true : false;
         return true;
     }
 
     public bool Is_zDashStop()
     {
-        if (_zDashDirection == 1)
-            return _z_vcurrent < 0 ? true : false;
-        else if(_zDashDirection == -1)
-            return _z_vcurrent > 0 ? true : false;
+        if (_yDashDirection == 1)
+            return _forward_vcurrent < 0 ? true : false;
+        else if(_yDashDirection == -1)
+            return _forward_vcurrent > 0 ? true : false;
         return true;
     }
 
@@ -286,6 +296,14 @@ public class Player : MonoBehaviour
     public Vector3 GetFPScamPosition()
     {
         return fpsCam.transform.position;
+    }
+
+    public Vector2 GetDashPercentage()
+    {
+        Vector2 dashPercent;
+        dashPercent.x = Mathf.Abs(_side_vcurrent) / P_Data.DashSpeed;
+        dashPercent.y = Mathf.Abs(_forward_vcurrent) / P_Data.DashSpeed;
+        return dashPercent;
     }
     #endregion
 

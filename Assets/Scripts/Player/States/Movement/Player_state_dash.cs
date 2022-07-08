@@ -34,6 +34,7 @@ public class Player_state_dash : Player_base_state
         {
             player.movementMachine.ChangeStage(player.stateIdle);
         }
+        player.Pistol.DashSway(player.GetDashPercentage(), player._xDashDirection, player._yDashDirection);
         player.AddFriction();
 
 

@@ -11,6 +11,7 @@ public class Player_state_move : Player_base_state
     public override void Enter()
     {
         base.Enter();
+        InputHandler.pInputActrion.Gameplay.Dash.performed += player.PlayerDash;
     }
 
     public override void Exit()

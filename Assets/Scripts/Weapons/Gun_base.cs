@@ -35,10 +35,12 @@ public class Gun_base : MonoBehaviour
     private Vector3 _aimAnim;
     private Vector3 _shootAnim;
 
+    private float maxDashSway = 0.25f;
 
     public bool CanShoot;
 
     private Vector2 _saveInput;
+    private Vector3 _dashPosition;
 
     [SerializeField]  protected float _returnSpeed;
     [SerializeField] protected float _snappiness;
@@ -174,9 +176,9 @@ public class Gun_base : MonoBehaviour
         //_targetRotation = new Vector3(_recoilX, Random.Range(-_recoilY, _recoilY), Random.Range(-_recoilZ, _recoilZ));
     }
 
-    public void ActuallyChangeDoChanges()
+    public void ActuallyApplyDoChanges()
     {
-        Vector3 finalOutcome = (_moveBobAnim + _moveAnim);
+        Vector3 finalOutcome = (_moveBobAnim + _moveAnim + _dashPosition);
         transform.localPosition = finalOutcome;
         //Debug.Log(finalOutcome);
     }
@@ -203,6 +205,13 @@ public class Gun_base : MonoBehaviour
         await Task.Delay(fireRate);
         CanShoot = true;
 
+    }
+
+    public void DashSway(Vector2 dashVelPercent, int xDir, int yDir)
+    {
+        Vector3 xSway = Vector3.Lerp(Vector3.zero, new Vector3(maxDashSway * -xDir, 0f, 0f), dashVelPercent.x);
+        Vector3 ySway = Vector3.Lerp(Vector3.zero, new Vector3(0f, 0f, maxDashSway * -yDir), dashVelPercent.y);
+        _dashPosition = xSway + ySway;
     }
 }
 

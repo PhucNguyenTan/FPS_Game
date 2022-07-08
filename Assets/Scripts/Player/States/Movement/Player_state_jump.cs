@@ -12,6 +12,7 @@ public class Player_state_jump : Player_base_state
     {
         base.Enter();
         InputHandler.pInputActrion.Gameplay.Jump.performed -= player.PlayerJump;
+        InputHandler.pInputActrion.Gameplay.Dash.performed -= player.PlayerDash;
     }
 
     public override void Exit()
@@ -33,10 +34,6 @@ public class Player_state_jump : Player_base_state
             stateMachine.ChangeStage(player.stateIdle);
         }
         player.AddGravitry();
-        if (player.isDashing)
-        {
-            stateMachine.ChangeStage(player.stateDash);
-        }
 
     }
 }
