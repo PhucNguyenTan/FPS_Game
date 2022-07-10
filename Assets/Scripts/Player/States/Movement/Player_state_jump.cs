@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Player_state_jump : Player_base_state
 {
-    public Player_state_jump(Player player, Player_state_machine stateMachine, string animString) : base(player, stateMachine, animString)
+
+    public Player_state_jump(Player player, Player_state_machine stateMachine, Player_data playerData, string animString) : base(player, stateMachine, playerData, animString)
     {
     }
 
@@ -12,7 +13,6 @@ public class Player_state_jump : Player_base_state
     {
         base.Enter();
         InputHandler.pInputActrion.Gameplay.Jump.performed -= player.PlayerJump;
-        InputHandler.pInputActrion.Gameplay.Dash.performed -= player.PlayerDash;
     }
 
     public override void Exit()

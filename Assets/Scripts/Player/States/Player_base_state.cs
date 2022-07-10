@@ -6,11 +6,13 @@ public abstract class Player_base_state
     protected Player_state_machine stateMachine;
     protected string animString;
     protected float startTime;
-    public Player_base_state(Player player, Player_state_machine stateMachine, string animString)
+    protected Player_data playerData;
+    public Player_base_state(Player player, Player_state_machine stateMachine, Player_data playerData, string animString)
     {
         this.player = player;
         this.stateMachine = stateMachine;
         this.animString = animString;
+        this.playerData = playerData;
     }
 
     public virtual void Enter()

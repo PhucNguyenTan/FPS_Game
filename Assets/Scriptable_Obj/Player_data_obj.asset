@@ -14,13 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   JumpHeight: 0.01
   JumpTime: 1
-  CrouchHeight: 0
-  StandHeight: 0
-  DropHeight: 0.05
-  DropTime: 1
-  DashSpeed: 50
-  Friction: 0.2
-  MouseSensitivity: 0.3
+  DropHeight: 0.03
+  DropTime: 0.1
+  DashSpeed: 75
+  DashFriction: 1
+  SlideFriction: 0.2
+  MouseSensitivity: 0.1
   MoveSpeed: 5
+  CrouchMoveSpeed: 2
+  CrouchSpeed: 10
+  CrouchHeight: 1
+  StandHeight: 2
+  camCrouchHeight: 0.75
+  camStandHeight: 1
   GroundGravity: 0
   EarthGravity: -9.8

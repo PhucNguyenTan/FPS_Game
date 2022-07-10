@@ -19,11 +19,13 @@ public class Player : MonoBehaviour
 
     #region Components variables
     public Gun_Pistol Pistol;
+    private CapsuleCollider _col;
     [SerializeField] private Camera fpsCam;
     public CharacterController pController { get; private set; }
 
     [SerializeField] private Player_data P_Data;
     [SerializeField] private Health_script Health_Data;
+
     #endregion
 
     #region Input variable
@@ -42,12 +44,16 @@ public class Player : MonoBehaviour
     private float _up_vcurrent = 0f;
     private float _side_vcurrent = 0f;
     private float _forward_vcurrent = 0f;
+    private float _timeLapseCrouch = 0f;
 
     public int _yDashDirection { get; private set; } = 0;
     public int _xDashDirection { get; private set; } = 0;
     private Vector3 _xDashVector;
     private Vector3 _yDashVector;
     public bool isDashing { get; private set; } = false;
+    public bool isCrouching { get; private set; } = false;
+
+    public float crouchLapse = 0f;
     #endregion
 
 
@@ -58,17 +64,18 @@ public class Player : MonoBehaviour
         
         movementMachine = new Player_state_machine();
         shootingMachine = new Player_state_machine();
-        stateIdle = new Player_state_idle(this, movementMachine, "idle");
-        stateMove = new Player_state_move(this, movementMachine, "move");
-        stateJump = new Player_state_jump(this, movementMachine, "jump");
+        stateIdle = new Player_state_idle(this, movementMachine, P_Data, "idle");
+        stateMove = new Player_state_move(this, movementMachine, P_Data, "move");
+        stateJump = new Player_state_jump(this, movementMachine, P_Data, "jump");
 
-        stateDash = new Player_state_dash(this, movementMachine, "dash");
-        stateCrouch = new Player_state_crouch(this, movementMachine, "crouch");
-        //stateSlide = new Player_state_slide(this, movementMachine, "slide");
+        stateDash = new Player_state_dash(this, movementMachine, P_Data, "dash");
+        stateCrouch = new Player_state_crouch(this, movementMachine, P_Data, "crouch");
+        stateSlide = new Player_state_slide(this, movementMachine, P_Data, "slide");
 
-        stateShoot = new Player_state_shoot(this, shootingMachine, "shoot");
-        stateGunidle = new Player_state_gunIdle(this, shootingMachine, "gun_idle");
+        stateShoot = new Player_state_shoot(this, shootingMachine, P_Data, "shoot");
+        stateGunidle = new Player_state_gunIdle(this, shootingMachine,P_Data, "gun_idle");
         pController = GetComponent<CharacterController>();
+        _col = GetComponent<CapsuleCollider>();
 
         movementMachine.Initiallized(stateIdle);
         shootingMachine.Initiallized(stateGunidle);
@@ -98,6 +105,7 @@ public class Player : MonoBehaviour
             PlayerRotate(mouseDelta);
             PlayerChanges();
             Pistol.ActuallyApplyDoChanges();
+            AdjustHeight();
             //Debug.Log(_y_vcurrent);
             //Debug.Log("Y: " + _z_vcurrent + " X:" + _x_vcurrent);
         }
@@ -117,15 +125,18 @@ public class Player : MonoBehaviour
     public void SubscribeToInput() {
         InputHandler.pInputActrion.Gameplay.Jump.performed += PlayerJump;
         InputHandler.pInputActrion.Gameplay.Dash.performed += PlayerDash;
-        InputHandler.pInputActrion.Gameplay.Crouch.performed += PlayerCrouch;
+        //InputHandler.pInputActrion.Gameplay.Crouch.performed += PlayerCrouch;
+        InputHandler.pInputActrion.Gameplay.Crouch.performed += _ => isCrouching = true;
+        InputHandler.pInputActrion.Gameplay.Crouch.canceled += _ => isCrouching = false;
     }
 
     public void UnsubcribeToInput()
     {
         InputHandler.pInputActrion.Gameplay.Jump.performed -= PlayerJump;
         InputHandler.pInputActrion.Gameplay.Dash.performed -= PlayerDash;
-        InputHandler.pInputActrion.Gameplay.Crouch.performed -= PlayerCrouch;
+        //InputHandler.pInputActrion.Gameplay.Crouch.performed -= PlayerCrouch;
     }
+
 
     public void SubscibeToShoot()
     {
@@ -176,35 +187,40 @@ public class Player : MonoBehaviour
 
     public void PlayerCrouch(InputAction.CallbackContext obj)
     {
-        pController.height = P_Data.CrouchHeight;
-        Debug.Log("crouch");
+        if (obj.performed)
+        {
+            isCrouching = true;
+        }
+        else if (obj.canceled)
+        {
+            isCrouching = false;
+        }
     }
 
     public void PlayerMove(Vector2 moveInput)
     {
-        _forward_vcurrent = moveInput.y * P_Data.MoveSpeed;
-        _side_vcurrent = moveInput.x * P_Data.MoveSpeed;
+        _forward_vcurrent = moveInput.y ;
+        _side_vcurrent = moveInput.x ;
     }
 
-    public void AddFriction()
+    public void AddFriction(float frictionValue)
     {
         if (_xDashDirection == 1)
-            _side_vcurrent -= P_Data.Friction;
+            _side_vcurrent -= frictionValue;
         else if(_xDashDirection == -1)
-            _side_vcurrent += P_Data.Friction;
+            _side_vcurrent += frictionValue;
         if (_yDashDirection == 1)
-            _forward_vcurrent -= P_Data.Friction;
+            _forward_vcurrent -= frictionValue;
         else if(_yDashDirection == -1)
-            _forward_vcurrent += P_Data.Friction;
+            _forward_vcurrent += frictionValue;
     }
 
     public void PlayerChanges()
     {
-        if(_up_vcurrent <= 0f)
+        if(_up_vcurrent <= 0f) // When player at peak jump, or when drop off a ledge
         {
             SetJumpVar(P_Data.DropTime, P_Data.DropHeight);
         }
-
         Vector3 groundMove = (transform.right * _side_vcurrent + transform.forward * _forward_vcurrent) * Time.deltaTime;
         Vector3 yVelocity = new Vector3(0f, _up_vcurrent + gravity * Time.deltaTime, 0f);
         if (isDashing)
@@ -249,6 +265,33 @@ public class Player : MonoBehaviour
         
     }
 
+    public void AdjustHeight()
+    {
+        if (isCrouching)
+        {
+            if(crouchLapse == 1f) // Already at crouch height;
+                return;
+            crouchLapse += Time.deltaTime * P_Data.CrouchSpeed;
+        }
+        else
+        {
+            if(crouchLapse == 0f) // Already at stand height;
+                return;
+            crouchLapse -= Time.deltaTime * P_Data.CrouchSpeed;
+        }
+        crouchLapse = Mathf.Clamp(crouchLapse, 0f, 1f);
+
+        Vector3 v3Stand = new Vector3(0f, P_Data.camStandHeight,0f);
+        Vector3 v3Crouch = new Vector3(0f, P_Data.camCrouchHeight, 0f);
+
+        pController.height = Mathf.Lerp(P_Data.StandHeight, P_Data.CrouchHeight, crouchLapse);
+        pController.center = Vector3.Lerp(v3Stand, v3Crouch, crouchLapse);
+        fpsCam.transform.localPosition = Vector3.Lerp(v3Stand, v3Crouch, crouchLapse);
+        _col.center = pController.center;
+        _col.height = pController.height;
+
+    }
+
     public void AddGravitry()
     {
         _up_vcurrent += gravity * Time.deltaTime;
@@ -266,7 +309,7 @@ public class Player : MonoBehaviour
     #region Check function
     public bool isInputingMove()
     {
-        if(moveInput.x !=0 || moveInput.y != 0)
+        if(moveInput.x !=0f || moveInput.y != 0f)
         {
             return true;
         }
@@ -290,6 +333,8 @@ public class Player : MonoBehaviour
             return _forward_vcurrent > 0 ? true : false;
         return true;
     }
+
+   
 
     #endregion
     #region Get functions

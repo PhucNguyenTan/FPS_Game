@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Player_state_dash : Player_base_state
 {
-    public Player_state_dash(Player player, Player_state_machine stateMachine, string animString) : base(player, stateMachine, animString)
+
+    public Player_state_dash(Player player, Player_state_machine stateMachine, Player_data playerData, string animString) : base(player, stateMachine, playerData, animString)
     {
     }
 
@@ -28,14 +29,18 @@ public class Player_state_dash : Player_base_state
         }
         if (!player.isDashing && player.isInputingMove())
         {
-            player.movementMachine.ChangeStage(player.stateMove);
+            stateMachine.ChangeStage(player.stateMove);
         }
         if (!player.isDashing)
         {
-            player.movementMachine.ChangeStage(player.stateIdle);
+            stateMachine.ChangeStage(player.stateIdle);
+        }
+        if (player.isCrouching)
+        {
+            stateMachine.ChangeStage(player.stateSlide);
         }
         player.Pistol.DashSway(player.GetDashPercentage(), player._xDashDirection, player._yDashDirection);
-        player.AddFriction();
+        player.AddFriction(playerData.DashFriction);
 
 
 

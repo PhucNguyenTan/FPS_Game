@@ -74,7 +74,8 @@ public class Gun_base : MonoBehaviour
 
     public void MovementBob(Vector2 charMove)
     {
-        Vector3 weaponBob = new Vector3(0f, -0.5f, 0f);
+        float longerDirection = Mathf.Abs(charMove.x) >= Mathf.Abs(charMove.y) ? Mathf.Abs(charMove.x) : Mathf.Abs(charMove.y);
+        Vector3 weaponBob = new Vector3(0f, -0.5f * longerDirection, 0f);
         
         if(_currentMove < 0f)
         {
@@ -96,7 +97,7 @@ public class Gun_base : MonoBehaviour
             _currentMove -= Time.deltaTime*speed;
         }
         _moveBobAnim = Vector3.Lerp(InitialPos, weaponBob*0.1f + InitialPos, _curve.Evaluate(_currentMove));
-        //Debug.Log(_currentMove);
+        
     }
 
     public bool FlipBool(bool flipBool)

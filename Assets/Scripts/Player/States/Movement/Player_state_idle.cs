@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player_state_idle : Player_base_state
 {
-    public Player_state_idle(Player player, Player_state_machine stateMachine, string animString) : base(player, stateMachine, animString)
+    public Player_state_idle(Player player, Player_state_machine stateMachine, Player_data playerData, string animString) : base(player, stateMachine, playerData, animString)
     {
     }
 
@@ -32,9 +32,10 @@ public class Player_state_idle : Player_base_state
         {
             stateMachine.ChangeStage(player.stateMove);
         }
+        if (player.isCrouching)
+            stateMachine.ChangeStage(player.stateCrouch);
 
-        
-        
+
     }
 
 
