@@ -89,6 +89,15 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cam_Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""4c19c5e6-160b-4fd1-82e5-0d5733917185"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -303,6 +312,17 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""3da58fe2-0a87-40af-887a-728732626a45"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""209d1ee7-b66f-4b4d-b49e-d60bc4919a7f"",
                     ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
@@ -322,6 +342,72 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""939b9032-d513-489d-a79d-e3379aa6ecc3"",
+                    ""path"": ""<XInputController>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""5351041d-82f5-4f7a-9026-9235eede865a"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cam_Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""91b3456b-14df-4dff-abb4-78c95a9e2ba3"",
+                    ""path"": ""<XInputController>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox"",
+                    ""action"": ""Cam_Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""fef04e60-1216-4970-be28-8e41b9ffd53b"",
+                    ""path"": ""<XInputController>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox"",
+                    ""action"": ""Cam_Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""5e1a0d3f-507f-4e14-a489-e207e62aecb9"",
+                    ""path"": ""<XInputController>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox"",
+                    ""action"": ""Cam_Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""d6fe564e-3711-4d71-9050-cf8ff0016e51"",
+                    ""path"": ""<XInputController>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox"",
+                    ""action"": ""Cam_Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -365,6 +451,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_Gameplay_Shoot = m_Gameplay.FindAction("Shoot", throwIfNotFound: true);
         m_Gameplay_Crouch = m_Gameplay.FindAction("Crouch", throwIfNotFound: true);
         m_Gameplay_Dash = m_Gameplay.FindAction("Dash", throwIfNotFound: true);
+        m_Gameplay_Cam_Movement = m_Gameplay.FindAction("Cam_Movement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -431,6 +518,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Shoot;
     private readonly InputAction m_Gameplay_Crouch;
     private readonly InputAction m_Gameplay_Dash;
+    private readonly InputAction m_Gameplay_Cam_Movement;
     public struct GameplayActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -442,6 +530,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         public InputAction @Shoot => m_Wrapper.m_Gameplay_Shoot;
         public InputAction @Crouch => m_Wrapper.m_Gameplay_Crouch;
         public InputAction @Dash => m_Wrapper.m_Gameplay_Dash;
+        public InputAction @Cam_Movement => m_Wrapper.m_Gameplay_Cam_Movement;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -472,6 +561,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Dash.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDash;
                 @Dash.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDash;
                 @Dash.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDash;
+                @Cam_Movement.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCam_Movement;
+                @Cam_Movement.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCam_Movement;
+                @Cam_Movement.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCam_Movement;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -497,6 +589,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
+                @Cam_Movement.started += instance.OnCam_Movement;
+                @Cam_Movement.performed += instance.OnCam_Movement;
+                @Cam_Movement.canceled += instance.OnCam_Movement;
             }
         }
     }
@@ -528,5 +623,6 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         void OnShoot(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+        void OnCam_Movement(InputAction.CallbackContext context);
     }
 }

@@ -18,6 +18,7 @@ public class Player_data : ScriptableObject
     public float MouseSensitivity = .3f;
     public float MoveSpeed = 5f;
     public float CrouchMoveSpeed = 2f;
+    public float JoystickCamSpeed = 5f;
 
     [Header("Crouch")]
     public float CrouchSpeed = .3f;

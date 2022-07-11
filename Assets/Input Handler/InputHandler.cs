@@ -11,6 +11,7 @@ public class InputHandler : MonoBehaviour
     public static PlayerInputAction pInputActrion;
     public static InputAction movementInput { get; private set; }
     public static InputAction mouseDelta { get; private set; }
+    public static InputAction joystickCam { get; private set; }
     [SerializeField]
     private Player player;
 
@@ -32,6 +33,8 @@ public class InputHandler : MonoBehaviour
         pInputActrion.Gameplay.MouseDelta.Enable();
         pInputActrion.Gameplay.Dash.Enable();
         pInputActrion.Gameplay.Crouch.Enable();
+        pInputActrion.Gameplay.Cam_Movement.Enable();
+        joystickCam = pInputActrion.Gameplay.Cam_Movement;
     }
 
     private void OnDisable()
@@ -42,6 +45,7 @@ public class InputHandler : MonoBehaviour
         pInputActrion.Gameplay.Shoot.Disable();
         pInputActrion.Gameplay.Dash.Disable();
         pInputActrion.Gameplay.Crouch.Disable();
+        pInputActrion.Gameplay.Cam_Movement.Disable();
     }
 
     private void test(InputAction.CallbackContext obj)
@@ -57,5 +61,10 @@ public class InputHandler : MonoBehaviour
     public static Vector2 GetMoveInput()
     {
         return movementInput.ReadValue<Vector2>();
+    }
+
+    public static Vector2 GetCamInput()
+    {
+        return joystickCam.ReadValue<Vector2>();
     }
 }

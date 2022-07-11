@@ -19,5 +19,19 @@ public class Player_state_slide : Player_base_state
     public override void Logic()
     {
         base.Logic();
+        if (player.Is_xDashStop() && player.Is_zDashStop())
+        {
+            player.StopDash();
+        }
+        if (!player.isDashing && player.isInputingMove())
+        {
+            stateMachine.ChangeStage(player.stateMove);
+        }
+        if (!player.isDashing)
+        {
+            stateMachine.ChangeStage(player.stateIdle);
+        }
+        player.Pistol.DashSway(player.GetDashPercentage(), player._xDashDirection, player._yDashDirection);
+        player.AddFriction(playerData.SlideFriction);
     }
 }

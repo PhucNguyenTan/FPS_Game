@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     #region Input variable
     public Vector2 mouseDelta { get; private set; }
     public Vector2 moveInput { get; private set; }
+    public Vector2 camInput { get; private set; }
     #endregion
 
     #region Normal variables
@@ -97,12 +98,15 @@ public class Player : MonoBehaviour
         if (!isPause)
         {
             moveInput = InputHandler.GetMoveInput();
-            mouseDelta = InputHandler.GetMouseDelta();
+            mouseDelta = InputHandler.GetMouseDelta() * P_Data.MouseSensitivity;
+            camInput = InputHandler.GetCamInput() * P_Data.JoystickCamSpeed;
+
             
             movementMachine.currentState.Logic();
             shootingMachine.currentState.Logic();
 
-            PlayerRotate(mouseDelta);
+
+            PlayerRotate(mouseDelta + camInput);
             PlayerChanges();
             Pistol.ActuallyApplyDoChanges();
             AdjustHeight();
@@ -232,11 +236,11 @@ public class Player : MonoBehaviour
 
     private void PlayerRotate(Vector2 cameraInput)
     {
-        yRotation -= cameraInput.y * P_Data.MouseSensitivity; // ???
+        yRotation -= cameraInput.y; // ???
         yRotation = Mathf.Clamp(yRotation, -90f, 90f);
 
         fpsCam.transform.localRotation = Quaternion.Euler(yRotation, 0f, 0f);
-        transform.Rotate(Vector3.up * cameraInput.x * P_Data.MouseSensitivity);
+        transform.Rotate(Vector3.up * cameraInput.x);
     }
 
     
