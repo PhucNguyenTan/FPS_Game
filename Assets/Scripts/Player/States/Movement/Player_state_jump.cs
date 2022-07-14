@@ -23,17 +23,32 @@ public class Player_state_jump : Player_base_state
     public override void Logic()
     {
         base.Logic();
-        if(player.pController.isGrounded && player.isInputingMove())
+        if(player.pController.isGrounded && player.IsInputingMove() && !player.isDashing)
         {
-            player.Grounded();
             stateMachine.ChangeStage(player.stateMove);
         }
-        if (player.pController.isGrounded)
+        else if(player.pController.isGrounded && player.isDashing && player.isCrouching){
+            stateMachine.ChangeStage(player.stateSlide);
+        }
+        else if(player.pController.isGrounded)
         {
-            player.Grounded();
             stateMachine.ChangeStage(player.stateIdle);
         }
-        player.AddGravitry();
+        else if(player.WallTouchedAngle > 160f 
+            && (player.DashDir != Player.DashDirection.Forward_Left 
+            && player.DashDir != Player.DashDirection.Forward_Right))
+        {
+            stateMachine.ChangeStage(player.stateWallClimb);
+        }
+        else if(player.WallTouchedAngle > 160f || 
+            (player.WallTouchedAngle > 120f 
+            && player.WallTouchedAngle < 150f 
+            && player.DashDir == Player.DashDirection.Forward))
+        {
+            stateMachine.ChangeStage(player.stateWallRun);
+        }
+        player.AddGravity();
+        player.CastRayWall();
 
     }
 }

@@ -10,13 +10,13 @@ public class Player_state_dash : Player_base_state
     public override void Enter()
     {
         base.Enter();
-        player.UnsubcribeToInput();
+        player.UnsubcribeToMovementInput();
     }
 
     public override void Exit()
     {
         base.Exit();
-        player.SubscribeToInput();
+        player.SubscribeToMovementInput();
     }
 
     public override void Logic()
@@ -27,7 +27,7 @@ public class Player_state_dash : Player_base_state
         {
             player.StopDash();
         }
-        if (!player.isDashing && player.isInputingMove())
+        if (!player.isDashing && player.IsInputingMove())
         {
             stateMachine.ChangeStage(player.stateMove);
         }

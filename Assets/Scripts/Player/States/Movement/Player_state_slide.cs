@@ -9,6 +9,7 @@ public class Player_state_slide : Player_base_state
     public override void Enter()
     {
         base.Enter();
+        InputHandler.pInputActrion.Gameplay.Jump.performed += player.PlayerJump;
     }
 
     public override void Exit()
@@ -23,14 +24,23 @@ public class Player_state_slide : Player_base_state
         {
             player.StopDash();
         }
-        if (!player.isDashing && player.isInputingMove())
+        if (!player.isDashing && player.IsInputingMove())
         {
             stateMachine.ChangeStage(player.stateMove);
         }
-        if (!player.isDashing)
+        else if (!player.isDashing)
         {
             stateMachine.ChangeStage(player.stateIdle);
         }
+        else if (!player.pController.isGrounded)
+        {
+            stateMachine.ChangeStage(player.stateJump);
+        }
+        else if (player.isDashing && !player.isCrouching)
+        {
+            stateMachine.ChangeStage(player.stateDash);
+        }
+        
         player.Pistol.DashSway(player.GetDashPercentage(), player._xDashDirection, player._yDashDirection);
         player.AddFriction(playerData.SlideFriction);
     }

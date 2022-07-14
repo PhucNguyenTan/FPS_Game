@@ -16,7 +16,7 @@ MonoBehaviour:
   JumpTime: 1
   DropHeight: 0.03
   DropTime: 1
-  DashSpeed: 75
+  DashSpeed: 50
   DashFriction: 1
   SlideFriction: 0.1
   MouseSensitivity: 0.3
@@ -28,5 +28,13 @@ MonoBehaviour:
   StandHeight: 2
   camCrouchHeight: 0.75
   camStandHeight: 1
+  Climable:
+    serializedVersion: 2
+    m_Bits: 64
+  ClimbHeight: 0.1
+  ClimbTime: 3
+  Forward_WallJump: 10
+  Side_WallJump: 10
   GroundGravity: 0
   EarthGravity: -9.8
+  ShowStateName: 1

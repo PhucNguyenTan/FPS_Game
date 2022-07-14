@@ -9,6 +9,9 @@ public class Player_state_wallRun : Player_base_state
     public override void Enter()
     {
         base.Enter();
+        player.StopGroundVelocity();
+        InputHandler.pInputActrion.Gameplay.Jump.performed -= player.PlayerJump;
+        InputHandler.pInputActrion.Gameplay.Jump.performed += player.PlayerWallClimbJump;
     }
 
     public override void Exit()

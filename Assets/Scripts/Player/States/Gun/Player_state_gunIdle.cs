@@ -10,7 +10,7 @@ public class Player_state_gunIdle : Player_base_state
     public override void Enter()
     {
         base.Enter();
-        player.SubscibeToShoot();
+        player.SubscribeToShoot();
     }
 
     public override void Exit()

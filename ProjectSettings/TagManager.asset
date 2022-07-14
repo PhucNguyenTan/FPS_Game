@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Projectile
   - Ground
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -13,7 +14,7 @@ TagManager:
   - Navigation layer
   - Water
   - UI
-  - 
+  - Wall
   - 
   - 
   - 

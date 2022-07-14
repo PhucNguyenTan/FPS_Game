@@ -12,6 +12,7 @@ public class Player_state_idle : Player_base_state
     {
         base.Enter();
         player.Grounded();
+        InputHandler.pInputActrion.Gameplay.Jump.performed -= player.PlayerWallClimbJump;
         InputHandler.pInputActrion.Gameplay.Jump.performed += player.PlayerJump;
         player.Pistol.PlayAnim("pistol_idle");
     }
@@ -28,7 +29,7 @@ public class Player_state_idle : Player_base_state
         {
             stateMachine.ChangeStage(player.stateJump);
         }
-        if(player.isInputingMove())
+        if(player.IsInputingMove())
         {
             stateMachine.ChangeStage(player.stateMove);
         }

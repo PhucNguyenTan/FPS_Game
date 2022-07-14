@@ -11,7 +11,7 @@ public class Player_state_move : Player_base_state
     public override void Enter()
     {
         base.Enter();
-        player.SubscribeToInput();
+        player.SubscribeToMovementInput();
     }
 
     public override void Exit()
@@ -28,7 +28,7 @@ public class Player_state_move : Player_base_state
         {
             stateMachine.ChangeStage(player.stateJump);
         }
-        if (!player.isInputingMove())
+        if (!player.IsInputingMove())
         {
             stateMachine.ChangeStage(player.stateIdle);
         }

@@ -26,13 +26,17 @@ public class Player_state_crouch : Player_base_state
         {
             if (player.pController.isGrounded)
             {
-                if (player.isInputingMove())
+                if (player.IsInputingMove())
                     stateMachine.ChangeStage(player.stateMove);
                 else
                     stateMachine.ChangeStage(player.stateIdle);
             }
             else
                 stateMachine.ChangeStage(player.stateJump);
+        }
+        else if (!player.pController.isGrounded)
+        {
+            stateMachine.ChangeStage(player.stateJump);
         }
         player.Pistol.MovementBob(player.moveInput);
         player.Pistol.MovementSway(player.moveInput);

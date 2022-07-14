@@ -27,9 +27,18 @@ public class Player_data : ScriptableObject
     public float camCrouchHeight = .5f;
     public float camStandHeight = 1f;
 
+    [Header("Wall_interaction")]
+    public LayerMask Climable;
+    public float ClimbHeight;
+    public float ClimbTime;
+    public float Forward_WallJump = 10f;
+    public float Side_WallJump = 10f;
 
     //Might be put in different object
     public float GroundGravity = -0.5f;
     public float EarthGravity = -9.8f;
+
+    [Header("Debug_Options")]
+    public bool ShowStateName = true;
     
 }
