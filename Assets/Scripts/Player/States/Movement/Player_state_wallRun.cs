@@ -9,18 +9,34 @@ public class Player_state_wallRun : Player_base_state
     public override void Enter()
     {
         base.Enter();
-        player.StopGroundVelocity();
         InputHandler.pInputActrion.Gameplay.Jump.performed -= player.PlayerJump;
-        InputHandler.pInputActrion.Gameplay.Jump.performed += player.PlayerWallClimbJump;
+        InputHandler.pInputActrion.Gameplay.Jump.performed += player.PlayerWallRunJump;
+        player.StopGroundVelocity();
+        player.FindWallDirection();
+        player.ApplyWallRunDirection();
+        player.ApplyMovementForce(10f, 10f);
+        player.StopJumpvelocity();
     }
 
     public override void Exit()
     {
         base.Exit();
+        InputHandler.pInputActrion.Gameplay.Jump.performed -= player.PlayerWallRunJump;
+        player.SetJumpVar(playerData.DropTime, playerData.DropHeight);
+        player.ResetTouchAngle();
     }
 
     public override void Logic()
     {
         base.Logic();
+        if (!player.CheckIfObjectNear())
+        {
+            if (player.pController.isGrounded)
+                stateMachine.ChangeStage(player.stateIdle);
+            else if (!player.pController.isGrounded)
+                stateMachine.ChangeStage(player.stateJump);
+        }
+        
+        
     }
 }

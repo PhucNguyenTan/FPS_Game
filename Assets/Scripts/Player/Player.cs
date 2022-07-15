@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     public Player_state_wallRun stateWallRun { get; private set; }
     #endregion
 
-    #region Components variables
+    #region Components variablesm
     public Gun_Pistol Pistol;
     private CapsuleCollider _col;
     [SerializeField] private Camera fpsCam;
@@ -60,11 +60,14 @@ public class Player : MonoBehaviour
     public float crouchLapse = 0f;
 
     private RaycastHit _currentWallHit;
-    private bool _isJumpOffWall = false;
 
     private Vector3 _forward_currentDir;
     private Vector3 _side_currentDir;
-    public DashDirection DashDir { get; private set } = DashDirection.None;
+
+    private Vector3[] _testDirection;
+    private RaycastHit[] _hitFindWall;
+    public DashDirection DashDir { get; private set;} = DashDirection.None;
+    private Vector3 _wallRunDirection;
     #endregion
 
     #region Unity Callbacks
@@ -101,6 +104,13 @@ public class Player : MonoBehaviour
 
         //InputHandler.pInputActrion.Gameplay.Crouch.performed +=;
         //InputHandler.pInputActrion.Gameplay.Dash.performed +=;
+        _testDirection = new Vector3[]{
+            Vector3.right,
+            Vector3.right + Vector3.forward,
+            Vector3.forward,
+            Vector3.left + Vector3.forward,
+            Vector3.left
+        };
     }
 
     void Update()
@@ -115,7 +125,7 @@ public class Player : MonoBehaviour
             shootingMachine.currentState.Logic();
 
             PlayerRotate(mouseDelta + camInput);
-            PlayerChanges();
+            PlayerApplyMovement();
             Pistol.ActuallyApplyDoChanges();
             AdjustHeight();
         }
@@ -209,8 +219,9 @@ public class Player : MonoBehaviour
 
     public void PlayerMove(Vector2 moveInput)
     {
-        _forward_vcurrent = moveInput.y ;
+        _forward_vcurrent = moveInput.y;
         _side_vcurrent = moveInput.x ;
+        ApplyWalkDirection();
     }
 
     public void AddFriction(float frictionValue)
@@ -225,27 +236,11 @@ public class Player : MonoBehaviour
             _forward_vcurrent += frictionValue;
     }
 
-    public void PlayerChanges()
+    public void PlayerApplyMovement()
     {
         if(_up_vcurrent <= 0f) // When player at peak jump, or when drop off a ledge
         {
             SetJumpVar(P_Data.DropTime, P_Data.DropHeight);
-        }
-        
-        if (isDashing && !_isJumpOffWall)
-        {
-            _side_currentDir = _xDashVector;
-            _forward_currentDir = _yDashVector;
-        }
-        else if (_isJumpOffWall)
-        {
-            _side_currentDir = _currentWallHit.normal;
-            _forward_currentDir = _currentWallHit.normal;
-        }
-        else
-        {
-            _side_currentDir = transform.right;
-            _forward_currentDir = transform.forward;
         }
 
         Vector3 groundMove = (_side_currentDir * _side_vcurrent + _forward_currentDir * _forward_vcurrent) * Time.deltaTime;
@@ -266,11 +261,19 @@ public class Player : MonoBehaviour
     {
         _forward_vcurrent += P_Data.Forward_WallJump;
         _side_vcurrent += P_Data.Side_WallJump;
-        _isJumpOffWall = true;
+        ApplyWallJumpDirection();
 
+    }
+
+    public void PlayerWallRunJump(InputAction.CallbackContext obj)
+    {
+        _forward_vcurrent += P_Data.Forward_WallJump;
+        _side_vcurrent += P_Data.Side_WallJump;
+        ApplyWallRunJumpDirection();
     }
     #endregion
     #region Setup functions
+
 
     public void Grounded()
     {
@@ -337,10 +340,11 @@ public class Player : MonoBehaviour
         _up_vcurrent = _initialJumpVelocity;
     }
 
-    public void SetWallJumpOff()
+    public void StopJumpvelocity()
     {
-        _isJumpOffWall = false;
+        _up_vcurrent = 0f;
     }
+
 
     #endregion
 
@@ -436,8 +440,20 @@ public class Player : MonoBehaviour
             WallTouchedAngle = Vector3.Angle(_currentWallHit.normal, -transform.right);
             DashDir = DashDirection.Forward_Left;
         }
-        if(_currentWallHit.normal != Vector3.zero)
-            Debug.Log(_currentWallHit.normal);
+    }
+
+    public bool CheckIfObjectNear()
+    {
+        _hitFindWall = new RaycastHit[_testDirection.Length];
+        for (int i = 0; i < _testDirection.Length; i++){
+            Vector3 dir = transform.TransformDirection(_testDirection[i]);
+            Physics.Raycast(transform.position, dir, out _hitFindWall[i], P_Data.Climable);
+            if(_hitFindWall[i].collider != null)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void StopGroundVelocity()
@@ -446,10 +462,52 @@ public class Player : MonoBehaviour
         _side_vcurrent = 0f;
     }
 
+    public void FindWallDirection()
+    {
+        Vector3 wallForward = Vector3.Cross(_currentWallHit.normal, transform.up);
+        if ((transform.forward - wallForward).magnitude > (transform.forward - -wallForward).magnitude)
+            wallForward = -wallForward;
+        _wallRunDirection = wallForward;
+    }
+    public void ApplyMovementForce(float xForce, float yForce)
+    {
+        _forward_vcurrent = yForce;
+        _side_vcurrent = xForce;
+    }
 
-    
+    public void ApplyWallRunJumpDirection()
+    {
+        _side_currentDir =_xDashVector;
+        _forward_currentDir = Vector3.Lerp(_currentWallHit.normal, _wallRunDirection, 0.2f);
+    }
+
+    public void ApplyWallRunDirection()
+    {
+        _side_currentDir = Vector3.zero;
+        _forward_currentDir = _wallRunDirection;
+    }
+
+    public void ApplyMomentumDirection()
+    {
+        _side_currentDir = _xDashVector;
+        _forward_currentDir = _yDashVector;
+    }
+
+    public void ApplyWallJumpDirection()
+    {
+        _side_currentDir = _currentWallHit.normal;
+        _forward_currentDir = _currentWallHit.normal;
+    }
+
+    public void ApplyWalkDirection()
+    {
+        _side_currentDir = transform.right;
+        _forward_currentDir = transform.forward;
+    }
+
     #endregion
 
+    #region enum definition
     public enum DashDirection
     {
         None,
@@ -462,4 +520,5 @@ public class Player : MonoBehaviour
         Backward_Left,
         Backward_Right
     }
+    #endregion
 }
