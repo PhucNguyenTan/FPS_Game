@@ -12,8 +12,6 @@ public class InputHandler : MonoBehaviour
     public static InputAction movementInput { get; private set; }
     public static InputAction mouseDelta { get; private set; }
     public static InputAction joystickCam { get; private set; }
-    [SerializeField]
-    private Player player;
 
    
 

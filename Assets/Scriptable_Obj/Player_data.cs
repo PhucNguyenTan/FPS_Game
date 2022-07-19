@@ -6,13 +6,16 @@ using UnityEngine;
 public class Player_data : ScriptableObject
 {
     [Header("Player")]
+    public float DashSpeed = 3f;
+    public float DashFriction = 1f;
+    public float SlideFriction = .2f;
+
+    [Header("InAir")]
     public float JumpHeight = .01f;
     public float JumpTime = 1f;
     public float DropHeight = 1f;
     public float DropTime = 2f;
-    public float DashSpeed = 3f;
-    public float DashFriction = 1f;
-    public float SlideFriction = .2f;
+    public float AirFriction = 0f;
 
     [Header("Control")]
     public float MouseSensitivity = .3f;
@@ -33,6 +36,11 @@ public class Player_data : ScriptableObject
     public float ClimbTime;
     public float Forward_WallJump = 10f;
     public float Side_WallJump = 10f;
+    public float WallRunJumpHeight;
+    public float WallRunJumpTIme;
+    public float RayCheckLength;
+
+    
 
     //Might be put in different object
     public float GroundGravity = -0.5f;

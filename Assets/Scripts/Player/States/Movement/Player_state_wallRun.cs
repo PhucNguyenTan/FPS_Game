@@ -12,10 +12,10 @@ public class Player_state_wallRun : Player_base_state
         InputHandler.pInputActrion.Gameplay.Jump.performed -= player.PlayerJump;
         InputHandler.pInputActrion.Gameplay.Jump.performed += player.PlayerWallRunJump;
         player.StopGroundVelocity();
+        player.StopJumpvelocity();
         player.FindWallDirection();
         player.ApplyWallRunDirection();
         player.ApplyMovementForce(10f, 10f);
-        player.StopJumpvelocity();
     }
 
     public override void Exit()

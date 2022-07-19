@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
     private Vector3 _forward_currentDir;
     private Vector3 _side_currentDir;
 
-    private Vector3[] _testDirection;
+    private Vector3[] _findWallDirection;
     private RaycastHit[] _hitFindWall;
     public DashDirection DashDir { get; private set;} = DashDirection.None;
     private Vector3 _wallRunDirection;
@@ -104,12 +104,16 @@ public class Player : MonoBehaviour
 
         //InputHandler.pInputActrion.Gameplay.Crouch.performed +=;
         //InputHandler.pInputActrion.Gameplay.Dash.performed +=;
-        _testDirection = new Vector3[]{
-            Vector3.right,
-            Vector3.right + Vector3.forward,
+        _findWallDirection = new Vector3[]{
             Vector3.forward,
-            Vector3.left + Vector3.forward,
-            Vector3.left
+            Vector3.right,
+            Vector3.back,
+            Vector3.left,
+            Vector3.forward + Vector3.right,
+            Vector3.forward + Vector3.left,
+            Vector3.back    + Vector3.right,
+            Vector3.back    + Vector3.left
+            
         };
     }
 
@@ -269,7 +273,9 @@ public class Player : MonoBehaviour
     {
         _forward_vcurrent += P_Data.Forward_WallJump;
         _side_vcurrent += P_Data.Side_WallJump;
-        ApplyWallRunJumpDirection();
+        ApplyWallRunJumpDirection(); 
+        SetJumpVar(P_Data.WallRunJumpTIme, P_Data.WallRunJumpHeight);
+        SetUpVelocity();
     }
     #endregion
     #region Setup functions
@@ -345,6 +351,41 @@ public class Player : MonoBehaviour
         _up_vcurrent = 0f;
     }
 
+    public void ApplyMovementForce(float xForce, float yForce)
+    {
+        _forward_vcurrent = yForce;
+        _side_vcurrent = xForce;
+    }
+
+    public void ApplyWallRunJumpDirection()
+    {
+        _side_currentDir = _currentWallHit.normal;
+        _forward_currentDir = _wallRunDirection;
+    }
+
+    public void ApplyWallRunDirection()
+    {
+        _side_currentDir = Vector3.zero;
+        _forward_currentDir = _wallRunDirection;
+    }
+
+    public void ApplyMomentumDirection()
+    {
+        _side_currentDir = _xDashVector;
+        _forward_currentDir = _yDashVector;
+    }
+
+    public void ApplyWallJumpDirection()
+    {
+        _side_currentDir = _currentWallHit.normal;
+        _forward_currentDir = _currentWallHit.normal;
+    }
+
+    public void ApplyWalkDirection()
+    {
+        _side_currentDir = transform.right;
+        _forward_currentDir = transform.forward;
+    }
 
     #endregion
 
@@ -444,12 +485,14 @@ public class Player : MonoBehaviour
 
     public bool CheckIfObjectNear()
     {
-        _hitFindWall = new RaycastHit[_testDirection.Length];
-        for (int i = 0; i < _testDirection.Length; i++){
-            Vector3 dir = transform.TransformDirection(_testDirection[i]);
-            Physics.Raycast(transform.position, dir, out _hitFindWall[i], P_Data.Climable);
-            if(_hitFindWall[i].collider != null)
+        RaycastHit[] checkRays = new RaycastHit[_findWallDirection.Length];
+        for (int i = 0; i < _findWallDirection.Length; i++){
+            Vector3 dir = transform.TransformDirection(_findWallDirection[i]);
+            bool hit = Physics.Raycast(transform.position, dir , out checkRays[i], 1f, P_Data.Climable);
+            
+            if(hit)
             {
+                Debug.DrawRay(transform.position, dir * P_Data.RayCheckLength, Color.red, 1f, false);
                 return true;
             }
         }
@@ -469,41 +512,7 @@ public class Player : MonoBehaviour
             wallForward = -wallForward;
         _wallRunDirection = wallForward;
     }
-    public void ApplyMovementForce(float xForce, float yForce)
-    {
-        _forward_vcurrent = yForce;
-        _side_vcurrent = xForce;
-    }
-
-    public void ApplyWallRunJumpDirection()
-    {
-        _side_currentDir =_xDashVector;
-        _forward_currentDir = Vector3.Lerp(_currentWallHit.normal, _wallRunDirection, 0.2f);
-    }
-
-    public void ApplyWallRunDirection()
-    {
-        _side_currentDir = Vector3.zero;
-        _forward_currentDir = _wallRunDirection;
-    }
-
-    public void ApplyMomentumDirection()
-    {
-        _side_currentDir = _xDashVector;
-        _forward_currentDir = _yDashVector;
-    }
-
-    public void ApplyWallJumpDirection()
-    {
-        _side_currentDir = _currentWallHit.normal;
-        _forward_currentDir = _currentWallHit.normal;
-    }
-
-    public void ApplyWalkDirection()
-    {
-        _side_currentDir = transform.right;
-        _forward_currentDir = transform.forward;
-    }
+    
 
     #endregion
 

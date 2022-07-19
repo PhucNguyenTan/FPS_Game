@@ -49,6 +49,8 @@ public class Player_state_jump : Player_base_state
         }
         player.AddGravity();
         player.CastRayWall();
+        player.AddFriction(playerData.AirFriction);
+
 
     }
 }
