@@ -32,6 +32,7 @@ public class Player_state_jump : Player_base_state
         }
         else if(player.pController.isGrounded)
         {
+            player.StopGroundVelocity();
             stateMachine.ChangeStage(player.stateIdle);
         }
         else if(player.WallTouchedAngle > 160f 

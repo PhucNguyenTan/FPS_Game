@@ -29,11 +29,14 @@ public class Player_state_wallClimb : Player_base_state
     public override void Logic()
     {
         base.Logic();
-        if (player.pController.isGrounded)
+        if (!player.CheckIfObjectNear())
         {
-            stateMachine.ChangeStage(player.stateIdle);
+            if (player.pController.isGrounded)
+                stateMachine.ChangeStage(player.stateIdle);
+            else if (!player.pController.isGrounded)
+                stateMachine.ChangeStage(player.stateJump);
         }
-        
+
         player.AddGravity();
     }
 }
