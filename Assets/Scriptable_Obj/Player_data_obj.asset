@@ -47,7 +47,7 @@ MonoBehaviour:
   WallJumpSound: {fileID: 0}
   CrouchWalkSound: {fileID: 0}
   DashSound: {fileID: 8300000, guid: 618612dafac3b0946a5165739ab7373d, type: 3}
-  LandSound: {fileID: 8300000, guid: 821b39b2d387c5c408ec758a44c012d0, type: 3}
+  LandSound: {fileID: 8300000, guid: 9649d4af8c9fe0b4e8eeeca89fc6e8d3, type: 3}
   SlideSound: {fileID: 0}
   SlideLandSound: {fileID: 0}
   WallClimbSound: {fileID: 0}
