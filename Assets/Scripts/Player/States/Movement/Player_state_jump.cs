@@ -23,15 +23,17 @@ public class Player_state_jump : Player_base_state
     public override void Logic()
     {
         base.Logic();
-        if(player.pController.isGrounded && player.IsInputingMove() && !player.isDashing)
+        if (player.pController.isGrounded && player.IsInputingMove() && !player.isDashing)
         {
+            SoundManager.Instance.PlayEffectOnce(playerData.LandSound, 0.5f);
             stateMachine.ChangeStage(player.stateMove);
         }
-        else if(player.pController.isGrounded && player.isDashing && player.isCrouching){
+        else if (player.pController.isGrounded && player.isDashing && player.isCrouching){
             stateMachine.ChangeStage(player.stateSlide);
         }
         else if(player.pController.isGrounded)
         {
+            SoundManager.Instance.PlayEffectOnce(playerData.LandSound, 0.5f);
             player.StopGroundVelocity();
             stateMachine.ChangeStage(player.stateIdle);
         }
@@ -48,7 +50,6 @@ public class Player_state_jump : Player_base_state
         {
             stateMachine.ChangeStage(player.stateWallRun);
         }
-        player.AddGravity();
         player.CastRayWall();
         player.AddFriction(playerData.AirFriction);
 

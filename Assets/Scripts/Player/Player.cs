@@ -66,8 +66,11 @@ public class Player : MonoBehaviour
 
     private Vector3[] _findWallDirection;
     private RaycastHit[] _hitFindWall;
+
+    private bool _isGravitySuspend = false;
     public DashDirection DashDir { get; private set;} = DashDirection.None;
     private Vector3 _wallRunDirection;
+    private bool _isJumpUp = false;
     #endregion
 
     #region Unity Callbacks
@@ -128,10 +131,14 @@ public class Player : MonoBehaviour
             movementMachine.currentState.Logic();
             shootingMachine.currentState.Logic();
 
+
+            if (!_isGravitySuspend)
+                AddGravity();
+            AdjustHeight();
+
             PlayerRotate(mouseDelta + camInput);
             PlayerApplyMovement();
             Pistol.ActuallyApplyDoChanges();
-            AdjustHeight();
         }
     }
     #endregion
@@ -187,6 +194,7 @@ public class Player : MonoBehaviour
     {
         SetJumpVar(P_Data.JumpTime, P_Data.JumpHeight);
         _up_vcurrent = _initialJumpVelocity;
+        _isJumpUp = true;
     }
     
     public void PlayerDash(InputAction.CallbackContext obj)
@@ -195,7 +203,8 @@ public class Player : MonoBehaviour
         if (isDashing) return;
         if (Mathf.Abs(moveInput.x) < 0.5f && Mathf.Abs(moveInput.y) < 0.5f) return;
         isDashing = true;
-        if(Mathf.Abs(moveInput.y) > 0.5f)
+        SoundManager.Instance.PlayEffectOnce(P_Data.DashSound, 0.5f);
+        if (Mathf.Abs(moveInput.y) > 0.5f)
         {
             _yDashDirection = moveInput.y > 0f ? 1 : -1;
             _forward_vcurrent =  _yDashDirection * P_Data.DashSpeed;
@@ -245,6 +254,7 @@ public class Player : MonoBehaviour
         if(_up_vcurrent <= 0f) // When player at peak jump, or when drop off a ledge
         {
             SetJumpVar(P_Data.DropTime, P_Data.DropHeight);
+            _isJumpUp = false;
         }
 
         Vector3 groundMove = (_side_currentDir * _side_vcurrent + _forward_currentDir * _forward_vcurrent) * Time.deltaTime;
@@ -280,10 +290,25 @@ public class Player : MonoBehaviour
     #endregion
     #region Setup functions
 
+    public void TurnOffGravity()
+    {
+        _isGravitySuspend = true;
+    }
+
+    public void TurnOnGravity()
+    {
+        _isGravitySuspend = false;
+    }
 
     public void Grounded()
     {
         _up_vcurrent = P_Data.GroundGravity;
+    }
+
+    public void SetDropoffVelocity()
+    {
+        if(!_isJumpUp)
+            _up_vcurrent = 0f;
     }
 
     public void StopDash()
@@ -424,6 +449,7 @@ public class Player : MonoBehaviour
         return true;
     }
 
+    
 
     #endregion
     #region Get functions

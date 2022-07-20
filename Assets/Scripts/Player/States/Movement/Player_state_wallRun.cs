@@ -16,6 +16,7 @@ public class Player_state_wallRun : Player_base_state
         player.FindWallDirection();
         player.ApplyWallRunDirection();
         player.ApplyMovementForce(10f, 10f);
+        player.TurnOffGravity();
     }
 
     public override void Exit()
@@ -24,6 +25,7 @@ public class Player_state_wallRun : Player_base_state
         InputHandler.pInputActrion.Gameplay.Jump.performed -= player.PlayerWallRunJump;
         player.SetJumpVar(playerData.DropTime, playerData.DropHeight);
         player.ResetTouchAngle();
+        player.TurnOnGravity();
     }
 
     public override void Logic()

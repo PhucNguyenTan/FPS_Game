@@ -36,7 +36,5 @@ public class Player_state_wallClimb : Player_base_state
             else if (!player.pController.isGrounded)
                 stateMachine.ChangeStage(player.stateJump);
         }
-
-        player.AddGravity();
     }
 }

@@ -35,7 +35,7 @@ public class Player_state_idle : Player_base_state
         }
         if (player.isCrouching)
             stateMachine.ChangeStage(player.stateCrouch);
-
+        player.AddGravity();
 
     }
 

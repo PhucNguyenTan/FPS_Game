@@ -36,9 +36,10 @@ public class Player_state_crouch : Player_base_state
         }
         else if (!player.pController.isGrounded)
         {
+            player.SetDropoffVelocity();
             stateMachine.ChangeStage(player.stateJump);
         }
-        player.Pistol.MovementBob(player.moveInput);
+        player.Pistol.MovementBob(player.moveInput, 0.1f);
         player.Pistol.MovementSway(player.moveInput);
         player.PlayerMove(player.moveInput * playerData.CrouchMoveSpeed);
 

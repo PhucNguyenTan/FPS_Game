@@ -12,7 +12,7 @@ public class Gun_Pistol : Gun_base
     
 
     //private Animator animtor;
-    private AudioSource audio;
+    [SerializeField] AudioClip _shootAudio;
 
     public ParticleSystem MuzzleFlash;
     public ParticleSystem impacttest;
@@ -25,16 +25,14 @@ public class Gun_Pistol : Gun_base
     public void Awake()
     {
         //animtor = GetComponent<Animator>();
-        audio = GetComponent<AudioSource>();
     }
 
 
     public void PistolShoot(RaycastHit hit)
     {
-        //RecoilFire();
         Shot();
         MuzzleFlash.Play();
-        audio.Play();
+        SoundManager.Instance.PlayEffectOnce(_shootAudio, 0.1f);
         recoil_S.RecoilFire();
         if (hit.transform != null)
         {

@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3e979bdb06dab04bb1b9c1a2b532bd8, type: 3}
   m_Name: Player_data_obj
   m_EditorClassIdentifier: 
+  DashSpeed: 50
+  DashFriction: 1
+  SlideFriction: 0.1
   JumpHeight: 0.02
   JumpTime: 1
   DropHeight: 0.03
   DropTime: 1
-  DashSpeed: 50
-  DashFriction: 1
-  SlideFriction: 0.1
+  AirFriction: 0.001
   MouseSensitivity: 0.3
   MoveSpeed: 5
   CrouchMoveSpeed: 2
@@ -31,6 +32,9 @@ MonoBehaviour:
   Climable:
     serializedVersion: 2
     m_Bits: 64
+  Grounds:
+    serializedVersion: 2
+    m_Bits: 192
   ClimbHeight: 0.1
   ClimbTime: 3
   Forward_WallJump: 10
@@ -38,6 +42,16 @@ MonoBehaviour:
   WallRunJumpHeight: 0.03
   WallRunJumpTIme: 1
   RayCheckLength: 0.1
+  WalkSound: {fileID: 0}
+  JumpSound: {fileID: 0}
+  WallJumpSound: {fileID: 0}
+  CrouchWalkSound: {fileID: 0}
+  DashSound: {fileID: 8300000, guid: 618612dafac3b0946a5165739ab7373d, type: 3}
+  LandSound: {fileID: 8300000, guid: 821b39b2d387c5c408ec758a44c012d0, type: 3}
+  SlideSound: {fileID: 0}
+  SlideLandSound: {fileID: 0}
+  WallClimbSound: {fileID: 0}
+  WallRunSound: {fileID: 0}
   GroundGravity: 0
   EarthGravity: -9.8
   ShowStateName: 1

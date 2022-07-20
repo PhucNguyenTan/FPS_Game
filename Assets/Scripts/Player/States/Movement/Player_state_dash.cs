@@ -31,13 +31,18 @@ public class Player_state_dash : Player_base_state
         {
             stateMachine.ChangeStage(player.stateMove);
         }
-        if (!player.isDashing)
+        else if (!player.isDashing)
         {
             stateMachine.ChangeStage(player.stateIdle);
         }
-        if (player.isCrouching)
+        else if (player.isCrouching)
         {
             stateMachine.ChangeStage(player.stateSlide);
+        }
+        else if (!player.pController.isGrounded)
+        {
+            player.SetDropoffVelocity();
+            stateMachine.ChangeStage(player.stateJump);
         }
         player.Pistol.DashSway(player.GetDashPercentage(), player._xDashDirection, player._yDashDirection);
         player.AddFriction(playerData.DashFriction);

@@ -72,10 +72,10 @@ public class Gun_base : MonoBehaviour
         _forwardDirection = true;
     }
 
-    public void MovementBob(Vector2 charMove)
+    public void MovementBob(Vector2 charMove, float bobIntensity)
     {
         float longerDirection = Mathf.Abs(charMove.x) >= Mathf.Abs(charMove.y) ? Mathf.Abs(charMove.x) : Mathf.Abs(charMove.y);
-        Vector3 weaponBob = new Vector3(0f, -0.5f * longerDirection, 0f);
+        Vector3 weaponBob = new Vector3(0f, -bobIntensity * longerDirection, 0f);
         
         if(_currentMove < 0f)
         {

@@ -32,6 +32,7 @@ public class Player_data : ScriptableObject
 
     [Header("Wall_interaction")]
     public LayerMask Climable;
+    public LayerMask Grounds;
     public float ClimbHeight;
     public float ClimbTime;
     public float Forward_WallJump = 10f;
@@ -40,7 +41,20 @@ public class Player_data : ScriptableObject
     public float WallRunJumpTIme;
     public float RayCheckLength;
 
-    
+    [Header("Sound_Effect_Clip")]
+    public AudioClip WalkSound;
+    public AudioClip JumpSound;
+    public AudioClip WallJumpSound;
+    public AudioClip CrouchWalkSound;
+    public AudioClip DashSound;
+    public AudioClip LandSound;
+    public AudioClip SlideSound;
+    public AudioClip SlideLandSound;
+    public AudioClip WallClimbSound;
+    public AudioClip WallRunSound;
+
+
+
 
     //Might be put in different object
     public float GroundGravity = -0.5f;

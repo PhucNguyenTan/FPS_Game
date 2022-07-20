@@ -34,6 +34,7 @@ public class Player_state_slide : Player_base_state
         }
         else if (!player.pController.isGrounded)
         {
+            player.SetDropoffVelocity();
             stateMachine.ChangeStage(player.stateJump);
         }
         else if (player.isDashing && !player.isCrouching)
