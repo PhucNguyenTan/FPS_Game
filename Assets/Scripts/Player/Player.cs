@@ -116,7 +116,7 @@ public class Player : MonoBehaviour
 
         _currentHeight = P_Data.StandHeight;
         CurrentGun = SMG;
-        _isAutoShoot = true;
+        _isAutoShoot = false;
 
         //InputHandler.pInputActrion.Gameplay.Crouch.performed +=;
         //InputHandler.pInputActrion.Gameplay.Dash.performed +=;
