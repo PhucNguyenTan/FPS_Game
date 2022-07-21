@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -21,6 +22,10 @@ public class Player : MonoBehaviour
 
     #region Components variablesm
     public Gun_Pistol Pistol;
+    public Gun_Shotgun Shotgun;
+    public Gun_Smg SMG;
+    public Gun_Rocket Rocket;
+
     private CapsuleCollider _col;
     [SerializeField] private Camera fpsCam;
     public CharacterController pController { get; private set; }
@@ -71,6 +76,12 @@ public class Player : MonoBehaviour
     public DashDirection DashDir { get; private set;} = DashDirection.None;
     private Vector3 _wallRunDirection;
     private bool _isJumpUp = false;
+
+    public Gun_base CurrentGun { get; private set; }
+
+    bool _isAutoShoot = false;
+    bool _isShooting = false;
+    bool _isPrevShoot = false;
     #endregion
 
     #region Unity Callbacks
@@ -104,6 +115,8 @@ public class Player : MonoBehaviour
         SubscribeToMovementInput();
 
         _currentHeight = P_Data.StandHeight;
+        CurrentGun = SMG;
+        _isAutoShoot = true;
 
         //InputHandler.pInputActrion.Gameplay.Crouch.performed +=;
         //InputHandler.pInputActrion.Gameplay.Dash.performed +=;
@@ -138,7 +151,8 @@ public class Player : MonoBehaviour
 
             PlayerRotate(mouseDelta + camInput);
             PlayerApplyMovement();
-            Pistol.ActuallyApplyDoChanges();
+            CurrentGun.ActuallyApplyDoChanges();
+            UpdatePlayerShoot();
         }
     }
     #endregion
@@ -171,22 +185,43 @@ public class Player : MonoBehaviour
 
     public void SubscribeToShoot()
     {
-        InputHandler.pInputActrion.Gameplay.Shoot.performed += PlayerShoot;
+        InputHandler.pInputActrion.Gameplay.Shoot.performed += ctx => _isShooting = true;
+        InputHandler.pInputActrion.Gameplay.Shoot.canceled += ctx => _isShooting = false;
     }
+
 
     public void UnsubscribeToShoot()
     {
-        InputHandler.pInputActrion.Gameplay.Shoot.performed -= PlayerShoot;
+        InputHandler.pInputActrion.Gameplay.Shoot.performed -= ctx => _isShooting = true;
+        InputHandler.pInputActrion.Gameplay.Shoot.canceled -= ctx => _isShooting = false;
+    }
+
+    public void UpdatePlayerShoot()
+    {
+        if (!_isShooting) {
+            _isPrevShoot = false;  
+            return;
+        }
+        if (_isAutoShoot)
+        {
+            CurrentGun.Shoot(fpsCam.transform);
+        }
+        if (!_isPrevShoot)
+        {
+            CurrentGun.Shoot(fpsCam.transform);
+            _isPrevShoot = true;
+        }
     }
 
     #endregion
     #region Functions for subscribing
-    private void PlayerShoot(InputAction.CallbackContext obj)
+    void PlayerShoot(InputAction.CallbackContext obj)
     {
-        
-        RaycastHit hit;
-        Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit);
-        Pistol.PistolShoot(hit);
+        CurrentGun.Shoot(fpsCam.transform);
+    }
+
+    void PlayerCancelShoot(InputAction.CallbackContext obj)
+    {
 
     }
 
@@ -203,7 +238,7 @@ public class Player : MonoBehaviour
         if (isDashing) return;
         if (Mathf.Abs(moveInput.x) < 0.5f && Mathf.Abs(moveInput.y) < 0.5f) return;
         isDashing = true;
-        SoundManager.Instance.PlayEffectOnce(P_Data.DashSound, 0.5f);
+        SoundManager.Instance.PlayEffectOnce(P_Data.DashSound);
         if (Mathf.Abs(moveInput.y) > 0.5f)
         {
             _yDashDirection = moveInput.y > 0f ? 1 : -1;

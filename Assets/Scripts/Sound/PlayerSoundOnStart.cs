@@ -8,6 +8,6 @@ public class PlayerSoundOnStart : MonoBehaviour
 
     private void Start()
     {
-        SoundManager.Instance.PlayEffectOnce(_clip, 0.5f);
+        SoundManager.Instance.PlayEffectOnce(_clip);
     }
 }

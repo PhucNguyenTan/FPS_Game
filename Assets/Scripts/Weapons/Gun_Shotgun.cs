@@ -1,18 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class Gun_Shotgun : MonoBehaviour
+public class Gun_Shotgun : Gun_base
 {
-    // Start is called before the first frame update
-    void Start()
+    public static UnityAction Shooting;
+    [SerializeField] int _numberOfShot = 10;
+    [SerializeField] float _maxSpread = 0.05f;
+    [SerializeField] AudioClip _shootAudio;
+    [SerializeField] ParticleSystem _muzzleFlash;
+    [SerializeField] ParticleSystem _impactFlash;
+
+    public Gun_Shotgun()
     {
-        
+        fireRate = 500;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Shoot(Transform originPoint)
     {
-        
+        Shooting?.Invoke();
+        Shot();
+        _muzzleFlash.Play();
+        SoundManager.Instance.PlayEffectOnce(_shootAudio);
+        RaycastHit[] hits = new RaycastHit[_numberOfShot];
+        for(int i = 0; i<_numberOfShot; i++)
+        {
+            Vector3 dir = originPoint.forward +
+                new Vector3(Random.Range(-_maxSpread, _maxSpread),
+                            Random.Range(-_maxSpread, _maxSpread),
+                            Random.Range(-_maxSpread, _maxSpread));
+            Physics.Raycast(originPoint.position, dir, out hits[i]);
+            if (hits[i].transform != null)
+            {
+                Enemy enemy = hits[i].transform.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(2f);
+                }
+
+                ParticleSystem impact = Instantiate(_impactFlash, hits[i].point, Quaternion.LookRotation(hits[i].normal));
+                impact.Play();
+                Destroy(impact.gameObject, 0.35f);
+            }
+        }
     }
 }

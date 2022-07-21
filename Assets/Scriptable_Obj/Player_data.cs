@@ -53,9 +53,6 @@ public class Player_data : ScriptableObject
     public AudioClip WallClimbSound;
     public AudioClip WallRunSound;
 
-
-
-
     //Might be put in different object
     public float GroundGravity = -0.5f;
     public float EarthGravity = -9.8f;

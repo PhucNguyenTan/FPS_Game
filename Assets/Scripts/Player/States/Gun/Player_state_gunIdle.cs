@@ -22,7 +22,7 @@ public class Player_state_gunIdle : Player_base_state
     {
         base.Logic();
         //player.Pistol.RotationSway(player.mouseDelta);
-        if (!player.Pistol.CanShoot)
+        if (!player.CurrentGun.CanShoot)
         {
             player.shootingMachine.ChangeStage(player.stateShoot);
         }

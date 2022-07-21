@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 
-public class Gun_base : MonoBehaviour
+public abstract class Gun_base : MonoBehaviour
 {
     protected float range;
     protected float damage;
-    protected int fireRate; //in milisecond
+    protected int fireRate; //Time between shot in milisecond
 
     private Vector3 InitialPos;
     private Quaternion InitialRot;
@@ -189,17 +189,7 @@ public class Gun_base : MonoBehaviour
         CanShoot = false;
     }
 
-    //public void ToShootAgain() {
-    //    StartCoroutine(WaitSeconds());
-    //    CanShoot = true;
-    //}
-
-    
-
-    //public IEnumerator WaitSeconds()
-    //{
-    //    yield return new WaitForSeconds(fireRate);
-    //}
+    public abstract void Shoot(Transform originShootPoint);
 
     public async void Wait()
     {

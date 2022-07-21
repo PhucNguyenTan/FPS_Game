@@ -14,7 +14,6 @@ public class Player_state_idle : Player_base_state
         player.Grounded();
         InputHandler.pInputActrion.Gameplay.Jump.performed -= player.PlayerWallClimbJump;
         InputHandler.pInputActrion.Gameplay.Jump.performed += player.PlayerJump;
-        player.Pistol.PlayAnim("pistol_idle");
     }
 
     public override void Exit()

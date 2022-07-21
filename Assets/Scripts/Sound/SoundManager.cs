@@ -21,9 +21,13 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public void PlayEffectOnce(AudioClip clip, float volume)
+    private void Start()
     {
-        _effectSource.volume = volume;
+        _effectSource.volume = 0.3f;
+    }
+
+    public void PlayEffectOnce(AudioClip clip)
+    {
         _effectSource.PlayOneShot(clip);
     }
 }

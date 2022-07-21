@@ -1,39 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Gun_Pistol : Gun_base
 {
+
+    public static UnityAction Shooting;
+    [SerializeField] AudioClip _shootAudio;
+    [SerializeField] ParticleSystem _muzzleFlash;
+    [SerializeField] ParticleSystem _impactEffect;
+
     public Gun_Pistol()
     {
         fireRate = 250;
     }
-    
-    
-
-    //private Animator animtor;
-    [SerializeField] AudioClip _shootAudio;
-
-    public ParticleSystem MuzzleFlash;
-    public ParticleSystem impacttest;
-
-    public Recoil recoil_S;
-    private string curAnim = "pistol_idle";
-
-    
+   
 
     public void Awake()
     {
-        //animtor = GetComponent<Animator>();
+        
     }
 
 
-    public void PistolShoot(RaycastHit hit)
+    public override void Shoot(Transform originPoint)
     {
+        RaycastHit hit;
+        Physics.Raycast(originPoint.position, originPoint.forward, out hit);
+        Shooting?.Invoke();
         Shot();
-        MuzzleFlash.Play();
-        SoundManager.Instance.PlayEffectOnce(_shootAudio, 0.1f);
-        recoil_S.RecoilFire();
+        _muzzleFlash.Play();
+        SoundManager.Instance.PlayEffectOnce(_shootAudio);
         if (hit.transform != null)
         {
             Enemy enemy = hit.transform.GetComponent<Enemy>();
@@ -42,18 +39,9 @@ public class Gun_Pistol : Gun_base
                 enemy.TakeDamage(10f);
             }
 
-            ParticleSystem impact = Instantiate(impacttest, hit.point, Quaternion.LookRotation(hit.normal));
+            ParticleSystem impact = Instantiate(_impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
             impact.Play();
             Destroy(impact.gameObject, 1f);
         }
     }
-
-    public void PlayAnim(string newAnim)
-    {
-        //if (newAnim == curAnim) return;
-        //animtor.Play(newAnim);
-        //1curAnim = newAnim;
-    }
-
-    
 }

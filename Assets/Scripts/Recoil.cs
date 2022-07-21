@@ -23,8 +23,26 @@ public class Recoil : MonoBehaviour
     }
 
 
-    public void RecoilFire()
+    public void PistolRecoil()
     {
         TargetRotation = new Vector3(RecoilX, Random.Range(-RecoilY, RecoilY), Random.Range(-RecoilZ, RecoilZ));
+    }
+
+    public void ShotgunRecoil()
+    {
+        TargetRotation = new Vector3(RecoilX, Random.Range(-RecoilY, RecoilY), Random.Range(-RecoilZ, RecoilZ));
+
+    }
+
+    private void OnEnable()
+    {
+        Gun_Pistol.Shooting += PistolRecoil;
+        Gun_Shotgun.Shooting += ShotgunRecoil;
+    }
+
+    private void OnDisable()
+    {
+        Gun_Pistol.Shooting -= PistolRecoil;
+        Gun_Shotgun.Shooting -= ShotgunRecoil;
     }
 }

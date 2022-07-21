@@ -25,7 +25,7 @@ public class Player_state_jump : Player_base_state
         base.Logic();
         if (player.pController.isGrounded && player.IsInputingMove() && !player.isDashing)
         {
-            SoundManager.Instance.PlayEffectOnce(playerData.LandSound, 0.5f);
+            SoundManager.Instance.PlayEffectOnce(playerData.LandSound);
             stateMachine.ChangeStage(player.stateMove);
         }
         else if (player.pController.isGrounded && player.isDashing && player.isCrouching){
@@ -33,7 +33,7 @@ public class Player_state_jump : Player_base_state
         }
         else if(player.pController.isGrounded)
         {
-            SoundManager.Instance.PlayEffectOnce(playerData.LandSound, 0.5f);
+            SoundManager.Instance.PlayEffectOnce(playerData.LandSound);
             player.StopGroundVelocity();
             stateMachine.ChangeStage(player.stateIdle);
         }
