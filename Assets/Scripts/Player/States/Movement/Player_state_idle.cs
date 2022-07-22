@@ -11,7 +11,6 @@ public class Player_state_idle : Player_base_state
     public override void Enter()
     {
         base.Enter();
-        player.Grounded();
         InputHandler.pInputActrion.Gameplay.Jump.performed -= player.PlayerWallClimbJump;
         InputHandler.pInputActrion.Gameplay.Jump.performed += player.PlayerJump;
     }

@@ -15,7 +15,7 @@ public class Player_state_wallRun : Player_base_state
         player.StopJumpvelocity();
         player.FindWallDirection();
         player.ApplyWallRunDirection();
-        player.ApplyMovementForce(10f, 10f);
+        //player.ApplyMovementForce(10f, 10f);
         player.TurnOffGravity();
     }
 

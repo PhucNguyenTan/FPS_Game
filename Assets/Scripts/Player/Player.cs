@@ -49,16 +49,16 @@ public class Player : MonoBehaviour
     private float _friction;
     private float _initialJumpVelocity;
 
-    private float _up_vcurrent = 0f;
-    private float _side_vcurrent = 0f;
-    private float _forward_vcurrent = 0f;
+    private float _vertical_vcurrent = 0f;
+    private float _horizontal_vcurrent = 0f;
     private float _timeLapseCrouch = 0f;
 
+    private Vector3 _dashDirection;
+    private Vector3 _currentDirection;
+    private Vector3 _wallRunDirection;
+
     public float WallTouchedAngle { get; private set; } = 0f;
-    public int _yDashDirection { get; private set; } = 0;
-    public int _xDashDirection { get; private set; } = 0;
-    private Vector3 _xDashVector;
-    private Vector3 _yDashVector;
+    
     public bool isDashing { get; private set; } = false;
     public bool isCrouching { get; private set; } = false;
 
@@ -66,15 +66,10 @@ public class Player : MonoBehaviour
 
     private RaycastHit _currentWallHit;
 
-    private Vector3 _forward_currentDir;
-    private Vector3 _side_currentDir;
-
     private Vector3[] _findWallDirection;
     private RaycastHit[] _hitFindWall;
 
     private bool _isGravitySuspend = false;
-    public DashDirection DashDir { get; private set;} = DashDirection.None;
-    private Vector3 _wallRunDirection;
     private bool _isJumpUp = false;
 
     public Gun_base CurrentGun { get; private set; }
@@ -118,8 +113,6 @@ public class Player : MonoBehaviour
         CurrentGun = SMG;
         _isAutoShoot = false;
 
-        //InputHandler.pInputActrion.Gameplay.Crouch.performed +=;
-        //InputHandler.pInputActrion.Gameplay.Dash.performed +=;
         _findWallDirection = new Vector3[]{
             Vector3.forward,
             Vector3.right,
@@ -145,16 +138,14 @@ public class Player : MonoBehaviour
             shootingMachine.currentState.Logic();
 
 
-            if (!_isGravitySuspend)
-                AddGravity();
             AdjustHeight();
-
             PlayerRotate(mouseDelta + camInput);
             PlayerApplyMovement();
             CurrentGun.ActuallyApplyDoChanges();
             UpdatePlayerShoot();
         }
     }
+
     #endregion
     #region Game Manager Listener
     private void GameManagerOnChangeState(GameManager.GameState arg0)
@@ -228,7 +219,7 @@ public class Player : MonoBehaviour
     public void PlayerJump(InputAction.CallbackContext obj)
     {
         SetJumpVar(P_Data.JumpTime, P_Data.JumpHeight);
-        _up_vcurrent = _initialJumpVelocity;
+        _vertical_vcurrent = _initialJumpVelocity;
         _isJumpUp = true;
     }
     
@@ -239,18 +230,10 @@ public class Player : MonoBehaviour
         if (Mathf.Abs(moveInput.x) < 0.5f && Mathf.Abs(moveInput.y) < 0.5f) return;
         isDashing = true;
         SoundManager.Instance.PlayEffectOnce(P_Data.DashSound);
-        if (Mathf.Abs(moveInput.y) > 0.5f)
-        {
-            _yDashDirection = moveInput.y > 0f ? 1 : -1;
-            _forward_vcurrent =  _yDashDirection * P_Data.DashSpeed;
-        }
-        if(Mathf.Abs(moveInput.x) > 0.5f)
-        {
-            _xDashDirection = moveInput.x > 0f ? 1 : -1;
-            _side_vcurrent = _xDashDirection * P_Data.DashSpeed;
-        }
-        _xDashVector = transform.right;
-        _yDashVector = transform.forward;
+        _dashDirection = new Vector3(moveInput.x, 0f, moveInput.y);
+        _dashDirection = _dashDirection.normalized;
+        _horizontal_vcurrent = P_Data.DashSpeed;
+        _currentDirection = transform.TransformDirection(_dashDirection);
     }
 
     public void PlayerCrouch(InputAction.CallbackContext obj)
@@ -267,34 +250,29 @@ public class Player : MonoBehaviour
 
     public void PlayerMove(Vector2 moveInput)
     {
-        _forward_vcurrent = moveInput.y;
-        _side_vcurrent = moveInput.x ;
-        ApplyWalkDirection();
+        _horizontal_vcurrent = 1f;
+        Vector3 move = new Vector3(moveInput.x, 0f, moveInput.y);
+        _currentDirection = transform.TransformDirection(move);
+        //_currentDirection = transform.forward.normalized * moveInput.y + transform.right.normalized * moveInput.x;
     }
 
     public void AddFriction(float frictionValue)
     {
-        if (_xDashDirection == 1)
-            _side_vcurrent -= frictionValue;
-        else if(_xDashDirection == -1)
-            _side_vcurrent += frictionValue;
-        if (_yDashDirection == 1)
-            _forward_vcurrent -= frictionValue;
-        else if(_yDashDirection == -1)
-            _forward_vcurrent += frictionValue;
+        _horizontal_vcurrent = Mathf.MoveTowards(_horizontal_vcurrent, 0f, frictionValue);
     }
 
     public void PlayerApplyMovement()
     {
-        if(_up_vcurrent <= 0f) // When player at peak jump, or when drop off a ledge
+        if (!_isGravitySuspend)
+            AddGravity();
+        if (_vertical_vcurrent <= 0f) // When player at peak jump, or when drop off a ledge
         {
             SetJumpVar(P_Data.DropTime, P_Data.DropHeight);
             _isJumpUp = false;
         }
-
-        Vector3 groundMove = (_side_currentDir * _side_vcurrent + _forward_currentDir * _forward_vcurrent) * Time.deltaTime;
-        Vector3 yVelocity = new Vector3(0f, _up_vcurrent + gravity * Time.deltaTime, 0f);
-        pController.Move(yVelocity + groundMove);
+        Vector3 move = _currentDirection * _horizontal_vcurrent * Time.deltaTime;
+        move.y = _vertical_vcurrent;
+        pController.Move(move);
     }
 
     private void PlayerRotate(Vector2 cameraInput)
@@ -308,22 +286,25 @@ public class Player : MonoBehaviour
 
     public void PlayerWallClimbJump(InputAction.CallbackContext obj)
     {
-        _forward_vcurrent += P_Data.Forward_WallJump;
-        _side_vcurrent += P_Data.Side_WallJump;
+        _horizontal_vcurrent += P_Data.Forward_WallJump;
         ApplyWallJumpDirection();
 
     }
 
     public void PlayerWallRunJump(InputAction.CallbackContext obj)
     {
-        _forward_vcurrent += P_Data.Forward_WallJump;
-        _side_vcurrent += P_Data.Side_WallJump;
+        _horizontal_vcurrent += P_Data.Forward_WallJump;
         ApplyWallRunJumpDirection(); 
         SetJumpVar(P_Data.WallRunJumpTIme, P_Data.WallRunJumpHeight);
         SetUpVelocity();
     }
     #endregion
     #region Setup functions
+
+    //void SetDirection(Vector2 forwardDirection)
+    //{
+    //    _currentDirection = new Vector3(forwardDirection.x, 0f, forwardDirection.y);
+    //}
 
     public void TurnOffGravity()
     {
@@ -337,22 +318,20 @@ public class Player : MonoBehaviour
 
     public void Grounded()
     {
-        _up_vcurrent = P_Data.GroundGravity;
+        _vertical_vcurrent = P_Data.GroundGravity;
     }
 
     public void SetDropoffVelocity()
     {
         if(!_isJumpUp)
-            _up_vcurrent = 0f;
+            _vertical_vcurrent = 0f;
     }
 
     public void StopDash()
     {
         isDashing = false;
-        _xDashDirection = 0;
-        _yDashDirection = 0;
-        _forward_vcurrent = 0f;
-        _side_vcurrent = 0f;
+        _horizontal_vcurrent = 0f;
+        _dashDirection = Vector3.zero;
     }
 
     public void SetJumpVar(float maxJumpTime, float maxJumpHeight)
@@ -360,7 +339,6 @@ public class Player : MonoBehaviour
         float timeToApex = maxJumpTime / 2;
         gravity = (-2 * maxJumpHeight) / (timeToApex * timeToApex);
         _initialJumpVelocity =  (2 * maxJumpHeight) / timeToApex;
-        
     }
 
     public void AdjustHeight()
@@ -397,56 +375,47 @@ public class Player : MonoBehaviour
 
     public void AddGravity()
     {
-        _up_vcurrent += gravity * Time.deltaTime;
-        _up_vcurrent = Mathf.Max(_up_vcurrent, P_Data.EarthGravity);
+        //_vertical_vcurrent = Mathf.MoveTowards(_vertical_vcurrent, P_Data.EarthGravity, gravity * Time.deltaTime);
+        _vertical_vcurrent += gravity * Time.deltaTime;
+        _vertical_vcurrent = Mathf.Max(_vertical_vcurrent, P_Data.EarthGravity);
     }
 
     public void SetUpVelocity()
     {
-        _up_vcurrent = _initialJumpVelocity;
+        _vertical_vcurrent = _initialJumpVelocity;
     }
 
     public void StopJumpvelocity()
     {
-        _up_vcurrent = 0f;
+        _vertical_vcurrent = 0f;
     }
 
-    public void ApplyMovementForce(float xForce, float yForce)
+    public void ApplyMovementForce(float force)
     {
-        _forward_vcurrent = yForce;
-        _side_vcurrent = xForce;
+        _horizontal_vcurrent = force;
     }
 
     public void ApplyWallRunJumpDirection()
     {
-        _side_currentDir = _currentWallHit.normal;
-        _forward_currentDir = _wallRunDirection;
+        _currentDirection = Vector3.Lerp(_wallRunDirection, _currentWallHit.normal, 0.3f);
     }
 
     public void ApplyWallRunDirection()
     {
-        _side_currentDir = Vector3.zero;
-        _forward_currentDir = _wallRunDirection;
+        _currentDirection = _wallRunDirection;
     }
 
     public void ApplyMomentumDirection()
     {
-        _side_currentDir = _xDashVector;
-        _forward_currentDir = _yDashVector;
+        _currentDirection = _dashDirection;
     }
 
     public void ApplyWallJumpDirection()
     {
-        _side_currentDir = _currentWallHit.normal;
-        _forward_currentDir = _currentWallHit.normal;
+        _currentDirection = _currentWallHit.normal;
     }
 
-    public void ApplyWalkDirection()
-    {
-        _side_currentDir = transform.right;
-        _forward_currentDir = transform.forward;
-    }
-
+    
     #endregion
 
     #region Set Effect function
@@ -466,92 +435,22 @@ public class Player : MonoBehaviour
         return false;
     }
 
-    public bool Is_xDashStop()
+    public bool IsDashStop()
     {
-        if (_xDashDirection == 1)
-            return _side_vcurrent < 0 ? true : false;
-        else if(_xDashDirection == -1)
-            return _side_vcurrent > 0 ? true : false;
-        return true;
-    }
-
-    public bool Is_zDashStop()
-    {
-        if (_yDashDirection == 1)
-            return _forward_vcurrent < 0 ? true : false;
-        else if(_yDashDirection == -1)
-            return _forward_vcurrent > 0 ? true : false;
-        return true;
-    }
-
-    
-
-    #endregion
-    #region Get functions
-    public Vector3 GetFPScamPosition()
-    {
-        return fpsCam.transform.position;
-    }
-
-    public Vector2 GetDashPercentage()
-    {
-        Vector2 dashPercent;
-        dashPercent.x = Mathf.Abs(_side_vcurrent) / P_Data.DashSpeed;
-        dashPercent.y = Mathf.Abs(_forward_vcurrent) / P_Data.DashSpeed;
-        return dashPercent;
-    }
-    #endregion
-
-    #region Temp region
-    public void CastRayWall()
-    {
-        bool isWallNear = false;
-        if (_xDashDirection == 0 && _yDashDirection == 1) // Forward
-        {
-            isWallNear = Physics.Raycast(transform.position, transform.forward, out _currentWallHit, 1f, P_Data.Climable);
-            WallTouchedAngle = Vector3.Angle(_currentWallHit.normal, transform.forward);
-            DashDir = DashDirection.Forward;
-        }
-        else if(_xDashDirection == 1 && _yDashDirection == 0) // Right
-        {
-            isWallNear = Physics.Raycast(transform.position, transform.right, out _currentWallHit, 1f, P_Data.Climable);
-            WallTouchedAngle = Vector3.Angle(_currentWallHit.normal, transform.right);
-            DashDir = DashDirection.Right;
-        }
-        else if (_xDashDirection == -1 && _yDashDirection == 0) // Left
-        {
-            isWallNear = Physics.Raycast(transform.position, -transform.right, out _currentWallHit, 1f, P_Data.Climable);
-            WallTouchedAngle = Vector3.Angle(_currentWallHit.normal, -transform.right);
-            DashDir = DashDirection.Left;
-        }
-        else if (_xDashDirection == 0 && _yDashDirection == -1) // Backward
-        {
-            isWallNear = Physics.Raycast(transform.position, -transform.forward, out _currentWallHit, 1f, P_Data.Climable);
-            WallTouchedAngle = Vector3.Angle(_currentWallHit.normal, -transform.forward);
-            DashDir = DashDirection.Backward;
-        }
-        else if (_xDashDirection == 1 && _yDashDirection == 1) // Forward right
-        {
-            isWallNear = Physics.Raycast(transform.position, transform.right, out _currentWallHit, 1f, P_Data.Climable);
-            WallTouchedAngle = Vector3.Angle(_currentWallHit.normal, transform.right);
-            DashDir = DashDirection.Forward_Right;
-        }
-        else if (_xDashDirection == -1 && _yDashDirection == 1) // forwward left
-        {
-            isWallNear = Physics.Raycast(transform.position, -transform.right, out _currentWallHit, 1f, P_Data.Climable);
-            WallTouchedAngle = Vector3.Angle(_currentWallHit.normal, -transform.right);
-            DashDir = DashDirection.Forward_Left;
-        }
+        if (_horizontal_vcurrent == 0)
+            return true;
+        return false;
     }
 
     public bool CheckIfObjectNear()
     {
         RaycastHit[] checkRays = new RaycastHit[_findWallDirection.Length];
-        for (int i = 0; i < _findWallDirection.Length; i++){
+        for (int i = 0; i < _findWallDirection.Length; i++)
+        {
             Vector3 dir = transform.TransformDirection(_findWallDirection[i]);
-            bool hit = Physics.Raycast(transform.position, dir , out checkRays[i], 1f, P_Data.Climable);
-            
-            if(hit)
+            bool hit = Physics.Raycast(transform.position, dir, out checkRays[i], 1f, P_Data.Climable);
+
+            if (hit)
             {
                 Debug.DrawRay(transform.position, dir * P_Data.RayCheckLength, Color.red, 1f, false);
                 return true;
@@ -559,11 +458,66 @@ public class Player : MonoBehaviour
         }
         return false;
     }
+    #endregion
+    #region Get functions
+    public Vector3 GetFPScamPosition()
+    {
+        return fpsCam.transform.position;
+    }
+
+    public float GetDashPercentage()
+    {
+        return _horizontal_vcurrent/P_Data.DashSpeed;
+    }
+    #endregion
+
+    #region Temp region
+    //public void CastRayWall()
+    //{
+    //    bool isWallNear = false;
+    //    if (_dashDirection == Vector3.forward) // Forward
+    //    {
+    //        isWallNear = Physics.Raycast(transform.position, transform.forward, out _currentWallHit, 1f, P_Data.Climable);
+    //        WallTouchedAngle = Vector3.Angle(_currentWallHit.normal, transform.forward);
+    //        DashDir = DashDirection.Forward;
+    //    }
+    //    else if(_xDashDirection == 1 && _yDashDirection == 0) // Right
+    //    {
+    //        isWallNear = Physics.Raycast(transform.position, transform.right, out _currentWallHit, 1f, P_Data.Climable);
+    //        WallTouchedAngle = Vector3.Angle(_currentWallHit.normal, transform.right);
+    //        DashDir = DashDirection.Right;
+    //    }
+    //    else if (_xDashDirection == -1 && _yDashDirection == 0) // Left
+    //    {
+    //        isWallNear = Physics.Raycast(transform.position, -transform.right, out _currentWallHit, 1f, P_Data.Climable);
+    //        WallTouchedAngle = Vector3.Angle(_currentWallHit.normal, -transform.right);
+    //        DashDir = DashDirection.Left;
+    //    }
+    //    else if (_xDashDirection == 0 && _yDashDirection == -1) // Backward
+    //    {
+    //        isWallNear = Physics.Raycast(transform.position, -transform.forward, out _currentWallHit, 1f, P_Data.Climable);
+    //        WallTouchedAngle = Vector3.Angle(_currentWallHit.normal, -transform.forward);
+    //        DashDir = DashDirection.Backward;
+    //    }
+    //    else if (_xDashDirection == 1 && _yDashDirection == 1) // Forward right
+    //    {
+    //        isWallNear = Physics.Raycast(transform.position, transform.right, out _currentWallHit, 1f, P_Data.Climable);
+    //        WallTouchedAngle = Vector3.Angle(_currentWallHit.normal, transform.right);
+    //        DashDir = DashDirection.Forward_Right;
+    //    }
+    //    else if (_xDashDirection == -1 && _yDashDirection == 1) // forwward left
+    //    {
+    //        isWallNear = Physics.Raycast(transform.position, -transform.right, out _currentWallHit, 1f, P_Data.Climable);
+    //        WallTouchedAngle = Vector3.Angle(_currentWallHit.normal, -transform.right);
+    //        DashDir = DashDirection.Forward_Left;
+    //    }
+    //}
+
+    
 
     public void StopGroundVelocity()
     {
-        _forward_vcurrent = 0f;
-        _side_vcurrent = 0f;
+        _horizontal_vcurrent = 0f;
     }
 
     public void FindWallDirection()
@@ -575,20 +529,5 @@ public class Player : MonoBehaviour
     }
     
 
-    #endregion
-
-    #region enum definition
-    public enum DashDirection
-    {
-        None,
-        Forward,
-        Backward,
-        Left,
-        Right,
-        Forward_Left,
-        Forward_Right,
-        Backward_Left,
-        Backward_Right
-    }
     #endregion
 }

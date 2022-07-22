@@ -477,7 +477,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-68704
+  m_Name: pb_Mesh-1338
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -8587,7 +8587,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-68648
+  m_Name: pb_Mesh-1282
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -8956,7 +8956,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Pistol: {fileID: 1856327626}
   Shotgun: {fileID: 9251326}
-  SMG: {fileID: 0}
+  SMG: {fileID: 1139856933}
   Rocket: {fileID: 0}
   fpsCam: {fileID: 963194227}
   P_Data: {fileID: 11400000, guid: dc43469b827ed38478dd4b935f471f99, type: 2}
@@ -8968,7 +8968,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-68718
+  m_Name: pb_Mesh-1352
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -9132,7 +9132,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-68690
+  m_Name: pb_Mesh-1324
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -9344,7 +9344,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-68662
+  m_Name: pb_Mesh-1296
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -10554,7 +10554,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _curve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -10565,11 +10583,10 @@ MonoBehaviour:
   CanShoot: 0
   _returnSpeed: 1
   _snappiness: 5
-  _numberOfShot: 1
   _maxSpread: 0.01
-  _shootAudio: {fileID: 0}
-  _muzzleFlash: {fileID: 0}
-  _impactFlash: {fileID: 0}
+  _shootAudio: {fileID: 8300000, guid: d3f92dac8947cb247aaec47c840b0467, type: 3}
+  _muzzleFlash: {fileID: 1075313814}
+  _impactFlash: {fileID: 8154098493202264236, guid: 03889fec60e1a3d47b9f239e3242adff, type: 3}
 --- !u!1 &1237518094
 GameObject:
   m_ObjectHideFlags: 0
@@ -12016,7 +12033,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-68676
+  m_Name: pb_Mesh-1310
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

@@ -15,14 +15,14 @@ MonoBehaviour:
   DashSpeed: 50
   DashFriction: 1
   SlideFriction: 0.1
-  JumpHeight: 0.02
+  JumpHeight: 0.01
   JumpTime: 1
   DropHeight: 0.03
   DropTime: 1
   AirFriction: 0.001
   MouseSensitivity: 0.3
-  MoveSpeed: 5
-  CrouchMoveSpeed: 2
+  MoveSpeed: 10
+  CrouchMoveSpeed: 5
   JoystickCamSpeed: 0.3
   CrouchSpeed: 10
   CrouchHeight: 1

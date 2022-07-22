@@ -18,7 +18,6 @@ public class Player_state_move : Player_base_state
     {
         base.Exit();
         player.Pistol.ResetPosition();
-
     }
 
     public override void Logic()

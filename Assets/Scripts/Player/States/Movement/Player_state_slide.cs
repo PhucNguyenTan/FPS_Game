@@ -20,7 +20,7 @@ public class Player_state_slide : Player_base_state
     public override void Logic()
     {
         base.Logic();
-        if (player.Is_xDashStop() && player.Is_zDashStop())
+        if (player.IsDashStop())
         {
             player.StopDash();
         }
@@ -42,7 +42,7 @@ public class Player_state_slide : Player_base_state
             stateMachine.ChangeStage(player.stateDash);
         }
         
-        player.Pistol.DashSway(player.GetDashPercentage(), player._xDashDirection, player._yDashDirection);
+        //player.Pistol.DashSway(player.GetDashPercentage(), player._xDashDirection, player._yDashDirection);
         player.AddFriction(playerData.SlideFriction);
     }
 }

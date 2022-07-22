@@ -23,7 +23,7 @@ public class Player_state_dash : Player_base_state
     {
         base.Logic();
 
-        if (player.Is_xDashStop() && player.Is_zDashStop())
+        if (player.IsDashStop())
         {
             player.StopDash();
         }
@@ -44,7 +44,7 @@ public class Player_state_dash : Player_base_state
             player.SetDropoffVelocity();
             stateMachine.ChangeStage(player.stateJump);
         }
-        player.Pistol.DashSway(player.GetDashPercentage(), player._xDashDirection, player._yDashDirection);
+        //player.Pistol.DashSway(player.GetDashPercentage(), player._xDashDirection, player._yDashDirection);
         player.AddFriction(playerData.DashFriction);
 
 

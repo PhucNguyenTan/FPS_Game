@@ -37,20 +37,20 @@ public class Player_state_jump : Player_base_state
             player.StopGroundVelocity();
             stateMachine.ChangeStage(player.stateIdle);
         }
-        else if(player.WallTouchedAngle > 160f 
-            && (player.DashDir != Player.DashDirection.Forward_Left 
-            && player.DashDir != Player.DashDirection.Forward_Right))
-        {
-            stateMachine.ChangeStage(player.stateWallClimb);
-        }
-        else if(player.WallTouchedAngle > 160f || 
-            (player.WallTouchedAngle > 120f 
-            && player.WallTouchedAngle < 150f 
-            && player.DashDir == Player.DashDirection.Forward))
-        {
-            stateMachine.ChangeStage(player.stateWallRun);
-        }
-        player.CastRayWall();
+        //else if(player.WallTouchedAngle > 160f 
+        //    && (player.DashDir != Player.DashDirection.Forward_Left 
+        //    && player.DashDir != Player.DashDirection.Forward_Right))
+        //{
+        //    stateMachine.ChangeStage(player.stateWallClimb);
+        //}
+        //else if(player.WallTouchedAngle > 160f || 
+        //    (player.WallTouchedAngle > 120f 
+        //    && player.WallTouchedAngle < 150f 
+        //    && player.DashDir == Player.DashDirection.Forward))
+        //{
+        //    stateMachine.ChangeStage(player.stateWallRun);
+        //}
+        //player.CastRayWall();
         player.AddFriction(playerData.AirFriction);
 
 

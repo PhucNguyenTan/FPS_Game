@@ -20,7 +20,6 @@ public class HUD : MonoBehaviour
 
     private void OnDisable()
     {
-
         Health_obj.healthChangeEvent.RemoveListener(UpdateHealthBar);
     }
 
