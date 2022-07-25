@@ -14,7 +14,7 @@ public class Gun_Shotgun : Gun_base
 
     public Gun_Shotgun()
     {
-        fireRate = 500;
+        _fireRate = 500;
     }
 
     public override void Shoot(Transform originPoint)

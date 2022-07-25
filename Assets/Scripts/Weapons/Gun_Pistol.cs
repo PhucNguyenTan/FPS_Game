@@ -13,7 +13,7 @@ public class Gun_Pistol : Gun_base
 
     public Gun_Pistol()
     {
-        fireRate = 250;
+        _fireRate = 250;
     }
       
 

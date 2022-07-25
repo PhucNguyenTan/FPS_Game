@@ -5,14 +5,17 @@ using System.Threading.Tasks;
 
 public abstract class Gun_base : MonoBehaviour
 {
-    [SerializeField] protected float range;
-    [SerializeField] protected float damage;
-    [SerializeField] protected float fireRate; //Time between shot in milisecond
+    [SerializeField] protected float _range;
+    [SerializeField] protected float _damage;
+    [SerializeField] protected float _fireRate; //Time between shot in milisecond
+    [SerializeField] protected Vector3 _defaultPosition;
+    [SerializeField] protected Quaternion _defaultRotation;
+    
 
     Vector3 InitialPos;
     Quaternion InitialRot;
 
-    [SerializeField] AnimationCurve _curve;
+    [SerializeField] AnimationCurve _gunBobCurve;
     [SerializeField] float amount = 5f;
     [SerializeField] float maxAmount = 10f;
     [SerializeField] private float smooth = 10f;
@@ -57,8 +60,10 @@ public abstract class Gun_base : MonoBehaviour
 
     private void Start()
     {
-        InitialPos = transform.localPosition;
-        InitialRot = transform.localRotation;
+        //InitialPos = transform.localPosition;
+        //InitialRot = transform.localRotation;
+        transform.localPosition = _defaultPosition;
+        transform.localRotation = _defaultRotation;
         _currentMove = 0f;
         _currentLook = 0f;
         _forwardRotation = true;
@@ -89,7 +94,7 @@ public abstract class Gun_base : MonoBehaviour
         {
             _currentMove -= Time.deltaTime*speed;
         }
-        _moveBobAnim = Vector3.Lerp(InitialPos, weaponBob*0.1f + InitialPos, _curve.Evaluate(_currentMove));
+        _moveBobAnim = Vector3.Lerp(InitialPos, weaponBob*0.1f + InitialPos, _gunBobCurve.Evaluate(_currentMove));
         
     }
 
@@ -186,7 +191,7 @@ public abstract class Gun_base : MonoBehaviour
 
     public void CheckCanShoot(Transform originPoint)
     {
-        if (Time.time > _lastTimeShoot + fireRate)
+        if (Time.time > _lastTimeShoot + _fireRate)
         {
             Shoot(originPoint);
             _lastTimeShoot = Time.time;
@@ -206,6 +211,16 @@ public abstract class Gun_base : MonoBehaviour
         Vector3 xSway = Vector3.Lerp(Vector3.zero, new Vector3(maxDashSway * -xDir, 0f, 0f), dashVelPercent.x);
         Vector3 ySway = Vector3.Lerp(Vector3.zero, new Vector3(0f, 0f, maxDashSway * -yDir), dashVelPercent.y);
         _dashPosition = xSway + ySway;
+    }
+
+    public void Equip()
+    {
+
+    }
+
+    public void Unequip()
+    {
+
     }
 }
 

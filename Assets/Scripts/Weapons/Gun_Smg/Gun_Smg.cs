@@ -14,7 +14,7 @@ public class Gun_Smg : Gun_base
     public static UnityAction Shooting;
     public Gun_Smg()
     {
-        fireRate = 500;
+        _fireRate = 500;
     }
 
     public override void Shoot(Transform originPoint)
