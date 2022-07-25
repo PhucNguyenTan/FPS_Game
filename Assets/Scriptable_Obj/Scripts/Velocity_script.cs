@@ -20,6 +20,5 @@ public class Velocity_script : ScriptableObject
     {
         _isGravitySuspend = false;
     }
-
     
 }

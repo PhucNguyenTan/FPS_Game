@@ -9,11 +9,12 @@ public class Gun_Smg : Gun_base
     [SerializeField] AudioClip _shootAudio;
     [SerializeField] ParticleSystem _muzzleFlash;
     [SerializeField] ParticleSystem _impactFlash;
+    [SerializeField] float damageDeal = 2f;
 
     public static UnityAction Shooting;
     public Gun_Smg()
     {
-        fireRate = 100;
+        fireRate = 500;
     }
 
     public override void Shoot(Transform originPoint)
@@ -28,11 +29,14 @@ public class Gun_Smg : Gun_base
                new Vector3(Random.Range(-_maxSpread, _maxSpread),
                            Random.Range(-_maxSpread, _maxSpread),
                            Random.Range(-_maxSpread, _maxSpread));
-        Physics.Raycast(originPoint.position, dir, out hit);
-        Enemy enemy = hit.transform.GetComponent<Enemy>();
-        if (enemy != null)
+        bool isImpacted = Physics.Raycast(originPoint.position, dir, out hit);
+        if (isImpacted)
         {
-            enemy.TakeDamage(2f);
+            Enemy enemy = hit.transform.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damageDeal);
+            }
         }
         ParticleSystem impact = Instantiate(_impactFlash, hit.point, Quaternion.LookRotation(hit.normal));
         impact.Play();

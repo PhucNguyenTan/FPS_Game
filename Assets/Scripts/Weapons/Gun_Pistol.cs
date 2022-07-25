@@ -15,13 +15,7 @@ public class Gun_Pistol : Gun_base
     {
         fireRate = 250;
     }
-   
-
-    public void Awake()
-    {
-        
-    }
-
+      
 
     public override void Shoot(Transform originPoint)
     {

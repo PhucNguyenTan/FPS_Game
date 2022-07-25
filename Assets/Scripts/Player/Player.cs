@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public Player_state_dash stateDash { get; private set; }
     public Player_state_crouch stateCrouch { get; private set; }
     public Player_state_slide stateSlide { get; private set; }
-    public Player_state_wallClimb stateWallClimb { get; private set; }
+    public  Player_state_wallClimb stateWallClimb { get; private set; }
     public Player_state_wallRun stateWallRun { get; private set; }
     #endregion
 
@@ -72,6 +72,8 @@ public class Player : MonoBehaviour
     private bool _isGravitySuspend = false;
     private bool _isJumpUp = false;
 
+    
+
     public Gun_base CurrentGun { get; private set; }
 
     bool _isAutoShoot = false;
@@ -111,7 +113,7 @@ public class Player : MonoBehaviour
 
         _currentHeight = P_Data.StandHeight;
         CurrentGun = SMG;
-        _isAutoShoot = false;
+        _isAutoShoot = true;
 
         _findWallDirection = new Vector3[]{
             Vector3.forward,
@@ -180,7 +182,6 @@ public class Player : MonoBehaviour
         InputHandler.pInputActrion.Gameplay.Shoot.canceled += ctx => _isShooting = false;
     }
 
-
     public void UnsubscribeToShoot()
     {
         InputHandler.pInputActrion.Gameplay.Shoot.performed -= ctx => _isShooting = true;
@@ -195,26 +196,17 @@ public class Player : MonoBehaviour
         }
         if (_isAutoShoot)
         {
-            CurrentGun.Shoot(fpsCam.transform);
+            CurrentGun.CheckCanShoot(fpsCam.transform);
         }
         if (!_isPrevShoot)
         {
-            CurrentGun.Shoot(fpsCam.transform);
+            CurrentGun.CheckCanShoot(fpsCam.transform);
             _isPrevShoot = true;
         }
     }
 
     #endregion
     #region Functions for subscribing
-    void PlayerShoot(InputAction.CallbackContext obj)
-    {
-        CurrentGun.Shoot(fpsCam.transform);
-    }
-
-    void PlayerCancelShoot(InputAction.CallbackContext obj)
-    {
-
-    }
 
     public void PlayerJump(InputAction.CallbackContext obj)
     {

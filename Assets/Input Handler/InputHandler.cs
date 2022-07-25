@@ -24,7 +24,6 @@ public class InputHandler : MonoBehaviour
     {
         movementInput = pInputActrion.Gameplay.Movement;
         pInputActrion.Gameplay.Movement.Enable();
-        //pInputActrion.Gameplay.Jump.performed += test;
         pInputActrion.Gameplay.Jump.Enable();
         pInputActrion.Gameplay.Shoot.Enable();
         mouseDelta = pInputActrion.Gameplay.MouseDelta;

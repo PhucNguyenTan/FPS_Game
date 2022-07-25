@@ -6,8 +6,7 @@ using UnityEngine.Events;
 public class Health_script : ScriptableObject
 {
     public float Health = 50f;
-    [SerializeField]
-    private float MaxHealth = 50f;
+    [SerializeField] float MaxHealth = 50f;
 
     [System.NonSerialized] //??
     public UnityEvent<float> healthChangeEvent;

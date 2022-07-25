@@ -5,28 +5,21 @@ using System.Threading.Tasks;
 
 public abstract class Gun_base : MonoBehaviour
 {
-    protected float range;
-    protected float damage;
-    protected int fireRate; //Time between shot in milisecond
+    [SerializeField] protected float range;
+    [SerializeField] protected float damage;
+    [SerializeField] protected float fireRate; //Time between shot in milisecond
 
-    private Vector3 InitialPos;
-    private Quaternion InitialRot;
+    Vector3 InitialPos;
+    Quaternion InitialRot;
 
-    [SerializeField]
-    private AnimationCurve _curve;
+    [SerializeField] AnimationCurve _curve;
+    [SerializeField] float amount = 5f;
+    [SerializeField] float maxAmount = 10f;
+    [SerializeField] private float smooth = 10f;
 
-    [SerializeField]
-    private float amount = 5f;
-    [SerializeField]
-    private float maxAmount = 10f;
-
-    [SerializeField]
-    private float smooth = 10f;
-
-    private float _currentMove; 
-    private bool _forwardDirection;
-    [SerializeField]
-    private float speed = 10f;
+    float _currentMove; 
+    bool _forwardDirection;
+    [SerializeField] float speed = 10f;
 
     private bool _forwardRotation;
     private float _currentLook;
@@ -53,7 +46,7 @@ public abstract class Gun_base : MonoBehaviour
     //[SerializeField]
     //protected float _recoilZ;
 
-
+    float _lastTimeShoot = 0f;
 
     private Quaternion RecoilAnim;
 
@@ -191,9 +184,19 @@ public abstract class Gun_base : MonoBehaviour
 
     public abstract void Shoot(Transform originShootPoint);
 
+    public void CheckCanShoot(Transform originPoint)
+    {
+        if (Time.time > _lastTimeShoot + fireRate)
+        {
+            Shoot(originPoint);
+            _lastTimeShoot = Time.time;
+        }
+
+    }
+
     public async void Wait()
     {
-        await Task.Delay(fireRate);
+        //await Task.Delay(fireRate);
         CanShoot = true;
 
     }

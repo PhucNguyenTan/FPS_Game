@@ -54,4 +54,4 @@ MonoBehaviour:
   WallRunSound: {fileID: 0}
   GroundGravity: 0
   EarthGravity: -9.8
-  ShowStateName: 1
+  ShowStateName: 0
