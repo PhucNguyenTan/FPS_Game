@@ -16,6 +16,12 @@ public class InputHandler : MonoBehaviour
     public UnityAction HybridShoot;
     public UnityAction HybridCancel;
     public UnityAction HybridChargedShoot;
+    public UnityAction Weapon1;
+    public UnityAction Weapon2;
+    public UnityAction Weapon3;
+    public UnityAction Weapon4;
+    public UnityAction NextWeapon;
+    public UnityAction PrevWeapon;
 
     public InputAction movementInput { get; private set; }
     public InputAction mouseDelta { get; private set; }
@@ -56,6 +62,12 @@ public class InputHandler : MonoBehaviour
         pInputAction.Gameplay.Shoot_hybrid.started += HybridStartWrapper;
         pInputAction.Gameplay.Shoot_hybrid.performed += HybridShootWrapper;
         pInputAction.Gameplay.Shoot_hybrid.canceled += HybridCancelWrapper;
+        pInputAction.Gameplay.Weapon_1.performed += Weapon1Wrapper;
+        pInputAction.Gameplay.Weapon_2.performed += Weapon2Wrapper;
+        pInputAction.Gameplay.Weapon_3.performed += Weapon3Wrapper;
+        pInputAction.Gameplay.Weapon_4.performed += Weapon4Wrapper;
+        pInputAction.Gameplay.Next_weapon.performed += NextWeaponWrapper;
+        pInputAction.Gameplay.Prev_weapon.performed += PrevWeaponWrapper;
 
         isShootAuto = pInputAction.Gameplay.Shoot_auto;
         movementInput = pInputAction.Gameplay.Movement;
@@ -128,4 +140,28 @@ public class InputHandler : MonoBehaviour
             HybridCancel?.Invoke();
     }
 
+    public void Weapon1Wrapper(InputAction.CallbackContext obj)
+    {
+        Weapon1?.Invoke();
+    }
+    public void Weapon2Wrapper(InputAction.CallbackContext obj)
+    {
+        Weapon2?.Invoke();
+    }
+    public void Weapon3Wrapper(InputAction.CallbackContext obj)
+    {
+        Weapon3?.Invoke();
+    }
+    public void Weapon4Wrapper(InputAction.CallbackContext obj)
+    {
+        Weapon4?.Invoke();
+    }
+    public void NextWeaponWrapper(InputAction.CallbackContext obj)
+    {
+        NextWeapon?.Invoke();
+    }
+    public void PrevWeaponWrapper(InputAction.CallbackContext obj)
+    {
+        PrevWeapon?.Invoke();
+    }
 }

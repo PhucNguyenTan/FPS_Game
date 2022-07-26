@@ -30,12 +30,15 @@ public class WeaponManager : MonoBehaviour
 
     private void OnEnable()
     {
-        
+        InputHandler.Instance.NextWeapon += GetNextWeapon;
+        InputHandler.Instance.PrevWeapon += GetPrevUsedWeapon;
     }
 
     private void OnDisable()
     {
-        
+        InputHandler.Instance.NextWeapon -= GetNextWeapon;
+        InputHandler.Instance.PrevWeapon -= GetPrevUsedWeapon;
+
     }
 
     public void GetNextWeapon()

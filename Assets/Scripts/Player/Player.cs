@@ -109,7 +109,6 @@ public class Player : MonoBehaviour
             Vector3.back    + Vector3.right,
             Vector3.back    + Vector3.left
         };
-        TestSubscribe();
 
     }
 
@@ -135,39 +134,6 @@ public class Player : MonoBehaviour
 
     }
 
-    void TestSubscribe()
-    {
-    }
-
-    void TestSingle(InputAction.CallbackContext obj)
-    {
-        Debug.Log("Firing single");
-    }
-
-    void TestAuto()
-    {
-        Debug.Log("Firing Auto");
-    }
-
-    void TestHybridStart(InputAction.CallbackContext obj)
-    {
-        if (obj.interaction is SlowTapInteraction)
-            Debug.Log("Start_Charging");
-    }
-
-    void TestHybridPerform(InputAction.CallbackContext obj)
-    {
-        if (obj.interaction is SlowTapInteraction)
-            Debug.Log("Charged fire");
-        else
-            Debug.Log("Fire no charge");
-    }
-
-    void TestHybridCancelled(InputAction.CallbackContext obj)
-    {
-        if (obj.interaction is SlowTapInteraction)
-            Debug.Log("Quit chargning");
-    }
 
     private void OnDisable()
     {

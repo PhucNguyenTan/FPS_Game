@@ -16464,7 +16464,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _range: 0
   _damage: 0
-  _fireRate: 500
+  _fireRate: 0.2
   _defaultPosition: {x: 0.37, y: -0.357, z: 0.32}
   _defaultRotation: {x: 0.04361793, y: -0.0085438695, z: -0.00037303462, w: -0.9990117}
   _camTransform: {fileID: 963194228}

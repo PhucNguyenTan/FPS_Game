@@ -116,6 +116,60 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Tap,SlowTap"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Next_weapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""6a9d6154-194d-4b2e-9061-795e56553e53"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Prev_weapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""add898bb-de44-4ccd-b18e-963f3c61a9f3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Weapon_1"",
+                    ""type"": ""Button"",
+                    ""id"": ""99b21bb8-45b5-4134-b89d-ce7dc9f95fb2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Weapon_2"",
+                    ""type"": ""Button"",
+                    ""id"": ""248861ec-6b9f-4d07-bb39-9a6afbeaf958"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Weapon_3"",
+                    ""type"": ""Button"",
+                    ""id"": ""0b05b344-10c3-47c7-b260-64efabfd4c38"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Weapon_4"",
+                    ""type"": ""Button"",
+                    ""id"": ""96a62c05-db5a-4bee-b09a-d95c1e5e6312"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -279,7 +333,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""path"": ""<XInputController>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Xbox"",
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -301,7 +355,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -334,7 +388,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""path"": ""<XInputController>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Xbox"",
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -407,17 +461,6 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f6100a2a-847d-480f-9f2a-272ef6d1e05e"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Shoot_single"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""adf449dc-76c8-434c-b2e1-b5e8e0fce447"",
                     ""path"": ""<XInputController>/rightTrigger"",
                     ""interactions"": """",
@@ -433,18 +476,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Shoot_auto"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""fde2914d-afc8-4f9a-943d-fd0ceca5f49c"",
-                    ""path"": ""<Keyboard>/r"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Shoot_auto"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -455,19 +487,74 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Shoot_hybrid"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""464830b1-836a-415d-b942-a8bea6905242"",
+                    ""id"": ""62799981-22f8-4359-8e27-bc911342a7e0"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Next_weapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d736873b-e905-4f8b-8492-7c3a5b134ba2"",
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Shoot_hybrid"",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Prev_weapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb798a45-6ba2-4674-887f-1ce8e3aa2785"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Weapon_1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""32b8f56a-c1f7-4330-8b27-5dba9405cc72"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Weapon_2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4fe0f436-9c17-4761-94f8-c3869704c10e"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Weapon_3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f6c40bd5-fe42-4bd3-8f7c-054a0c1f6b20"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Weapon_4"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -516,6 +603,12 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_Gameplay_Shoot_single = m_Gameplay.FindAction("Shoot_single", throwIfNotFound: true);
         m_Gameplay_Shoot_auto = m_Gameplay.FindAction("Shoot_auto", throwIfNotFound: true);
         m_Gameplay_Shoot_hybrid = m_Gameplay.FindAction("Shoot_hybrid", throwIfNotFound: true);
+        m_Gameplay_Next_weapon = m_Gameplay.FindAction("Next_weapon", throwIfNotFound: true);
+        m_Gameplay_Prev_weapon = m_Gameplay.FindAction("Prev_weapon", throwIfNotFound: true);
+        m_Gameplay_Weapon_1 = m_Gameplay.FindAction("Weapon_1", throwIfNotFound: true);
+        m_Gameplay_Weapon_2 = m_Gameplay.FindAction("Weapon_2", throwIfNotFound: true);
+        m_Gameplay_Weapon_3 = m_Gameplay.FindAction("Weapon_3", throwIfNotFound: true);
+        m_Gameplay_Weapon_4 = m_Gameplay.FindAction("Weapon_4", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -585,6 +678,12 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Shoot_single;
     private readonly InputAction m_Gameplay_Shoot_auto;
     private readonly InputAction m_Gameplay_Shoot_hybrid;
+    private readonly InputAction m_Gameplay_Next_weapon;
+    private readonly InputAction m_Gameplay_Prev_weapon;
+    private readonly InputAction m_Gameplay_Weapon_1;
+    private readonly InputAction m_Gameplay_Weapon_2;
+    private readonly InputAction m_Gameplay_Weapon_3;
+    private readonly InputAction m_Gameplay_Weapon_4;
     public struct GameplayActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -599,6 +698,12 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         public InputAction @Shoot_single => m_Wrapper.m_Gameplay_Shoot_single;
         public InputAction @Shoot_auto => m_Wrapper.m_Gameplay_Shoot_auto;
         public InputAction @Shoot_hybrid => m_Wrapper.m_Gameplay_Shoot_hybrid;
+        public InputAction @Next_weapon => m_Wrapper.m_Gameplay_Next_weapon;
+        public InputAction @Prev_weapon => m_Wrapper.m_Gameplay_Prev_weapon;
+        public InputAction @Weapon_1 => m_Wrapper.m_Gameplay_Weapon_1;
+        public InputAction @Weapon_2 => m_Wrapper.m_Gameplay_Weapon_2;
+        public InputAction @Weapon_3 => m_Wrapper.m_Gameplay_Weapon_3;
+        public InputAction @Weapon_4 => m_Wrapper.m_Gameplay_Weapon_4;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -638,6 +743,24 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Shoot_hybrid.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShoot_hybrid;
                 @Shoot_hybrid.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShoot_hybrid;
                 @Shoot_hybrid.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShoot_hybrid;
+                @Next_weapon.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnNext_weapon;
+                @Next_weapon.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnNext_weapon;
+                @Next_weapon.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnNext_weapon;
+                @Prev_weapon.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPrev_weapon;
+                @Prev_weapon.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPrev_weapon;
+                @Prev_weapon.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPrev_weapon;
+                @Weapon_1.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWeapon_1;
+                @Weapon_1.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWeapon_1;
+                @Weapon_1.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWeapon_1;
+                @Weapon_2.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWeapon_2;
+                @Weapon_2.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWeapon_2;
+                @Weapon_2.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWeapon_2;
+                @Weapon_3.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWeapon_3;
+                @Weapon_3.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWeapon_3;
+                @Weapon_3.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWeapon_3;
+                @Weapon_4.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWeapon_4;
+                @Weapon_4.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWeapon_4;
+                @Weapon_4.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWeapon_4;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -672,6 +795,24 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Shoot_hybrid.started += instance.OnShoot_hybrid;
                 @Shoot_hybrid.performed += instance.OnShoot_hybrid;
                 @Shoot_hybrid.canceled += instance.OnShoot_hybrid;
+                @Next_weapon.started += instance.OnNext_weapon;
+                @Next_weapon.performed += instance.OnNext_weapon;
+                @Next_weapon.canceled += instance.OnNext_weapon;
+                @Prev_weapon.started += instance.OnPrev_weapon;
+                @Prev_weapon.performed += instance.OnPrev_weapon;
+                @Prev_weapon.canceled += instance.OnPrev_weapon;
+                @Weapon_1.started += instance.OnWeapon_1;
+                @Weapon_1.performed += instance.OnWeapon_1;
+                @Weapon_1.canceled += instance.OnWeapon_1;
+                @Weapon_2.started += instance.OnWeapon_2;
+                @Weapon_2.performed += instance.OnWeapon_2;
+                @Weapon_2.canceled += instance.OnWeapon_2;
+                @Weapon_3.started += instance.OnWeapon_3;
+                @Weapon_3.performed += instance.OnWeapon_3;
+                @Weapon_3.canceled += instance.OnWeapon_3;
+                @Weapon_4.started += instance.OnWeapon_4;
+                @Weapon_4.performed += instance.OnWeapon_4;
+                @Weapon_4.canceled += instance.OnWeapon_4;
             }
         }
     }
@@ -706,5 +847,11 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         void OnShoot_single(InputAction.CallbackContext context);
         void OnShoot_auto(InputAction.CallbackContext context);
         void OnShoot_hybrid(InputAction.CallbackContext context);
+        void OnNext_weapon(InputAction.CallbackContext context);
+        void OnPrev_weapon(InputAction.CallbackContext context);
+        void OnWeapon_1(InputAction.CallbackContext context);
+        void OnWeapon_2(InputAction.CallbackContext context);
+        void OnWeapon_3(InputAction.CallbackContext context);
+        void OnWeapon_4(InputAction.CallbackContext context);
     }
 }
