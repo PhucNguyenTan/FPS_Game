@@ -21,6 +21,6 @@ public class Gun_Rocket : Gun_base
     }
     public void Shoot()
     {
-        throw new System.NotImplementedException();
+        
     }
 }

@@ -44,8 +44,8 @@ public class WeaponManager : MonoBehaviour
     public void GetNextWeapon()
     {
         _lastGunNum = _currentGunNum;
-        _currentGunNum = _currentGunNum == _listGun.Count? 0 : _currentGunNum++;
-        CurrentWeapon.Unequip();
+        _currentGunNum = _currentGunNum == _listGun.Count-1 ? 0 : _currentGunNum += 1;
+            CurrentWeapon.Unequip();
         CurrentWeapon = _listGun[_currentGunNum];
         CurrentWeapon.Equip();
     }
