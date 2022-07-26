@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.Interactions;
 
 public class Player : MonoBehaviour
 {
@@ -21,17 +22,14 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Components variablesm
-    public Gun_Pistol Pistol;
-    public Gun_Shotgun Shotgun;
-    public Gun_Smg SMG;
-    public Gun_Rocket Rocket;
 
     private CapsuleCollider _col;
     [SerializeField] private Camera fpsCam;
     public CharacterController pController { get; private set; }
 
-    [SerializeField] private Player_data P_Data;
-    [SerializeField] private Health_script Health_Data;
+    [SerializeField] Player_data P_Data;
+    [SerializeField] Health_script Health_Data;
+    [SerializeField] Velocity_script V_Data;
 
     #endregion
 
@@ -41,44 +39,32 @@ public class Player : MonoBehaviour
     public Vector2 camInput { get; private set; }
     #endregion
 
+    #region velocity variable
+    //private float _vertical_vcurrent = 0f;
+    //private float _horizontal_vcurrent = 0f;
+    //private Vector3 _currentDirection;
+    public float _currentHeight { get; private set; }
+    private float _timeLapseCrouch = 0f;
+    #endregion
+
     #region Normal variables
     private bool isPause = false;
-    public float _currentHeight { get; private set; }
     private float yRotation = 0f;
     private float gravity;
     private float _friction;
     private float _initialJumpVelocity;
-
-    private float _vertical_vcurrent = 0f;
-    private float _horizontal_vcurrent = 0f;
-    private float _timeLapseCrouch = 0f;
-
     private Vector3 _dashDirection;
-    private Vector3 _currentDirection;
     private Vector3 _wallRunDirection;
-
     public float WallTouchedAngle { get; private set; } = 0f;
-    
     public bool isDashing { get; private set; } = false;
     public bool isCrouching { get; private set; } = false;
-
     public float crouchLapse = 0f;
-
     private RaycastHit _currentWallHit;
-
     private Vector3[] _findWallDirection;
     private RaycastHit[] _hitFindWall;
-
     private bool _isGravitySuspend = false;
     private bool _isJumpUp = false;
-
-    
-
-    public Gun_base CurrentGun { get; private set; }
-
-    bool _isAutoShoot = false;
-    bool _isShooting = false;
-    bool _isPrevShoot = false;
+   
     #endregion
 
     #region Unity Callbacks
@@ -97,13 +83,13 @@ public class Player : MonoBehaviour
         stateWallClimb = new Player_state_wallClimb(this, movementMachine, P_Data, "wallClimb");
         stateWallRun = new Player_state_wallRun(this, movementMachine, P_Data, "wallRun");
 
-        stateShoot = new Player_state_shoot(this, shootingMachine, P_Data, "shoot");
-        stateGunidle = new Player_state_gunIdle(this, shootingMachine,P_Data, "gun_idle");
+        //stateShoot = new Player_state_shoot(this, shootingMachine, P_Data, "shoot");
+        //stateGunidle = new Player_state_gunIdle(this, shootingMachine,P_Data, "gun_idle");
         pController = GetComponent<CharacterController>();
         _col = GetComponent<CapsuleCollider>();
 
         movementMachine.Initiallized(stateIdle);
-        shootingMachine.Initiallized(stateGunidle);
+        //shootingMachine.Initiallized(stateGunidle);
 
         GameManager.OnChangeState += GameManagerOnChangeState;
 
@@ -112,8 +98,6 @@ public class Player : MonoBehaviour
         SubscribeToMovementInput();
 
         _currentHeight = P_Data.StandHeight;
-        CurrentGun = SMG;
-        _isAutoShoot = true;
 
         _findWallDirection = new Vector3[]{
             Vector3.forward,
@@ -125,26 +109,69 @@ public class Player : MonoBehaviour
             Vector3.back    + Vector3.right,
             Vector3.back    + Vector3.left
         };
+        TestSubscribe();
+
     }
 
     void Update()
     {
         if (!isPause)
         {
-            moveInput = InputHandler.GetMoveInput();
-            mouseDelta = InputHandler.GetMouseDelta() * P_Data.MouseSensitivity;
-            camInput = InputHandler.GetCamInput() * P_Data.JoystickCamSpeed;
+            moveInput = InputHandler.Instance.GetMoveInput();
+            mouseDelta = InputHandler.Instance.GetMouseDelta() * P_Data.MouseSensitivity;
+            camInput = InputHandler.Instance.GetCamInput() * P_Data.JoystickCamSpeed;
 
             movementMachine.currentState.Logic();
-            shootingMachine.currentState.Logic();
-
+            //shootingMachine.currentState.Logic();
 
             AdjustHeight();
             PlayerRotate(mouseDelta + camInput);
             PlayerApplyMovement();
-            CurrentGun.ActuallyApplyDoChanges();
-            UpdatePlayerShoot();
         }
+    }
+
+    private void OnEnable()
+    {
+
+    }
+
+    void TestSubscribe()
+    {
+    }
+
+    void TestSingle(InputAction.CallbackContext obj)
+    {
+        Debug.Log("Firing single");
+    }
+
+    void TestAuto()
+    {
+        Debug.Log("Firing Auto");
+    }
+
+    void TestHybridStart(InputAction.CallbackContext obj)
+    {
+        if (obj.interaction is SlowTapInteraction)
+            Debug.Log("Start_Charging");
+    }
+
+    void TestHybridPerform(InputAction.CallbackContext obj)
+    {
+        if (obj.interaction is SlowTapInteraction)
+            Debug.Log("Charged fire");
+        else
+            Debug.Log("Fire no charge");
+    }
+
+    void TestHybridCancelled(InputAction.CallbackContext obj)
+    {
+        if (obj.interaction is SlowTapInteraction)
+            Debug.Log("Quit chargning");
+    }
+
+    private void OnDisable()
+    {
+        
     }
 
     #endregion
@@ -160,48 +187,18 @@ public class Player : MonoBehaviour
     #endregion
     #region Input turning off and on
     public void SubscribeToMovementInput() {
-        InputHandler.pInputActrion.Gameplay.Jump.performed += PlayerJump;
-        InputHandler.pInputActrion.Gameplay.Dash.performed += PlayerDash;
-        InputHandler.pInputActrion.Gameplay.Crouch.performed += _ => isCrouching = true;
-        InputHandler.pInputActrion.Gameplay.Crouch.canceled += _ => isCrouching = false;
+        InputHandler.Instance.pInputAction.Gameplay.Jump.performed += PlayerJump;
+        InputHandler.Instance.pInputAction.Gameplay.Dash.performed += PlayerDash;
+        InputHandler.Instance.pInputAction.Gameplay.Crouch.performed += _ => isCrouching = true;
+        InputHandler.Instance.pInputAction.Gameplay.Crouch.canceled += _ => isCrouching = false;
     }
 
     public void UnsubcribeToMovementInput()
     {
-        InputHandler.pInputActrion.Gameplay.Jump.performed -= PlayerJump;
-        InputHandler.pInputActrion.Gameplay.Dash.performed -= PlayerDash;
-        InputHandler.pInputActrion.Gameplay.Crouch.performed -= _ => isCrouching = true;
-        InputHandler.pInputActrion.Gameplay.Crouch.canceled -= _ => isCrouching = false;
-    }
-
-
-    public void SubscribeToShoot()
-    {
-        InputHandler.pInputActrion.Gameplay.Shoot.performed += ctx => _isShooting = true;
-        InputHandler.pInputActrion.Gameplay.Shoot.canceled += ctx => _isShooting = false;
-    }
-
-    public void UnsubscribeToShoot()
-    {
-        InputHandler.pInputActrion.Gameplay.Shoot.performed -= ctx => _isShooting = true;
-        InputHandler.pInputActrion.Gameplay.Shoot.canceled -= ctx => _isShooting = false;
-    }
-
-    public void UpdatePlayerShoot()
-    {
-        if (!_isShooting) {
-            _isPrevShoot = false;  
-            return;
-        }
-        if (_isAutoShoot)
-        {
-            CurrentGun.CheckCanShoot(fpsCam.transform);
-        }
-        if (!_isPrevShoot)
-        {
-            CurrentGun.CheckCanShoot(fpsCam.transform);
-            _isPrevShoot = true;
-        }
+        InputHandler.Instance.pInputAction.Gameplay.Jump.performed -= PlayerJump;
+        InputHandler.Instance.pInputAction.Gameplay.Dash.performed -= PlayerDash;
+        InputHandler.Instance.pInputAction.Gameplay.Crouch.performed -= _ => isCrouching = true;
+        InputHandler.Instance.pInputAction.Gameplay.Crouch.canceled -= _ => isCrouching = false;
     }
 
     #endregion
@@ -210,7 +207,7 @@ public class Player : MonoBehaviour
     public void PlayerJump(InputAction.CallbackContext obj)
     {
         SetJumpVar(P_Data.JumpTime, P_Data.JumpHeight);
-        _vertical_vcurrent = _initialJumpVelocity;
+        V_Data.UpdateVertical(_initialJumpVelocity);
         _isJumpUp = true;
     }
     
@@ -223,8 +220,8 @@ public class Player : MonoBehaviour
         SoundManager.Instance.PlayEffectOnce(P_Data.DashSound);
         _dashDirection = new Vector3(moveInput.x, 0f, moveInput.y);
         _dashDirection = _dashDirection.normalized;
-        _horizontal_vcurrent = P_Data.DashSpeed;
-        _currentDirection = transform.TransformDirection(_dashDirection);
+        V_Data.Horizontal_vcurrent = P_Data.DashSpeed;
+        V_Data.CurrentDirection = transform.TransformDirection(_dashDirection);
     }
 
     public void PlayerCrouch(InputAction.CallbackContext obj)
@@ -241,28 +238,28 @@ public class Player : MonoBehaviour
 
     public void PlayerMove(Vector2 moveInput)
     {
-        _horizontal_vcurrent = 1f;
+        V_Data.Horizontal_vcurrent = 1f;
         Vector3 move = new Vector3(moveInput.x, 0f, moveInput.y);
-        _currentDirection = transform.TransformDirection(move);
+        V_Data.CurrentDirection = transform.TransformDirection(move);
         //_currentDirection = transform.forward.normalized * moveInput.y + transform.right.normalized * moveInput.x;
     }
 
     public void AddFriction(float frictionValue)
     {
-        _horizontal_vcurrent = Mathf.MoveTowards(_horizontal_vcurrent, 0f, frictionValue);
+        V_Data.Horizontal_vcurrent = Mathf.MoveTowards(V_Data.Horizontal_vcurrent, 0f, frictionValue);
     }
 
     public void PlayerApplyMovement()
     {
         if (!_isGravitySuspend)
             AddGravity();
-        if (_vertical_vcurrent <= 0f) // When player at peak jump, or when drop off a ledge
+        if (V_Data.Vertical_vcurrent <= 0f) // When player at peak jump, or when drop off a ledge
         {
             SetJumpVar(P_Data.DropTime, P_Data.DropHeight);
             _isJumpUp = false;
         }
-        Vector3 move = _currentDirection * _horizontal_vcurrent * Time.deltaTime;
-        move.y = _vertical_vcurrent;
+        Vector3 move = V_Data.CurrentDirection * V_Data.Horizontal_vcurrent * Time.deltaTime;
+        move.y = V_Data.Vertical_vcurrent;
         pController.Move(move);
     }
 
@@ -277,14 +274,14 @@ public class Player : MonoBehaviour
 
     public void PlayerWallClimbJump(InputAction.CallbackContext obj)
     {
-        _horizontal_vcurrent += P_Data.Forward_WallJump;
+        V_Data.Horizontal_vcurrent += P_Data.Forward_WallJump;
         ApplyWallJumpDirection();
 
     }
 
     public void PlayerWallRunJump(InputAction.CallbackContext obj)
     {
-        _horizontal_vcurrent += P_Data.Forward_WallJump;
+        V_Data.Horizontal_vcurrent += P_Data.Forward_WallJump;
         ApplyWallRunJumpDirection(); 
         SetJumpVar(P_Data.WallRunJumpTIme, P_Data.WallRunJumpHeight);
         SetUpVelocity();
@@ -309,19 +306,19 @@ public class Player : MonoBehaviour
 
     public void Grounded()
     {
-        _vertical_vcurrent = P_Data.GroundGravity;
+        V_Data.UpdateVertical(P_Data.GroundGravity);
     }
 
     public void SetDropoffVelocity()
     {
         if(!_isJumpUp)
-            _vertical_vcurrent = 0f;
+            V_Data.UpdateVertical(0f);
     }
 
     public void StopDash()
     {
         isDashing = false;
-        _horizontal_vcurrent = 0f;
+        V_Data.Horizontal_vcurrent = 0f;
         _dashDirection = Vector3.zero;
     }
 
@@ -366,44 +363,42 @@ public class Player : MonoBehaviour
 
     public void AddGravity()
     {
-        //_vertical_vcurrent = Mathf.MoveTowards(_vertical_vcurrent, P_Data.EarthGravity, gravity * Time.deltaTime);
-        _vertical_vcurrent += gravity * Time.deltaTime;
-        _vertical_vcurrent = Mathf.Max(_vertical_vcurrent, P_Data.EarthGravity);
+        V_Data.AddClampVertical(gravity * Time.deltaTime, P_Data.EarthGravity);
     }
 
     public void SetUpVelocity()
     {
-        _vertical_vcurrent = _initialJumpVelocity;
+        V_Data.UpdateVertical(_initialJumpVelocity);
     }
 
     public void StopJumpvelocity()
     {
-        _vertical_vcurrent = 0f;
+        V_Data.UpdateVertical(0f);
     }
 
     public void ApplyMovementForce(float force)
     {
-        _horizontal_vcurrent = force;
+        V_Data.UpdateHorizontal(force);
     }
 
     public void ApplyWallRunJumpDirection()
     {
-        _currentDirection = Vector3.Lerp(_wallRunDirection, _currentWallHit.normal, 0.3f);
+        V_Data.CurrentDirection = Vector3.Lerp(_wallRunDirection, _currentWallHit.normal, 0.3f);
     }
 
     public void ApplyWallRunDirection()
     {
-        _currentDirection = _wallRunDirection;
+        V_Data.UpdateDirection(_wallRunDirection);
     }
 
     public void ApplyMomentumDirection()
     {
-        _currentDirection = _dashDirection;
+        V_Data.UpdateDirection(_dashDirection);
     }
 
     public void ApplyWallJumpDirection()
     {
-        _currentDirection = _currentWallHit.normal;
+        V_Data.UpdateDirection(_currentWallHit.normal);
     }
 
     
@@ -428,7 +423,7 @@ public class Player : MonoBehaviour
 
     public bool IsDashStop()
     {
-        if (_horizontal_vcurrent == 0)
+        if (V_Data.Horizontal_vcurrent == 0)
             return true;
         return false;
     }
@@ -458,7 +453,7 @@ public class Player : MonoBehaviour
 
     public float GetDashPercentage()
     {
-        return _horizontal_vcurrent/P_Data.DashSpeed;
+        return V_Data.Horizontal_vcurrent / P_Data.DashSpeed;
     }
     #endregion
 
@@ -508,7 +503,7 @@ public class Player : MonoBehaviour
 
     public void StopGroundVelocity()
     {
-        _horizontal_vcurrent = 0f;
+        V_Data.Horizontal_vcurrent = 0f;
     }
 
     public void FindWallDirection()

@@ -64,15 +64,6 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Shoot"",
-                    ""type"": ""Button"",
-                    ""id"": ""a56aadbc-4b14-4241-9261-ccf93cd5a15f"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Crouch"",
                     ""type"": ""Button"",
                     ""id"": ""37ef567e-7b9a-478f-a9d5-6bb69c304c4d"",
@@ -98,6 +89,33 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Shoot_single"",
+                    ""type"": ""Button"",
+                    ""id"": ""a56aadbc-4b14-4241-9261-ccf93cd5a15f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shoot_auto"",
+                    ""type"": ""Value"",
+                    ""id"": ""e8b8b4f6-ccf5-46de-a206-076f92f89e5d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Shoot_hybrid"",
+                    ""type"": ""Button"",
+                    ""id"": ""2dead280-e2ba-4ad4-8482-24566ab6e5cb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap,SlowTap"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -257,39 +275,6 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a61cf2d5-7ee1-43c1-ade0-b9c10d1c0821"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Shoot"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f6100a2a-847d-480f-9f2a-272ef6d1e05e"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Shoot"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""adf449dc-76c8-434c-b2e1-b5e8e0fce447"",
-                    ""path"": ""<XInputController>/rightTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Xbox"",
-                    ""action"": ""Shoot"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""f46bdd17-84e0-411c-955e-ed515e770b6c"",
                     ""path"": ""<XInputController>/leftTrigger"",
                     ""interactions"": """",
@@ -408,6 +393,83 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""action"": ""Cam_Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a61cf2d5-7ee1-43c1-ade0-b9c10d1c0821"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Shoot_single"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f6100a2a-847d-480f-9f2a-272ef6d1e05e"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Shoot_single"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""adf449dc-76c8-434c-b2e1-b5e8e0fce447"",
+                    ""path"": ""<XInputController>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox"",
+                    ""action"": ""Shoot_single"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9c0614ed-9848-4080-8ec0-25ef046af997"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot_auto"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fde2914d-afc8-4f9a-943d-fd0ceca5f49c"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot_auto"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""538cfe44-22df-432d-ac42-43f408b77e81"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot_hybrid"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""464830b1-836a-415d-b942-a8bea6905242"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot_hybrid"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -448,10 +510,12 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_MousePosition = m_Gameplay.FindAction("MousePosition", throwIfNotFound: true);
         m_Gameplay_MouseDelta = m_Gameplay.FindAction("MouseDelta", throwIfNotFound: true);
-        m_Gameplay_Shoot = m_Gameplay.FindAction("Shoot", throwIfNotFound: true);
         m_Gameplay_Crouch = m_Gameplay.FindAction("Crouch", throwIfNotFound: true);
         m_Gameplay_Dash = m_Gameplay.FindAction("Dash", throwIfNotFound: true);
         m_Gameplay_Cam_Movement = m_Gameplay.FindAction("Cam_Movement", throwIfNotFound: true);
+        m_Gameplay_Shoot_single = m_Gameplay.FindAction("Shoot_single", throwIfNotFound: true);
+        m_Gameplay_Shoot_auto = m_Gameplay.FindAction("Shoot_auto", throwIfNotFound: true);
+        m_Gameplay_Shoot_hybrid = m_Gameplay.FindAction("Shoot_hybrid", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -515,10 +579,12 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_MousePosition;
     private readonly InputAction m_Gameplay_MouseDelta;
-    private readonly InputAction m_Gameplay_Shoot;
     private readonly InputAction m_Gameplay_Crouch;
     private readonly InputAction m_Gameplay_Dash;
     private readonly InputAction m_Gameplay_Cam_Movement;
+    private readonly InputAction m_Gameplay_Shoot_single;
+    private readonly InputAction m_Gameplay_Shoot_auto;
+    private readonly InputAction m_Gameplay_Shoot_hybrid;
     public struct GameplayActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -527,10 +593,12 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @MousePosition => m_Wrapper.m_Gameplay_MousePosition;
         public InputAction @MouseDelta => m_Wrapper.m_Gameplay_MouseDelta;
-        public InputAction @Shoot => m_Wrapper.m_Gameplay_Shoot;
         public InputAction @Crouch => m_Wrapper.m_Gameplay_Crouch;
         public InputAction @Dash => m_Wrapper.m_Gameplay_Dash;
         public InputAction @Cam_Movement => m_Wrapper.m_Gameplay_Cam_Movement;
+        public InputAction @Shoot_single => m_Wrapper.m_Gameplay_Shoot_single;
+        public InputAction @Shoot_auto => m_Wrapper.m_Gameplay_Shoot_auto;
+        public InputAction @Shoot_hybrid => m_Wrapper.m_Gameplay_Shoot_hybrid;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -552,9 +620,6 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @MouseDelta.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMouseDelta;
                 @MouseDelta.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMouseDelta;
                 @MouseDelta.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMouseDelta;
-                @Shoot.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShoot;
-                @Shoot.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShoot;
-                @Shoot.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShoot;
                 @Crouch.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCrouch;
                 @Crouch.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCrouch;
                 @Crouch.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCrouch;
@@ -564,6 +629,15 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Cam_Movement.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCam_Movement;
                 @Cam_Movement.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCam_Movement;
                 @Cam_Movement.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCam_Movement;
+                @Shoot_single.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShoot_single;
+                @Shoot_single.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShoot_single;
+                @Shoot_single.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShoot_single;
+                @Shoot_auto.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShoot_auto;
+                @Shoot_auto.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShoot_auto;
+                @Shoot_auto.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShoot_auto;
+                @Shoot_hybrid.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShoot_hybrid;
+                @Shoot_hybrid.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShoot_hybrid;
+                @Shoot_hybrid.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShoot_hybrid;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -580,9 +654,6 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @MouseDelta.started += instance.OnMouseDelta;
                 @MouseDelta.performed += instance.OnMouseDelta;
                 @MouseDelta.canceled += instance.OnMouseDelta;
-                @Shoot.started += instance.OnShoot;
-                @Shoot.performed += instance.OnShoot;
-                @Shoot.canceled += instance.OnShoot;
                 @Crouch.started += instance.OnCrouch;
                 @Crouch.performed += instance.OnCrouch;
                 @Crouch.canceled += instance.OnCrouch;
@@ -592,6 +663,15 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Cam_Movement.started += instance.OnCam_Movement;
                 @Cam_Movement.performed += instance.OnCam_Movement;
                 @Cam_Movement.canceled += instance.OnCam_Movement;
+                @Shoot_single.started += instance.OnShoot_single;
+                @Shoot_single.performed += instance.OnShoot_single;
+                @Shoot_single.canceled += instance.OnShoot_single;
+                @Shoot_auto.started += instance.OnShoot_auto;
+                @Shoot_auto.performed += instance.OnShoot_auto;
+                @Shoot_auto.canceled += instance.OnShoot_auto;
+                @Shoot_hybrid.started += instance.OnShoot_hybrid;
+                @Shoot_hybrid.performed += instance.OnShoot_hybrid;
+                @Shoot_hybrid.canceled += instance.OnShoot_hybrid;
             }
         }
     }
@@ -620,9 +700,11 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
         void OnMouseDelta(InputAction.CallbackContext context);
-        void OnShoot(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnCam_Movement(InputAction.CallbackContext context);
+        void OnShoot_single(InputAction.CallbackContext context);
+        void OnShoot_auto(InputAction.CallbackContext context);
+        void OnShoot_hybrid(InputAction.CallbackContext context);
     }
 }

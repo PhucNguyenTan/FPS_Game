@@ -17,19 +17,31 @@ public class Gun_Smg : Gun_base
         _fireRate = 500;
     }
 
-    public override void Shoot(Transform originPoint)
+    private void OnEnable()
     {
+        InputHandler.Instance.AutoShoot += Shoot;
+    }
+
+    private void OnDisable()
+    {
+        InputHandler.Instance.AutoShoot -= Shoot;
+
+    }
+
+    public  void Shoot()
+    {
+        if (!CheckCanShoot()) return;
         Shooting?.Invoke();
         Shot();
         _muzzleFlash.Play();
         SoundManager.Instance.PlayEffectOnce(_shootAudio);
 
         RaycastHit hit;
-        Vector3 dir = originPoint.forward +
+        Vector3 dir = _camTransform.forward +
                new Vector3(Random.Range(-_maxSpread, _maxSpread),
                            Random.Range(-_maxSpread, _maxSpread),
                            Random.Range(-_maxSpread, _maxSpread));
-        bool isImpacted = Physics.Raycast(originPoint.position, dir, out hit);
+        bool isImpacted = Physics.Raycast(_camTransform.position, dir, out hit);
         if (isImpacted)
         {
             Enemy enemy = hit.transform.GetComponent<Enemy>();

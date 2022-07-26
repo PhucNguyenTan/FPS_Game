@@ -10,15 +10,13 @@ public abstract class Gun_base : MonoBehaviour
     [SerializeField] protected float _fireRate; //Time between shot in milisecond
     [SerializeField] protected Vector3 _defaultPosition;
     [SerializeField] protected Quaternion _defaultRotation;
-    
+    [SerializeField] protected Transform _camTransform;
+    [SerializeField] protected Velocity_script _playerVelocity;
+    protected GunType _gunType;
+    bool isShoot;
 
-    Vector3 InitialPos;
-    Quaternion InitialRot;
 
     [SerializeField] AnimationCurve _gunBobCurve;
-    [SerializeField] float amount = 5f;
-    [SerializeField] float maxAmount = 10f;
-    [SerializeField] private float smooth = 10f;
 
     float _currentMove; 
     bool _forwardDirection;
@@ -40,18 +38,13 @@ public abstract class Gun_base : MonoBehaviour
 
     [SerializeField]  protected float _returnSpeed;
     [SerializeField] protected float _snappiness;
-    //private Vector3 _targetRotation;
-    //private Vector3 _currentRotation;
-    //[SerializeField]
-    //protected float _recoilX;
-    //[SerializeField]
-    //protected float _recoilY;
-    //[SerializeField]
-    //protected float _recoilZ;
-
     float _lastTimeShoot = 0f;
 
     private Quaternion RecoilAnim;
+
+    #region Unity flow functions
+    
+
 
     private void Awake()
     {
@@ -60,15 +53,18 @@ public abstract class Gun_base : MonoBehaviour
 
     private void Start()
     {
-        //InitialPos = transform.localPosition;
-        //InitialRot = transform.localRotation;
         transform.localPosition = _defaultPosition;
         transform.localRotation = _defaultRotation;
         _currentMove = 0f;
         _currentLook = 0f;
         _forwardRotation = true;
         _forwardDirection = true;
+
     }
+
+
+    #endregion
+
 
     public void MovementBob(Vector2 charMove, float bobIntensity)
     {
@@ -94,7 +90,7 @@ public abstract class Gun_base : MonoBehaviour
         {
             _currentMove -= Time.deltaTime*speed;
         }
-        _moveBobAnim = Vector3.Lerp(InitialPos, weaponBob*0.1f + InitialPos, _gunBobCurve.Evaluate(_currentMove));
+        _moveBobAnim = Vector3.Lerp(_defaultPosition, weaponBob*0.1f + _defaultPosition, _gunBobCurve.Evaluate(_currentMove));
         
     }
 
@@ -129,7 +125,7 @@ public abstract class Gun_base : MonoBehaviour
     public void ResetPosition()
     {
         _moveAnim = Vector3.zero;
-        _moveBobAnim = InitialPos;
+        _moveBobAnim = _defaultPosition;
         _currentMove = 0f;
         _forwardDirection = true;
 
@@ -138,7 +134,7 @@ public abstract class Gun_base : MonoBehaviour
     public void ResetRotation()
     {
         _currentLook = 0f;
-        transform.localRotation = InitialRot;
+        transform.localRotation = _defaultRotation;
         _forwardRotation = true;
 
     }
@@ -165,7 +161,7 @@ public abstract class Gun_base : MonoBehaviour
             _currentLook -= Time.deltaTime * _returnSpeed;
         }
         Quaternion RotY = Quaternion.Euler(30f, 0f ,0f);
-        transform.localRotation = Quaternion.Slerp(InitialRot, InitialRot * RotY, _currentLook);
+        transform.localRotation = Quaternion.Slerp(_defaultRotation, _defaultRotation * RotY, _currentLook);
         //Debug.Log(transform.localRotation.eulerAngles);
     }
 
@@ -187,16 +183,16 @@ public abstract class Gun_base : MonoBehaviour
         CanShoot = false;
     }
 
-    public abstract void Shoot(Transform originShootPoint);
 
-    public void CheckCanShoot(Transform originPoint)
+
+    public bool CheckCanShoot()
     {
         if (Time.time > _lastTimeShoot + _fireRate)
         {
-            Shoot(originPoint);
             _lastTimeShoot = Time.time;
+            return true;
         }
-
+        return false;
     }
 
     public async void Wait()
@@ -215,12 +211,21 @@ public abstract class Gun_base : MonoBehaviour
 
     public void Equip()
     {
-
+        this.transform.gameObject.SetActive(true);
     }
 
     public void Unequip()
     {
+        this.transform.gameObject.SetActive(false);
 
+    }
+
+    protected enum GunType
+    {
+        Auto,
+        Single,
+        Burst,
+        Hybrid
     }
 }
 

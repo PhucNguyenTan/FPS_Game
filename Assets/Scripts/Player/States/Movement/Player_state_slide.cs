@@ -9,7 +9,7 @@ public class Player_state_slide : Player_base_state
     public override void Enter()
     {
         base.Enter();
-        InputHandler.pInputActrion.Gameplay.Jump.performed += player.PlayerJump;
+        InputHandler.Instance.pInputAction.Gameplay.Jump.performed += player.PlayerJump;
     }
 
     public override void Exit()

@@ -23,6 +23,6 @@ public class Health_script : ScriptableObject
     public void DecreaseHealth(float amount)
     {
         Health -= amount;
-        healthChangeEvent.Invoke(Health); //???
+        healthChangeEvent.Invoke(Health);
     }
 }

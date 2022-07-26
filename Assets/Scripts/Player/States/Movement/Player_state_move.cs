@@ -17,7 +17,7 @@ public class Player_state_move : Player_base_state
     public override void Exit()
     {
         base.Exit();
-        player.Pistol.ResetPosition();
+        //player.Pistol.ResetPosition();
     }
 
     public override void Logic()
@@ -42,8 +42,8 @@ public class Player_state_move : Player_base_state
         }
         else if (!player.isDashing && !player.isCrouching)
         {
-            player.CurrentGun.MovementBob(player.moveInput, 0.4f);
-            player.CurrentGun.MovementSway(player.moveInput);
+            //player.CurrentGun.MovementBob(player.moveInput, 0.4f);
+            //player.CurrentGun.MovementSway(player.moveInput);
             player.PlayerMove(player.moveInput * playerData.MoveSpeed);
         }
     }

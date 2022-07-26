@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
-    public Gun_base CurrentWeapon;
+    public Gun_base CurrentWeapon { get; private set; }
     [SerializeField] Gun_Smg _smg;
     [SerializeField] Gun_Shotgun _shotgun;
     [SerializeField] Gun_Rocket _rocket;
     [SerializeField] Gun_Energy _energy;
     List<Gun_base> _listGun;
     int _lastGunNum = 0;
-    int _currentGunNum = 0;
+    int _currentGunNum = 2;
 
     private void Awake()
     {
+        _listGun = new List<Gun_base>();
         _listGun.Add(_energy);
         _listGun.Add(_shotgun);
         _listGun.Add(_smg);
@@ -24,6 +25,7 @@ public class WeaponManager : MonoBehaviour
     private void Start()
     {
         CurrentWeapon = _listGun[_currentGunNum];
+        CurrentWeapon.Equip();
     }
 
     private void OnEnable()

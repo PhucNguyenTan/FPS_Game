@@ -10,7 +10,7 @@ public class Player_state_gunIdle : Player_base_state
     public override void Enter()
     {
         base.Enter();
-        player.SubscribeToShoot();
+        //player.SubscribeToShoot();
     }
 
     public override void Exit()
@@ -22,9 +22,6 @@ public class Player_state_gunIdle : Player_base_state
     {
         base.Logic();
         //player.Pistol.RotationSway(player.mouseDelta);
-        if (!player.CurrentGun.CanShoot)
-        {
-            player.shootingMachine.ChangeStage(player.stateShoot);
-        }
+        
     }
 }

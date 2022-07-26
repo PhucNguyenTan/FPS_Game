@@ -17,10 +17,10 @@ public class Gun_Pistol : Gun_base
     }
       
 
-    public override void Shoot(Transform originPoint)
+    public void Shoot()
     {
         RaycastHit hit;
-        Physics.Raycast(originPoint.position, originPoint.forward, out hit);
+        Physics.Raycast(_camTransform.position, _camTransform.forward, out hit);
         Shooting?.Invoke();
         Shot();
         _muzzleFlash.Play();

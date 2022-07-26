@@ -10,8 +10,8 @@ public class Player_state_wallClimb : Player_base_state
     {
         base.Enter();
         player.StopGroundVelocity();
-        InputHandler.pInputActrion.Gameplay.Jump.performed -= player.PlayerJump;
-        InputHandler.pInputActrion.Gameplay.Jump.performed += player.PlayerWallClimbJump;
+        InputHandler.Instance.pInputAction.Gameplay.Jump.performed -= player.PlayerJump;
+        InputHandler.Instance.pInputAction.Gameplay.Jump.performed += player.PlayerWallClimbJump;
         player.SetJumpVar(playerData.ClimbTime, playerData.ClimbHeight);
         player.SetUpVelocity();
         
@@ -21,7 +21,7 @@ public class Player_state_wallClimb : Player_base_state
     public override void Exit()
     {
         base.Exit();
-        InputHandler.pInputActrion.Gameplay.Jump.performed -= player.PlayerWallClimbJump;
+        InputHandler.Instance.pInputAction.Gameplay.Jump.performed -= player.PlayerWallClimbJump;
         player.SetJumpVar(playerData.DropTime, playerData.DropHeight);
         player.ResetTouchAngle();
     }

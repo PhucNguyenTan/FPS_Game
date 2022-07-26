@@ -17,7 +17,18 @@ public class Gun_Shotgun : Gun_base
         _fireRate = 500;
     }
 
-    public override void Shoot(Transform originPoint)
+    private void OnEnable()
+    {
+        InputHandler.Instance.SingleShoot += Shoot;
+    }
+
+    private void OnDisable()
+    {
+        InputHandler.Instance.SingleShoot -= Shoot;
+
+    }
+
+    public void Shoot()
     {
         Shooting?.Invoke();
         Shot();
@@ -26,11 +37,11 @@ public class Gun_Shotgun : Gun_base
         RaycastHit[] hits = new RaycastHit[_numberOfShot];
         for(int i = 0; i<_numberOfShot; i++)
         {
-            Vector3 dir = originPoint.forward +
+            Vector3 dir = _camTransform.forward +
                 new Vector3(Random.Range(-_maxSpread, _maxSpread),
                             Random.Range(-_maxSpread, _maxSpread),
                             Random.Range(-_maxSpread, _maxSpread));
-            Physics.Raycast(originPoint.position, dir, out hits[i]);
+            Physics.Raycast(_camTransform.position, dir, out hits[i]);
             if (hits[i].transform != null)
             {
                 Enemy enemy = hits[i].transform.GetComponent<Enemy>();
