@@ -7,6 +7,9 @@ public class Gun_Rocket : Gun_base
 {
 
     public static UnityAction Shooting;
+    [SerializeField] ParticleSystem _muzzle;
+    
+
     public Gun_Rocket()
     {
         
@@ -26,5 +29,6 @@ public class Gun_Rocket : Gun_base
     {
         if(!CheckCanShoot()) return;
         Shooting?.Invoke();
+        _muzzle.Play();
     }
 }

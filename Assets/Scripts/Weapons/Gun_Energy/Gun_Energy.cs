@@ -10,6 +10,10 @@ public class Gun_Energy : Gun_base
     public static UnityAction Shooting;
     public static UnityAction AlternateShooting;
 
+    [SerializeField] ParticleSystem _muzzle;
+    [SerializeField] ParticleSystem _muzzleCharge;
+    [SerializeField] ParticleSystem _muzzleCharging;
+
     public Gun_Energy()
     {
         
@@ -34,21 +38,26 @@ public class Gun_Energy : Gun_base
     {
         if (!CheckCanShoot()) return;
         AlternateShooting?.Invoke();
+        _muzzleCharging.Stop();
+        _muzzleCharge.Play();
     }
 
     void ShootSmall()
     {
         if (!CheckCanShoot()) return;
         Shooting?.Invoke();
+        _muzzle.Play();
+
     }
 
     public void CancelCharge()
     {
-
+        _muzzleCharging.Stop();
     }
 
     public void Charging()
     {
-
+        if (!CheckCanShoot()) return;
+        _muzzleCharging.Play();
     }
 }
