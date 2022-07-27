@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class Smg_Shoot_spin : MonoBehaviour
 {
-    [SerializeField] float _spinSpeed;
-    [SerializeField] float _spinFriction;
-    [SerializeField] float _spinAddVec;
-    [SerializeField] float _maxSpin;
+    [Header("Spin")]
+    [SerializeField] float _spinSpeed = 5;
+    [SerializeField] float _spinFriction = 3;
+    [SerializeField] float _spinAddVelocity = 200;
+    [SerializeField] float _maxSpin = 1000;
+
+    [Header("Kickback")]
+    [SerializeField] float _lerpTime = 0.1f;
+    [SerializeField] Vector3 _targetPos = new Vector3(0f, 0f, -0.05f);
     [SerializeField] AnimationCurve _curveShoot;
 
-
-    [SerializeField] float _lerpTime;
-    [SerializeField] Vector3 _targetPosSet;
-
-    Vector3 _targetPos = Vector3.zero;
     Vector3 _initialPos;
-    float _zInitial;
     float _timer;
     bool _isShoot = false;
 
@@ -26,8 +25,7 @@ public class Smg_Shoot_spin : MonoBehaviour
     private void Awake()
     {
         _spinner = transform.Find("Spinner").gameObject;
-        _initialPos = transform.position;
-        _zInitial = _initialPos.z;
+        _initialPos = transform.localPosition;
     }
 
 
@@ -45,7 +43,7 @@ public class Smg_Shoot_spin : MonoBehaviour
             float timerRatio = _timer / _lerpTime;
 
             float move = _curveShoot.Evaluate(timerRatio);
-            transform.position = Vector3.Lerp(_initialPos, _targetPos, move);
+            transform.localPosition = Vector3.Lerp(_initialPos, _initialPos + _targetPos, move);
 
             if (_timer == _lerpTime)
             {
@@ -66,7 +64,7 @@ public class Smg_Shoot_spin : MonoBehaviour
 
     void Shoot()
     {
-        _spinVelocity += _spinAddVec;
+        _spinVelocity += _spinAddVelocity;
         _spinVelocity = Mathf.Min(_spinVelocity, _maxSpin);
         _timer = _lerpTime - _timer;
         _isShoot = true;
