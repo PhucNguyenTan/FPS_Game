@@ -500,7 +500,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6565178034255321674}
   m_Layer: 0
-  m_Name: Arm_Assault
+  m_Name: Arm_SMG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

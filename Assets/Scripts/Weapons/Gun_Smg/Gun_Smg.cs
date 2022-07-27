@@ -5,16 +5,16 @@ using UnityEngine.Events;
 
 public class Gun_Smg : Gun_base
 {
+    public static UnityAction Shooting;
     [SerializeField] float _maxSpread = 0.01f;
     [SerializeField] AudioClip _shootAudio;
     [SerializeField] ParticleSystem _muzzleFlash;
     [SerializeField] ParticleSystem _impactFlash;
-    [SerializeField] float damageDeal = 2f;
 
-    public static UnityAction Shooting;
+
     public Gun_Smg()
     {
-        _fireRate = 500;
+        
     }
 
     private void OnEnable()
@@ -47,7 +47,7 @@ public class Gun_Smg : Gun_base
             Enemy enemy = hit.transform.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.TakeDamage(damageDeal);
+                enemy.TakeDamage(_weaponData.Damage);
             }
         }
         ParticleSystem impact = Instantiate(_impactFlash, hit.point, Quaternion.LookRotation(hit.normal));

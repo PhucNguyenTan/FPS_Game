@@ -121,7 +121,6 @@ public class Player : MonoBehaviour
             camInput = InputHandler.Instance.GetCamInput() * P_Data.JoystickCamSpeed;
 
             movementMachine.currentState.Logic();
-            //shootingMachine.currentState.Logic();
 
             AdjustHeight();
             PlayerRotate(mouseDelta + camInput);

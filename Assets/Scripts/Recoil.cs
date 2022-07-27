@@ -5,44 +5,86 @@ using UnityEngine;
 public class Recoil : MonoBehaviour
 {
 
-    [SerializeField] private Vector3 _currentRotation;
-    [SerializeField] private Vector3 TargetRotation;
+    Vector3 _currentRotation;
+    Vector3 TargetRotation;
+    [SerializeField] Weapon_script _smgData;
+    [SerializeField] Weapon_script _shotgunData;
+    [SerializeField] Weapon_script _energyData;
+    [SerializeField] Weapon_script _rocketData;
+    Weapon_script _currentWeapon;
 
-    [SerializeField] private float RecoilX;
-    [SerializeField] private float RecoilY;
-    [SerializeField] private float RecoilZ;
-
-    [SerializeField] private float _snappiness;
-    [SerializeField] private float _returnSpeed;
 
     private void Update()
     {
-        TargetRotation = Vector3.Lerp(TargetRotation, Vector3.zero, _returnSpeed * Time.deltaTime);
-        _currentRotation = Vector3.Slerp(_currentRotation, TargetRotation, _snappiness * Time.fixedDeltaTime);// ???
-        transform.localRotation = Quaternion.Euler(_currentRotation);
+        if (TargetRotation != Vector3.zero)
+        {
+            TargetRotation = Vector3.Lerp(TargetRotation, Vector3.zero, _currentWeapon.ReturnSpeed * Time.deltaTime);
+            _currentRotation = Vector3.Slerp(_currentRotation, TargetRotation, _currentWeapon.ReturnSpeed * Time.fixedDeltaTime);// ???
+            transform.localRotation = Quaternion.Euler(_currentRotation);
+        }
     }
 
 
-    public void PistolRecoil()
+    void SetRecoilInitial()
     {
-        TargetRotation = new Vector3(RecoilX, Random.Range(-RecoilY, RecoilY), Random.Range(-RecoilZ, RecoilZ));
+        TargetRotation = new Vector3(_currentWeapon.RecoilX, 
+                    Random.Range(-_currentWeapon.RecoilY, _currentWeapon.RecoilY), 
+                    Random.Range(-_currentWeapon.RecoilZ, _currentWeapon.RecoilZ));
     }
 
-    public void ShotgunRecoil()
+    void SetAlternativeRecoilInitial()
     {
-        TargetRotation = new Vector3(RecoilX, Random.Range(-RecoilY, RecoilY), Random.Range(-RecoilZ, RecoilZ));
-
+        TargetRotation = new Vector3(_currentWeapon.A_RecoilX,
+                    Random.Range(-_currentWeapon.A_RecoilY, _currentWeapon.A_RecoilY),
+                    Random.Range(-_currentWeapon.A_RecoilZ, _currentWeapon.A_RecoilZ));
     }
+
+    void ShotgunRecoil()
+    {
+        _currentWeapon = _shotgunData;
+        SetRecoilInitial();
+    }
+
+    void SmgRecoil()
+    {
+        _currentWeapon = _smgData;
+        SetRecoilInitial();
+    }
+
+    void RocketRecoil()
+    {
+        _currentWeapon = _rocketData;
+        SetRecoilInitial();
+    }
+
+    void ChargeRecoil()
+    {
+        _currentWeapon = _energyData;
+        SetAlternativeRecoilInitial();
+    }
+
+    void EnergyRecoil()
+    {
+        _currentWeapon = _energyData;
+        SetRecoilInitial();
+    }
+
 
     private void OnEnable()
     {
-        Gun_Pistol.Shooting += PistolRecoil;
         Gun_Shotgun.Shooting += ShotgunRecoil;
+        Gun_Rocket.Shooting += RocketRecoil;
+        Gun_Smg.Shooting += SmgRecoil;
+        Gun_Energy.Shooting += EnergyRecoil;
+        Gun_Energy.AlternateShooting += ChargeRecoil;
     }
 
     private void OnDisable()
     {
-        Gun_Pistol.Shooting -= PistolRecoil;
         Gun_Shotgun.Shooting -= ShotgunRecoil;
+        Gun_Rocket.Shooting -= RocketRecoil;
+        Gun_Smg.Shooting -= SmgRecoil;
+        Gun_Energy.Shooting -= EnergyRecoil;
+        Gun_Energy.AlternateShooting -= ChargeRecoil;
     }
 }

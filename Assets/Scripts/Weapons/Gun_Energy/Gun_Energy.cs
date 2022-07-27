@@ -2,10 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class Gun_Energy : Gun_base
 {
 
+    public static UnityAction Shooting;
+    public static UnityAction AlternateShooting;
+
+    public Gun_Energy()
+    {
+        
+    }
     private void OnEnable()
     {
         InputHandler.Instance.HybridCharge += Charging;
@@ -22,14 +30,16 @@ public class Gun_Energy : Gun_base
         InputHandler.Instance.HybridCancel -= CancelCharge;
     }
 
-    public void ShootEnergy()
+    void ShootEnergy()
     {
-
+        if (!CheckCanShoot()) return;
+        AlternateShooting?.Invoke();
     }
 
-    public  void ShootSmall()
+    void ShootSmall()
     {
-        
+        if (!CheckCanShoot()) return;
+        Shooting?.Invoke();
     }
 
     public void CancelCharge()

@@ -2,16 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
+using UnityEngine.Events;
 
 public abstract class Gun_base : MonoBehaviour
 {
-    [SerializeField] protected float _range;
-    [SerializeField] protected float _damage;
-    [SerializeField] protected float _fireRate; //Time between shot in milisecond
-    [SerializeField] protected Vector3 _defaultPosition;
-    [SerializeField] protected Quaternion _defaultRotation;
     [SerializeField] protected Transform _camTransform;
     [SerializeField] protected Velocity_script _playerVelocity;
+    [SerializeField] protected Weapon_script _weaponData;
     protected GunType _gunType;
     bool isShoot;
 
@@ -53,8 +50,8 @@ public abstract class Gun_base : MonoBehaviour
 
     private void Start()
     {
-        transform.localPosition = _defaultPosition;
-        transform.localRotation = _defaultRotation;
+        ResetPosition();
+        ResetRotation();
         _currentMove = 0f;
         _currentLook = 0f;
         _forwardRotation = true;
@@ -90,7 +87,9 @@ public abstract class Gun_base : MonoBehaviour
         {
             _currentMove -= Time.deltaTime*speed;
         }
-        _moveBobAnim = Vector3.Lerp(_defaultPosition, weaponBob*0.1f + _defaultPosition, _gunBobCurve.Evaluate(_currentMove));
+        _moveBobAnim = Vector3.Lerp(_weaponData.DefaultPosition,
+            weaponBob*0.1f + _weaponData.DefaultPosition,
+            _gunBobCurve.Evaluate(_currentMove));
         
     }
 
@@ -125,7 +124,7 @@ public abstract class Gun_base : MonoBehaviour
     public void ResetPosition()
     {
         _moveAnim = Vector3.zero;
-        _moveBobAnim = _defaultPosition;
+        _moveBobAnim = _weaponData.DefaultPosition; 
         _currentMove = 0f;
         _forwardDirection = true;
 
@@ -134,7 +133,7 @@ public abstract class Gun_base : MonoBehaviour
     public void ResetRotation()
     {
         _currentLook = 0f;
-        transform.localRotation = _defaultRotation;
+        transform.localRotation = _weaponData.DefaultRotation;
         _forwardRotation = true;
 
     }
@@ -161,7 +160,7 @@ public abstract class Gun_base : MonoBehaviour
             _currentLook -= Time.deltaTime * _returnSpeed;
         }
         Quaternion RotY = Quaternion.Euler(30f, 0f ,0f);
-        transform.localRotation = Quaternion.Slerp(_defaultRotation, _defaultRotation * RotY, _currentLook);
+        transform.localRotation = Quaternion.Slerp(_weaponData.DefaultRotation, _weaponData.DefaultRotation * RotY, _currentLook);
         //Debug.Log(transform.localRotation.eulerAngles);
     }
 
@@ -187,7 +186,7 @@ public abstract class Gun_base : MonoBehaviour
 
     public bool CheckCanShoot()
     {
-        if (Time.time > _lastTimeShoot + _fireRate)
+        if (Time.time > _lastTimeShoot + _weaponData.FireRate)
         {
             _lastTimeShoot = Time.time;
             return true;

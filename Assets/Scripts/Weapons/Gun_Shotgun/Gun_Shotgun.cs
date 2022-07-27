@@ -14,7 +14,7 @@ public class Gun_Shotgun : Gun_base
 
     public Gun_Shotgun()
     {
-        _fireRate = 500;
+        
     }
 
     private void OnEnable()
@@ -30,6 +30,7 @@ public class Gun_Shotgun : Gun_base
 
     public void Shoot()
     {
+        if (!CheckCanShoot()) return;
         Shooting?.Invoke();
         Shot();
         _muzzleFlash.Play();
@@ -47,7 +48,7 @@ public class Gun_Shotgun : Gun_base
                 Enemy enemy = hits[i].transform.GetComponent<Enemy>();
                 if (enemy != null)
                 {
-                    enemy.TakeDamage(2f);
+                    enemy.TakeDamage(_weaponData.Damage);
                 }
 
                 ParticleSystem impact = Instantiate(_impactFlash, hits[i].point, Quaternion.LookRotation(hits[i].normal));
