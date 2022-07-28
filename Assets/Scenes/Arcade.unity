@@ -383,7 +383,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &45519487
 Transform:
   m_ObjectHideFlags: 0
@@ -392,7 +392,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 45519486}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.066, y: -0.794, z: 0.649}
+  m_LocalPosition: {x: 0.4, y: -0.3, z: 0.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -415,7 +415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camTransform: {fileID: 963194228}
   _playerVelocity: {fileID: 0}
-  _weaponData: {fileID: 11400000, guid: 9bada2f17305a3b46a4f9bbe27ef0806, type: 2}
+  _data: {fileID: 0}
   _gunBobCurve:
     serializedVersion: 2
     m_Curve: []
@@ -1773,6 +1773,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _data: {fileID: 11400000, guid: df607e1817179b642bd36bf1547ad880, type: 2}
 --- !u!1 &410635961
 GameObject:
   m_ObjectHideFlags: 0
@@ -14817,7 +14818,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camTransform: {fileID: 963194228}
   _playerVelocity: {fileID: 0}
-  _weaponData: {fileID: 11400000, guid: 8f205fd6cf3c9d84a8b15bb3323d9717, type: 2}
+  _data: {fileID: 0}
   _gunBobCurve:
     serializedVersion: 2
     m_Curve: []
@@ -15486,7 +15487,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camTransform: {fileID: 963194228}
   _playerVelocity: {fileID: 0}
-  _weaponData: {fileID: 11400000, guid: 1b3dca608b9077b438e1bc94874d4a19, type: 2}
+  _data: {fileID: 0}
   _gunBobCurve:
     serializedVersion: 2
     m_Curve: []
@@ -15751,7 +15752,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-37924
+  m_Name: pb_Mesh-1384
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -16040,6 +16041,18 @@ PrefabInstance:
     - target: {fileID: 2547114060458709655, guid: 2c777b6b7191cbb4fae39ba14b164bdf, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547114060458709655, guid: 2c777b6b7191cbb4fae39ba14b164bdf, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547114060458709655, guid: 2c777b6b7191cbb4fae39ba14b164bdf, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547114060458709655, guid: 2c777b6b7191cbb4fae39ba14b164bdf, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 2547114060458709655, guid: 2c777b6b7191cbb4fae39ba14b164bdf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -16783,7 +16796,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1139856932
 Transform:
   m_ObjectHideFlags: 0
@@ -16815,7 +16828,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camTransform: {fileID: 963194228}
   _playerVelocity: {fileID: 0}
-  _weaponData: {fileID: 11400000, guid: df607e1817179b642bd36bf1547ad880, type: 2}
+  _data: {fileID: 11400000, guid: df607e1817179b642bd36bf1547ad880, type: 2}
   _gunBobCurve:
     serializedVersion: 2
     m_Curve: []
@@ -18253,19 +18266,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: bdaca549dd60f324782f615c97c4ad39, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.006
       objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: bdaca549dd60f324782f615c97c4ad39, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.043
+      value: 0.043000042
       objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: bdaca549dd60f324782f615c97c4ad39, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.773
+      value: 0.581
       objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: bdaca549dd60f324782f615c97c4ad39, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9975641
       objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: bdaca549dd60f324782f615c97c4ad39, type: 3}
       propertyPath: m_LocalRotation.x
@@ -18273,7 +18286,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: bdaca549dd60f324782f615c97c4ad39, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.06975647
       objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: bdaca549dd60f324782f615c97c4ad39, type: 3}
       propertyPath: m_LocalRotation.z
@@ -18281,11 +18294,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: bdaca549dd60f324782f615c97c4ad39, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: bdaca549dd60f324782f615c97c4ad39, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: bdaca549dd60f324782f615c97c4ad39, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -19255,6 +19268,24 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1666374269 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1738452675481315512, guid: 2c777b6b7191cbb4fae39ba14b164bdf, type: 3}
+  m_PrefabInstance: {fileID: 1030834658}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1666374270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666374269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35a7beb517109243ad26009d8e8895f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _data: {fileID: 11400000, guid: 9bada2f17305a3b46a4f9bbe27ef0806, type: 2}
 --- !u!43 &1695209097
 Mesh:
   m_ObjectHideFlags: 0
@@ -19702,15 +19733,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: dbf11c9f103720348bd8a71d51dd90d1, type: 3}
       propertyPath: m_LocalScale.x
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: dbf11c9f103720348bd8a71d51dd90d1, type: 3}
       propertyPath: m_LocalScale.y
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: dbf11c9f103720348bd8a71d51dd90d1, type: 3}
       propertyPath: m_LocalScale.z
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: dbf11c9f103720348bd8a71d51dd90d1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19718,11 +19749,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: dbf11c9f103720348bd8a71d51dd90d1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: dbf11c9f103720348bd8a71d51dd90d1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.612
+      value: 0.17
       objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: dbf11c9f103720348bd8a71d51dd90d1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -20129,41 +20160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e51a939bf8faf4fbc9f49e4e26e71e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lerpTime: 0.1
-  _targetPos: {x: 0, y: 0, z: -0.1}
-  _curveShoot:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 3.3333333
-      outSlope: 3.3333333
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.3
-      value: 1
-      inSlope: 0.9523809
-      outSlope: 0.9523809
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -1.4285715
-      outSlope: -1.4285715
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  _data: {fileID: 11400000, guid: 8f205fd6cf3c9d84a8b15bb3323d9717, type: 2}
 --- !u!1001 &2038882380
 PrefabInstance:
   m_ObjectHideFlags: 0

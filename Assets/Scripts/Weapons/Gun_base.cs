@@ -8,7 +8,7 @@ public abstract class Gun_base : MonoBehaviour
 {
     [SerializeField] protected Transform _camTransform;
     [SerializeField] protected Velocity_script _playerVelocity;
-    [SerializeField] protected Weapon_script _weaponData;
+    [SerializeField] protected Weapon_script _data;
     protected GunType _gunType;
     bool isShoot;
 
@@ -42,7 +42,8 @@ public abstract class Gun_base : MonoBehaviour
     #region Unity flow functions
     
 
-
+    protected bool _isKickback = false;
+    protected float _kickbackTimer = 0f;
     private void Awake()
     {
         CanShoot = true;
@@ -59,7 +60,7 @@ public abstract class Gun_base : MonoBehaviour
 
     }
 
-
+    
     #endregion
 
 
@@ -87,8 +88,8 @@ public abstract class Gun_base : MonoBehaviour
         {
             _currentMove -= Time.deltaTime*speed;
         }
-        _moveBobAnim = Vector3.Lerp(_weaponData.DefaultPosition,
-            weaponBob*0.1f + _weaponData.DefaultPosition,
+        _moveBobAnim = Vector3.Lerp(_data.DefaultPosition,
+            weaponBob*0.1f + _data.DefaultPosition,
             _gunBobCurve.Evaluate(_currentMove));
         
     }
@@ -124,7 +125,7 @@ public abstract class Gun_base : MonoBehaviour
     public void ResetPosition()
     {
         _moveAnim = Vector3.zero;
-        _moveBobAnim = _weaponData.DefaultPosition; 
+        _moveBobAnim = _data.DefaultPosition; 
         _currentMove = 0f;
         _forwardDirection = true;
 
@@ -133,7 +134,7 @@ public abstract class Gun_base : MonoBehaviour
     public void ResetRotation()
     {
         _currentLook = 0f;
-        transform.localRotation = _weaponData.DefaultRotation;
+        transform.localRotation = _data.DefaultRotation;
         _forwardRotation = true;
 
     }
@@ -160,7 +161,7 @@ public abstract class Gun_base : MonoBehaviour
             _currentLook -= Time.deltaTime * _returnSpeed;
         }
         Quaternion RotY = Quaternion.Euler(30f, 0f ,0f);
-        transform.localRotation = Quaternion.Slerp(_weaponData.DefaultRotation, _weaponData.DefaultRotation * RotY, _currentLook);
+        transform.localRotation = Quaternion.Slerp(_data.DefaultRotation, _data.DefaultRotation * RotY, _currentLook);
         //Debug.Log(transform.localRotation.eulerAngles);
     }
 
@@ -186,7 +187,7 @@ public abstract class Gun_base : MonoBehaviour
 
     public bool CheckCanShoot()
     {
-        if (Time.time > _lastTimeShoot + _weaponData.FireRate)
+        if (Time.time > _lastTimeShoot + _data.FireRate)
         {
             _lastTimeShoot = Time.time;
             return true;
@@ -225,6 +226,12 @@ public abstract class Gun_base : MonoBehaviour
         Single,
         Burst,
         Hybrid
+    }
+
+    public virtual void Shoot()
+    {
+        //if (!CheckCanShoot()) return; //Why putting check here doesn't work ???
+        //_isKickback = true;
     }
 }
 

@@ -28,11 +28,10 @@ public class Gun_Smg : Gun_base
 
     }
 
-    public  void Shoot()
+    public override void Shoot()
     {
         if (!CheckCanShoot()) return;
         Shooting?.Invoke();
-        Shot();
         _muzzleFlash.Play();
         SoundManager.Instance.PlayEffectOnce(_shootAudio);
 
@@ -47,7 +46,7 @@ public class Gun_Smg : Gun_base
             Enemy enemy = hit.transform.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.TakeDamage(_weaponData.Damage);
+                enemy.TakeDamage(_data.Damage);
             }
         }
         ParticleSystem impact = Instantiate(_impactFlash, hit.point, Quaternion.LookRotation(hit.normal));

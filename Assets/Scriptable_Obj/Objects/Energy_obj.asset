@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 377ba13d67244194989851f8e3b51bac, type: 3}
   m_Name: Energy_obj
   m_EditorClassIdentifier: 
-  RecoilX: -10
-  RecoilY: 2
+  RecoilX: -1
+  RecoilY: 0.2
   RecoilZ: 0.35
   Snapiness: 4
   ReturnSpeed: 2
@@ -22,6 +22,15 @@ MonoBehaviour:
   A_RecoilZ: 0.35
   A_Snapiness: 4
   A_ReturnSpeed: 4
+  LerpTime: 0
+  TargetPos: {x: 0, y: 0, z: 0}
+  TargetRos: {x: 0, y: 0, z: 0}
+  KickCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   Range: 0
   Damage: 0
   FireRate: 0.3

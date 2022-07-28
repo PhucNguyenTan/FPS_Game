@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Shotgun_shoot_kickback : MonoBehaviour
 {
-    [Header("Kickback")]
-    [SerializeField] float _lerpTime = 0.1f;
-    [SerializeField] Vector3 _targetPos = new Vector3(0f, 0f, -0.05f);
-    [SerializeField] AnimationCurve _curveShoot;
+    [SerializeField] Weapon_script _data;
+    
 
     Vector3 _initialPos;
+    Vector3 _initialRot;
     float _timer;
     bool _isShoot = false;
 
     private void Awake()
     {
         _initialPos = transform.localPosition;
+        _initialRot = transform.localRotation.eulerAngles;
     }
 
     private void Update()
@@ -23,13 +23,15 @@ public class Shotgun_shoot_kickback : MonoBehaviour
         if (_isShoot)
         {
             _timer += Time.deltaTime;
-            _timer = Mathf.Min(_timer, _lerpTime);
-            float timerRatio = _timer / _lerpTime;
+            _timer = Mathf.Min(_timer, _data.LerpTime);
+            float timerRatio = _timer / _data.LerpTime;
 
-            float move = _curveShoot.Evaluate(timerRatio);
-            transform.localPosition = Vector3.Lerp(_initialPos, _initialPos + _targetPos, move);
+            float move = _data.KickCurve.Evaluate(timerRatio);
+            transform.localPosition = Vector3.Lerp(_initialPos, _initialPos + _data.TargetPos, move);
+            Vector3 rotation = Vector3.Lerp(_initialRot, _initialRot + _data.TargetRos, move);
+            transform.localRotation = Quaternion.Euler(rotation);
 
-            if (_timer == _lerpTime)
+            if (_timer == _data.LerpTime)
             {
                 _isShoot = false;
             }
@@ -48,7 +50,7 @@ public class Shotgun_shoot_kickback : MonoBehaviour
 
     void Kickback()
     {
-        _timer = _lerpTime - _timer;
+        _timer = _data.LerpTime - _timer;
         _isShoot = true;
     }
 }

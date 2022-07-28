@@ -19,6 +19,18 @@ public class Weapon_script : ScriptableObject
     public float A_Snapiness;
     public float A_ReturnSpeed;
 
+    [Header("Kickback")]
+    public float LerpTime;
+    public Vector3 TargetPos;
+    public Vector3 TargetRos;
+    public AnimationCurve KickCurve;
+
+    [Header("Kickback_alt")]
+    public float A_LerpTime;
+    public Vector3 A_TargetPos;
+    public Vector3 A_TargetRos;
+    public AnimationCurve A_KickCurve;
+
 
     [Header("Property")]
     public float Range;

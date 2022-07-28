@@ -25,9 +25,9 @@ public class Gun_Rocket : Gun_base
         InputHandler.Instance.SingleShoot -= Shoot;
 
     }
-    void Shoot()
+    public override void Shoot()
     {
-        if(!CheckCanShoot()) return;
+        if (!CheckCanShoot()) return;
         Shooting?.Invoke();
         _muzzle.Play();
     }

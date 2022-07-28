@@ -22,8 +22,44 @@ MonoBehaviour:
   A_RecoilZ: 0
   A_Snapiness: 0
   A_ReturnSpeed: 0
+  LerpTime: 0.8
+  TargetPos: {x: 0, y: 0, z: -0.2}
+  TargetRos: {x: -10, y: 0, z: 0}
+  KickCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 10
+      outSlope: 10
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.1
+      value: 1
+      inSlope: 0.2046975
+      outSlope: 0.2046975
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1.1111112
+      outSlope: -1.1111112
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   Range: 0
   Damage: 0
   FireRate: 1
-  DefaultPosition: {x: 1.066, y: -0.794, z: 0.649}
+  DefaultPosition: {x: 0.4, y: -0.3, z: 0.3}
   DefaultRotation: {x: 0, y: 0, z: 0, w: 0}

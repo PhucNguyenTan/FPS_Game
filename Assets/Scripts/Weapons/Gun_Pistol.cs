@@ -13,7 +13,7 @@ public class Gun_Pistol : Gun_base
 
     public Gun_Pistol()
     {
-        _weaponData.FireRate = 250;
+        _data.FireRate = 250;
     }
       
 
