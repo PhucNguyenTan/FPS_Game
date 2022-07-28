@@ -41,6 +41,7 @@ public class Shotgun_shoot_kickback : MonoBehaviour
     private void OnEnable()
     {
         Gun_Shotgun.Shooting += Kickback;
+        ResetProperty();
     }
 
     private void OnDisable()
@@ -52,5 +53,13 @@ public class Shotgun_shoot_kickback : MonoBehaviour
     {
         _timer = _data.LerpTime - _timer;
         _isShoot = true;
+    }
+
+    private void ResetProperty()
+    {
+        transform.localPosition = _initialPos;
+        transform.localRotation = Quaternion.Euler(_initialRot);
+        _timer = _data.LerpTime;
+        _isShoot = false;
     }
 }

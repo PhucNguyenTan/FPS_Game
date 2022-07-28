@@ -24,9 +24,9 @@ public class Smg_Shoot_spin : MonoBehaviour
     float _spinVelocity = 0f;
     private void Awake()
     {
-        _spinner = transform.Find("Spinner").gameObject;
         _initialPos = transform.localPosition;
         _initialRot = transform.localRotation.eulerAngles;
+        _spinner = transform.Find("Spinner").gameObject;
     }
 
 
@@ -58,6 +58,7 @@ public class Smg_Shoot_spin : MonoBehaviour
     private void OnEnable()
     {
         Gun_Smg.Shooting += Shoot;
+        ResetProperty();
     }
     private void OnDisable()
     {
@@ -71,5 +72,14 @@ public class Smg_Shoot_spin : MonoBehaviour
         _spinVelocity = Mathf.Min(_spinVelocity, _maxSpin);
         _timer = _data.LerpTime - _timer;
         _isShoot = true;
+    }
+
+    private void ResetProperty()
+    {
+        transform.localPosition = _initialPos;
+        transform.localRotation = Quaternion.Euler(_initialRot);
+        _timer = _data.LerpTime;
+        _spinVelocity = 0f;
+        _isShoot = false;
     }
 }

@@ -15,6 +15,7 @@ public class Rocket_shoot_kickback : MonoBehaviour
     {
         _initialPos = transform.localPosition;
         _initialRot = transform.localRotation.eulerAngles;
+        _timer = _data.LerpTime;
     }
 
     private void Update()
@@ -51,5 +52,13 @@ public class Rocket_shoot_kickback : MonoBehaviour
     {
         _timer = _data.LerpTime - _timer;
         _isShoot = true;
+    }
+
+    void ResetProperty()
+    {
+        transform.localPosition = _initialPos;
+        transform.localRotation = Quaternion.Euler(_initialRot);
+        _timer = _data.LerpTime;
+        _isShoot = false;
     }
 }

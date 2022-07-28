@@ -383,7 +383,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &45519487
 Transform:
   m_ObjectHideFlags: 0
@@ -415,7 +415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camTransform: {fileID: 963194228}
   _playerVelocity: {fileID: 0}
-  _data: {fileID: 0}
+  _data: {fileID: 11400000, guid: 9bada2f17305a3b46a4f9bbe27ef0806, type: 2}
   _gunBobCurve:
     serializedVersion: 2
     m_Curve: []
@@ -719,7 +719,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh33466
+  m_Name: pb_Mesh25380
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1738,41 +1738,6 @@ MonoBehaviour:
   _spinFriction: 3
   _spinAddVelocity: 200
   _maxSpin: 1000
-  _lerpTime: 0.1
-  _targetPos: {x: 0, y: 0, z: -0.05}
-  _curveShoot:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0.00048828125
-      outSlope: 0.00048828125
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0.00048828125
-      inSlope: -1.9990234
-      outSlope: -1.9990234
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   _data: {fileID: 11400000, guid: df607e1817179b642bd36bf1547ad880, type: 2}
 --- !u!1 &410635961
 GameObject:
@@ -14282,7 +14247,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh33618
+  m_Name: pb_Mesh25534
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -14623,9 +14588,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 928421620}
     m_Modifications:
+    - target: {fileID: 1126907280376696648, guid: c38aa5bdca5abab49b35fd40b52a84df, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.34509802
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126907280376696648, guid: c38aa5bdca5abab49b35fd40b52a84df, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.6063782
+      objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: c38aa5bdca5abab49b35fd40b52a84df, type: 3}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644380888811131310, guid: c38aa5bdca5abab49b35fd40b52a84df, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644380888811131310, guid: c38aa5bdca5abab49b35fd40b52a84df, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644380888811131310, guid: c38aa5bdca5abab49b35fd40b52a84df, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1644380888811131310, guid: c38aa5bdca5abab49b35fd40b52a84df, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14786,7 +14771,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &690021570
 Transform:
   m_ObjectHideFlags: 0
@@ -14818,7 +14803,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camTransform: {fileID: 963194228}
   _playerVelocity: {fileID: 0}
-  _data: {fileID: 0}
+  _data: {fileID: 11400000, guid: 8f205fd6cf3c9d84a8b15bb3323d9717, type: 2}
   _gunBobCurve:
     serializedVersion: 2
     m_Curve: []
@@ -15487,7 +15472,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camTransform: {fileID: 963194228}
   _playerVelocity: {fileID: 0}
-  _data: {fileID: 0}
+  _data: {fileID: 11400000, guid: 1b3dca608b9077b438e1bc94874d4a19, type: 2}
   _gunBobCurve:
     serializedVersion: 2
     m_Curve: []
@@ -16278,7 +16263,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh33780
+  m_Name: pb_Mesh25706
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -16796,7 +16781,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1139856932
 Transform:
   m_ObjectHideFlags: 0
@@ -17007,6 +16992,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1644380888811131310, guid: 756301133f0172e469a4776abc1f7ea2, type: 3}
   m_PrefabInstance: {fileID: 1308089003}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1339114986 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6145687722832229833, guid: da1e874be8d64674288d4362c149a6ea, type: 3}
+  m_PrefabInstance: {fileID: 2038882380}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1339114987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339114986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de87ecfacf79eb54b89dd2dd53e8c84a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _data: {fileID: 11400000, guid: 1b3dca608b9077b438e1bc94874d4a19, type: 2}
 --- !u!1 &1375203090
 GameObject:
   m_ObjectHideFlags: 0
@@ -18316,7 +18319,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh33692
+  m_Name: pb_Mesh25610
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -19292,7 +19295,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh33652
+  m_Name: pb_Mesh25570
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
