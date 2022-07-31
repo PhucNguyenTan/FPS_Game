@@ -62,13 +62,13 @@ public class WeaponManager : MonoBehaviour
     public void SubscribeInput()
     {
         InputHandler.Instance.NextWeapon += GetNextWeapon;
-        InputHandler.Instance.PrevWeapon += GetPrevUsedWeapon;
+        InputHandler.Instance.PrevWeapon += GetPrevWeapon;
     }
 
     public void UnsubscribeInput()
     {
         InputHandler.Instance.NextWeapon -= GetNextWeapon;
-        InputHandler.Instance.PrevWeapon -= GetPrevUsedWeapon;
+        InputHandler.Instance.PrevWeapon -= GetPrevWeapon;
     }
 
     public void GetNextWeapon()
@@ -82,7 +82,9 @@ public class WeaponManager : MonoBehaviour
     public void GetPrevWeapon()
     {
         _lastGunNum = _currentGunNum;
-        _currentGunNum = _currentGunNum == 0 ? _listGun.Count : _currentGunNum--;
+        _currentGunNum = _currentGunNum == 0 ? _listGun.Count-1 : _currentGunNum -= 1;
+        CurrentWeapon.Unequip();
+        UnsubscribeInput();
     }
 
     public void GetWeaponNumber(int number)
