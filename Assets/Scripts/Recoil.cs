@@ -27,7 +27,7 @@ public class Recoil : MonoBehaviour
 
     void SetRecoilInitial()
     {
-        TargetRotation = new Vector3(_currentWeapon.RecoilX, 
+        TargetRotation = new Vector3(_currentWeapon.RecoilX,
                     Random.Range(-_currentWeapon.RecoilY, _currentWeapon.RecoilY), 
                     Random.Range(-_currentWeapon.RecoilZ, _currentWeapon.RecoilZ));
     }

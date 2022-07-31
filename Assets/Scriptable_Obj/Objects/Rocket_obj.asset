@@ -58,8 +58,23 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  A_LerpTime: 0
+  A_TargetPos: {x: 0, y: 0, z: 0}
+  A_TargetRos: {x: 0, y: 0, z: 0}
+  A_KickCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   Range: 0
   Damage: 0
   FireRate: 1
   DefaultPosition: {x: 0.4, y: -0.3, z: 0.3}
-  DefaultRotation: {x: 0, y: 0, z: 0, w: 0}
+  DefaultRotation: {x: 0, y: 0, z: 0}
+  EquipLerpTime: 0.5
+  EquipTargetPos: {x: 0, y: 0, z: 0}
+  EquipTargetRot: {x: -135, y: 0, z: 0}
+  UnequipLerpTime: 0.5
+  UnequipTargetPos: {x: 0, y: 0, z: 0}
+  UnequipTargetRot: {x: 80, y: 0, z: 0}

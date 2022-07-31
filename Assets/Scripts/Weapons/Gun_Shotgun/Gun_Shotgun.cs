@@ -20,6 +20,8 @@ public class Gun_Shotgun : Gun_base
     private void OnEnable()
     {
         InputHandler.Instance.SingleShoot += Shoot;
+        ResetUnequip();
+        Equip();
     }
 
     private void OnDisable()
@@ -30,7 +32,7 @@ public class Gun_Shotgun : Gun_base
 
     public override void Shoot()
     {
-        if (!CheckCanShoot()) return;
+        if (!CheckCanShoot() || _isEquiping || _isUnequiping) return;
         Shooting?.Invoke();
         _muzzleFlash.Play();
         SoundManager.Instance.PlayEffectOnce(_shootAudio);

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Gun_Rocket : Gun_base
 {
-
+    [SerializeField] AudioClip _shootAudio;
     public static UnityAction Shooting;
     [SerializeField] ParticleSystem _muzzle;
     
@@ -18,6 +18,8 @@ public class Gun_Rocket : Gun_base
     private void OnEnable()
     {
         InputHandler.Instance.SingleShoot += Shoot;
+        ResetUnequip();
+        Equip();
     }
 
     private void OnDisable()
@@ -27,8 +29,10 @@ public class Gun_Rocket : Gun_base
     }
     public override void Shoot()
     {
-        if (!CheckCanShoot()) return;
+        if (!CheckCanShoot() || _isEquiping || _isUnequiping) return;
         Shooting?.Invoke();
         _muzzle.Play();
+        SoundManager.Instance.PlayEffectOnce(_shootAudio);
+
     }
 }

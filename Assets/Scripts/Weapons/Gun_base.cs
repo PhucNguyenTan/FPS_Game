@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 using UnityEngine.Events;
+using DG.Tweening;
 
 public abstract class Gun_base : MonoBehaviour
 {
@@ -10,8 +11,11 @@ public abstract class Gun_base : MonoBehaviour
     [SerializeField] protected Velocity_script _playerVelocity;
     [SerializeField] protected Weapon_script _data;
     protected GunType _gunType;
-    bool isShoot;
+    protected bool _isEquiping = false;
+    protected bool _isUnequiping = false;
+    public bool IsDoneUnquipping { get; private set; } = false;
 
+    public static UnityAction DoneUnequip;
 
     [SerializeField] AnimationCurve _gunBobCurve;
 
@@ -57,10 +61,16 @@ public abstract class Gun_base : MonoBehaviour
         _currentLook = 0f;
         _forwardRotation = true;
         _forwardDirection = true;
+        Equip();
 
     }
 
-    
+
+    public void ResetUnequip()
+    {
+
+        IsDoneUnquipping = false;
+    }
     #endregion
 
 
@@ -134,7 +144,7 @@ public abstract class Gun_base : MonoBehaviour
     public void ResetRotation()
     {
         _currentLook = 0f;
-        transform.localRotation = _data.DefaultRotation;
+        transform.localRotation = Quaternion.Euler(_data.DefaultRotation);
         _forwardRotation = true;
 
     }
@@ -161,7 +171,8 @@ public abstract class Gun_base : MonoBehaviour
             _currentLook -= Time.deltaTime * _returnSpeed;
         }
         Quaternion RotY = Quaternion.Euler(30f, 0f ,0f);
-        transform.localRotation = Quaternion.Slerp(_data.DefaultRotation, _data.DefaultRotation * RotY, _currentLook);
+        Quaternion defaultRotation = Quaternion.Euler(_data.DefaultRotation);
+        transform.localRotation = Quaternion.Slerp(defaultRotation, defaultRotation * RotY, _currentLook);
         //Debug.Log(transform.localRotation.eulerAngles);
     }
 
@@ -211,13 +222,21 @@ public abstract class Gun_base : MonoBehaviour
 
     public void Equip()
     {
-        this.transform.gameObject.SetActive(true);
+        _isEquiping = true;
+        transform.DOLocalMove(_data.DefaultPosition, _data.EquipLerpTime).From(_data.EquipTargetPos);
+        transform.DOLocalRotate(_data.DefaultRotation, _data.EquipLerpTime)
+            .From(_data.EquipTargetRot).OnComplete(() => _isEquiping = false);
     }
 
     public void Unequip()
     {
-        this.transform.gameObject.SetActive(false);
-
+        _isUnequiping = true;
+        transform.DOLocalMove(_data.UnequipTargetPos, _data.EquipLerpTime).From(_data.DefaultPosition);
+        transform.DOLocalRotate(_data.UnequipTargetRot, _data.UnequipLerpTime)
+            .From(_data.DefaultRotation)
+            .OnComplete(() => { IsDoneUnquipping = true;
+                _isUnequiping = false;
+            });
     }
 
     protected enum GunType

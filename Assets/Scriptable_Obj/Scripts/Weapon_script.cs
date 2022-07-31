@@ -37,5 +37,15 @@ public class Weapon_script : ScriptableObject
     public float Damage;
     public float FireRate; //Time between shot in milisecond
     public Vector3 DefaultPosition;
-    public Quaternion DefaultRotation;
+    public Vector3 DefaultRotation;
+
+    [Header("Equip")]
+    public float EquipLerpTime;
+    public Vector3 EquipTargetPos;
+    public Vector3 EquipTargetRot;
+
+    [Header("Unequip")]
+    public float UnequipLerpTime;
+    public Vector3 UnequipTargetPos;
+    public Vector3 UnequipTargetRot;
 }

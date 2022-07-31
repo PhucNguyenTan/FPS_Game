@@ -10,6 +10,10 @@ public class Gun_Energy : Gun_base
     public static UnityAction Shooting;
     public static UnityAction AlternateShooting;
 
+    [SerializeField] AudioClip _shootAudio;
+    [SerializeField] AudioClip _chargeShotAudio;
+    [SerializeField] AudioClip _chargineAudio;
+    [SerializeField] AudioClip _cancelChargeAudio;
     [SerializeField] ParticleSystem _muzzle;
     [SerializeField] ParticleSystem _muzzleCharge;
     [SerializeField] ParticleSystem _muzzleCharging;
@@ -24,6 +28,8 @@ public class Gun_Energy : Gun_base
         InputHandler.Instance.HybridShoot += ShootSmall;
         InputHandler.Instance.HybridChargedShoot += ShootEnergy;
         InputHandler.Instance.HybridCancel += CancelCharge;
+        ResetUnequip();
+        Equip();
     }
 
     private void OnDisable()
@@ -36,10 +42,11 @@ public class Gun_Energy : Gun_base
 
     void ShootEnergy()
     {
-        if (!CheckCanShoot()) return;
+        if (!CheckCanShoot() || _isEquiping || _isUnequiping) return;
         AlternateShooting?.Invoke();
         _muzzleCharging.Stop();
         _muzzleCharge.Play();
+        SoundManager.Instance.PlayEffectOnce(_chargeShotAudio);
     }
 
     void ShootSmall()
@@ -47,6 +54,7 @@ public class Gun_Energy : Gun_base
         if (!CheckCanShoot()) return;
         Shooting?.Invoke();
         _muzzle.Play();
+        SoundManager.Instance.PlayEffectOnce(_shootAudio);
 
     }
 

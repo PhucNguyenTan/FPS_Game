@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WeaponManager : MonoBehaviour
 {
@@ -9,9 +10,12 @@ public class WeaponManager : MonoBehaviour
     [SerializeField] Gun_Shotgun _shotgun;
     [SerializeField] Gun_Rocket _rocket;
     [SerializeField] Gun_Energy _energy;
+    public static UnityAction Unequip;
     List<Gun_base> _listGun;
     int _lastGunNum = 0;
-    int _currentGunNum = 2;
+    int _currentGunNum = 0;
+    bool _isUnequiping;
+    bool _isEquiping;
 
     private void Awake()
     {
@@ -25,38 +29,60 @@ public class WeaponManager : MonoBehaviour
     private void Start()
     {
         CurrentWeapon = _listGun[_currentGunNum];
+        CurrentWeapon.gameObject.SetActive(true);
+    }
+
+    private void Update()
+    {
+        if (CurrentWeapon.IsDoneUnquipping)
+        {
+            CurrentWeapon.gameObject.SetActive(false);
+            CurrentWeapon = _listGun[_currentGunNum];
+            CurrentWeapon.gameObject.SetActive(true);
+            SubscribeInput();  
+        }
+    }
+
+    void ToEquip()
+    {
+        
         CurrentWeapon.Equip();
     }
 
     private void OnEnable()
     {
-        InputHandler.Instance.NextWeapon += GetNextWeapon;
-        InputHandler.Instance.PrevWeapon += GetPrevUsedWeapon;
+        SubscribeInput();
     }
 
     private void OnDisable()
     {
+        UnsubscribeInput();
+    }
+
+    public void SubscribeInput()
+    {
+        InputHandler.Instance.NextWeapon += GetNextWeapon;
+        InputHandler.Instance.PrevWeapon += GetPrevUsedWeapon;
+    }
+
+    public void UnsubscribeInput()
+    {
         InputHandler.Instance.NextWeapon -= GetNextWeapon;
         InputHandler.Instance.PrevWeapon -= GetPrevUsedWeapon;
-
     }
 
     public void GetNextWeapon()
     {
         _lastGunNum = _currentGunNum;
         _currentGunNum = _currentGunNum == _listGun.Count-1 ? 0 : _currentGunNum += 1;
-            CurrentWeapon.Unequip();
-        CurrentWeapon = _listGun[_currentGunNum];
-        CurrentWeapon.Equip();
+        CurrentWeapon.Unequip();
+        UnsubscribeInput();
     }
 
     public void GetPrevWeapon()
     {
         _lastGunNum = _currentGunNum;
         _currentGunNum = _currentGunNum == 0 ? _listGun.Count : _currentGunNum--;
-        CurrentWeapon.Unequip();
-        CurrentWeapon = _listGun[_currentGunNum];
-        CurrentWeapon.Equip();
     }
 
     public void GetWeaponNumber(int number)
@@ -69,9 +95,6 @@ public class WeaponManager : MonoBehaviour
 
         _lastGunNum = _currentGunNum;
         _currentGunNum = _currentGunNum == 0 ? _listGun.Count : _currentGunNum--;
-        CurrentWeapon.Unequip();
-        CurrentWeapon = _listGun[_currentGunNum];
-        CurrentWeapon.Equip();
     }
 
     public void GetPrevUsedWeapon()
@@ -79,8 +102,6 @@ public class WeaponManager : MonoBehaviour
         int temp = _currentGunNum;
         _currentGunNum = _lastGunNum;
         _lastGunNum = temp;
-        CurrentWeapon.Unequip();
-        CurrentWeapon = _listGun[_currentGunNum];
-        CurrentWeapon.Equip();
+        UnsubscribeInput();
     }
 }

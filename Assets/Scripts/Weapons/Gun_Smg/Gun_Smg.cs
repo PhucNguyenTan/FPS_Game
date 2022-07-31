@@ -20,17 +20,22 @@ public class Gun_Smg : Gun_base
     private void OnEnable()
     {
         InputHandler.Instance.AutoShoot += Shoot;
+        WeaponManager.Unequip += Unequip;
+
+        ResetUnequip();
+        Equip();
     }
 
     private void OnDisable()
     {
         InputHandler.Instance.AutoShoot -= Shoot;
+        WeaponManager.Unequip -= Unequip;
 
     }
 
     public override void Shoot()
     {
-        if (!CheckCanShoot()) return;
+        if (!CheckCanShoot() || _isEquiping || _isUnequiping) return;
         Shooting?.Invoke();
         _muzzleFlash.Play();
         SoundManager.Instance.PlayEffectOnce(_shootAudio);

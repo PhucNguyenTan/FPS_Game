@@ -98,4 +98,10 @@ MonoBehaviour:
   Damage: 0
   FireRate: 0.3
   DefaultPosition: {x: 0.276, y: -0.247, z: 0.19}
-  DefaultRotation: {x: 0.06758009, y: 0, z: 0, w: -0.99771386}
+  DefaultRotation: {x: 0.06758009, y: 0, z: 0}
+  EquipLerpTime: 0.5
+  EquipTargetPos: {x: 0, y: 0, z: 0}
+  EquipTargetRot: {x: -135, y: 0, z: 0}
+  UnequipLerpTime: 0.5
+  UnequipTargetPos: {x: 0, y: 0, z: 0}
+  UnequipTargetRot: {x: 80, y: 0, z: 0}
