@@ -13,7 +13,7 @@ public class WeaponManager : MonoBehaviour
     public static UnityAction Unequip;
     List<Gun_base> _listGun;
     int _lastGunNum = 0;
-    int _currentGunNum = 0;
+    int _currentGunNum = 3;
     bool _isUnequiping;
     bool _isEquiping;
 

@@ -8,6 +8,8 @@ public class Gun_Rocket : Gun_base
     [SerializeField] AudioClip _shootAudio;
     public static UnityAction Shooting;
     [SerializeField] ParticleSystem _muzzle;
+    [SerializeField] Projectile_data _projectilteData;
+    [SerializeField] Projectile_base _currentBullet;
     
 
     public Gun_Rocket()
@@ -25,7 +27,6 @@ public class Gun_Rocket : Gun_base
     private void OnDisable()
     {
         InputHandler.Instance.SingleShoot -= Shoot;
-
     }
     public override void Shoot()
     {
@@ -33,6 +34,16 @@ public class Gun_Rocket : Gun_base
         Shooting?.Invoke();
         _muzzle.Play();
         SoundManager.Instance.PlayEffectOnce(_shootAudio);
+        RaycastHit hit;
+        Vector3 castDir = _camTransform.forward;
+        bool isImpacted = Physics.Raycast(_camTransform.position, castDir, out hit);
+
+        Vector3 direction = isImpacted ? hit.point - transform.position : castDir * 100f - transform.position;
+
+        Projectile_base bullet = Instantiate(_currentBullet, transform.position, transform.rotation)
+            .AddDirection(direction).AddShape(_projectilteData.Shape).AddSpeed(_projectilteData.Speed);
+
+        //new Projectile_base();
 
     }
 }
