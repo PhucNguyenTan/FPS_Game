@@ -13,4 +13,56 @@ MonoBehaviour:
   m_Name: Energy_explosion
   m_EditorClassIdentifier: 
   BlastRadius: 0.5
-  Duration: 1
+  Duration: 0.5
+  BlastColor: {r: 0, g: 0, b: 0, a: 0}
+  ColorFadingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 6.93674
+      outSlope: 6.93674
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.034959238
+      value: 0.24250314
+      inSlope: 2.122789
+      outSlope: 2.122789
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.0964229
+    - serializedVersion: 3
+      time: 0.41663015
+      value: 0.42016172
+      inSlope: 0.43903401
+      outSlope: 0.43903401
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7965067
+      value: 0.57689583
+      inSlope: 1.2458984
+      outSlope: 1.2458984
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2.0792046
+      outSlope: 2.0792046
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

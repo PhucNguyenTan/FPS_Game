@@ -11,4 +11,6 @@ public class Explosion_data : ScriptableObject
     //Time lapse
     public float BlastRadius;
     public float Duration;
+    public Color BlastColor;
+    public AnimationCurve AlphaFadingCurve;
 }
