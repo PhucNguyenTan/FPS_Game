@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b62ddb091a11e44bb947391261f5d4f, type: 3}
-  m_Name: Rocket
+  m_Script: {fileID: 11500000, guid: 293097ae38ce34341ac705b8b4654d25, type: 3}
+  m_Name: Rocket_explosion
   m_EditorClassIdentifier: 
-  Damage: 0
-  BlastRadius: 0
-  Speed: 1
-  Shape: {fileID: 6502942534180115162, guid: 22f528e0603c004419943b2600c3000d, type: 3}
+  BlastRadius: 5
+  Duration: 1

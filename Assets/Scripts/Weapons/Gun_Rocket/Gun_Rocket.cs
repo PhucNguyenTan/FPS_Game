@@ -41,9 +41,9 @@ public class Gun_Rocket : Gun_base
         Vector3 direction = isImpacted ? hit.point - transform.position : castDir * 100f - transform.position;
 
         Projectile_base bullet = Instantiate(_currentBullet, transform.position, transform.rotation)
-            .AddDirection(direction).AddShape(_projectilteData.Shape).AddSpeed(_projectilteData.Speed);
+            .AddDirection(direction.normalized).SetProjectileData(_projectilteData).Release();
 
-        //new Projectile_base();
+        
 
     }
 }

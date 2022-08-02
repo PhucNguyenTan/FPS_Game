@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b62ddb091a11e44bb947391261f5d4f, type: 3}
+  m_Name: Energy
+  m_EditorClassIdentifier: 
+  Damage: 0
+  Speed: 100
+  Shape: {fileID: 0}
+  LayerMasks:
+    serializedVersion: 2
+    m_Bits: 192
+  ExplosionData: {fileID: 11400000, guid: 107c590b234db674fa5b3d517482d03d, type: 2}
+  MaxLifeSpan: 120

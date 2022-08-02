@@ -6,7 +6,9 @@ using UnityEngine;
 public class Projectile_data : ScriptableObject
 {
     public float Damage;
-    public float BlastRadius;
     public float Speed;
     public GameObject Shape;
+    public LayerMask LayerMasks;
+    public Explosion_data ExplosionData;
+    public float MaxLifeSpan;
 }

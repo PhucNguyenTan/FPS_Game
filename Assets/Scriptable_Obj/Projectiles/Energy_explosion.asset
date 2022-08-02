@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5587f78d883063943991463bf9ece6a0, type: 3}
-  m_Name: Player_Health_obj
+  m_Script: {fileID: 11500000, guid: 293097ae38ce34341ac705b8b4654d25, type: 3}
+  m_Name: Energy_explosion
   m_EditorClassIdentifier: 
-  Health: 50
-  MaxHealth: 50
+  BlastRadius: 0.5
+  Duration: 1

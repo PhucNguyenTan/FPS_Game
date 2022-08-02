@@ -7,27 +7,50 @@ public class Projectile_base : MonoBehaviour
 {
     Vector3 _direction;
     Quaternion _rotation;
-    float _speed = 0f;
-    float _radius;
-    float _damage;
-    float _maxTimeLife = 30f;
-    BoxCollider _box;
+    [SerializeField] Explosion_base _explosion;
+
+
+    GameObject _shape;
+    LayerMask _touchableLayers;
+    float _speed;
+    float _maxLifeSpan;
+    Explosion_data _explosionData;
     Rigidbody _rb;
+
+    bool _isStopMoving = true;
+
 
     private void Awake()
     {
-        
+        _rb = GetComponent<Rigidbody>();
     }
 
     private void Start()
     {
-        Destroy(this.gameObject, _maxTimeLife);
-        
+        Destroy(this.gameObject, _maxLifeSpan);
     }
 
     private void Update()
     {
-        transform.position += _direction * _speed * Time.deltaTime;
+        if (!_isStopMoving)
+        {
+            Vector3 nextPoint = transform.position + _direction * _speed * Time.deltaTime;
+            RaycastHit hit;
+            bool touched = Physics.Raycast(transform.position, transform.forward, out hit, 1000f, _touchableLayers);
+            Debug.DrawLine(transform.position, hit.point);
+            if (touched)
+            {
+                float ab = Vector3.Distance(transform.position, nextPoint);
+                float ac = Vector3.Distance(transform.position, hit.point);
+                if (ab > ac)
+                {
+                    nextPoint = hit.point;
+                    _isStopMoving = true;
+                }
+            }
+            transform.position = nextPoint;
+        }
+        
     }
 
     public Projectile_base AddDirection(Vector3 dir)
@@ -36,21 +59,44 @@ public class Projectile_base : MonoBehaviour
         return this;
     }
 
-    public Projectile_base AddShape(GameObject shape)
+    public Projectile_base CreateShape(GameObject shape)
     {
-        Instantiate(shape, transform, false);
+        _shape = Instantiate(shape, transform, false);
         return this;
     }
 
-    public Projectile_base AddSpeed(float speed)
+    public Projectile_base SetSpeed(float speed)
     {
         _speed = speed;
         return this;
     }
 
+    public Projectile_base Release() {
+        _isStopMoving = false;
+        return this;
+    }
+
+    public Projectile_base SetProjectileData(Projectile_data data)
+    {
+        _speed = data.Speed;
+        _maxLifeSpan = data.MaxLifeSpan;
+        _touchableLayers = data.LayerMasks;
+        _shape = Instantiate(data.Shape, transform, false);
+        _explosionData = data.ExplosionData;
+        return this;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        
+        int objLayer = other.gameObject.layer;
+        if ((_touchableLayers & (1 << objLayer)) != 0) // ??? This is bit shift, 1 for exclude, 0 for include depend on where 
+        {
+            //Generating explode gameobject here
+            Instantiate(_explosion, transform.position, Quaternion.identity).SetExplosionData(_explosionData);
+            Destroy(this.gameObject);
+        }
     }
+
+
 
 }
