@@ -11,4 +11,5 @@ public class Projectile_data : ScriptableObject
     public LayerMask LayerMasks;
     public Explosion_data ExplosionData;
     public float MaxLifeSpan;
+    public float Scale;
 }

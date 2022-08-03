@@ -3,7 +3,19 @@ guid: c28f2dd2fbdb5114c8c643684341a0c9
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _camTransform: {instanceID: 0}
+  - _playerVelocity: {instanceID: 0}
+  - _data: {instanceID: 0}
+  - _shootAudio: {instanceID: 0}
+  - _chargeShotAudio: {instanceID: 0}
+  - _chargineAudio: {instanceID: 0}
+  - _cancelChargeAudio: {instanceID: 0}
+  - _muzzle: {instanceID: 0}
+  - _muzzleCharge: {instanceID: 0}
+  - _muzzleCharging: {instanceID: 0}
+  - _projectileData: {instanceID: 0}
+  - _projectile: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

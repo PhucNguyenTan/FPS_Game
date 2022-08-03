@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 293097ae38ce34341ac705b8b4654d25, type: 3}
   m_Name: Energy_explosion
   m_EditorClassIdentifier: 
-  BlastRadius: 0.5
+  BlastRadius: 1
   Duration: 0.5
-  BlastColor: {r: 0.5065118, g: 0.9811321, b: 0, a: 0}
+  BlastColor: {r: 0.5065118, g: 0.9811321, b: 0, a: 1}
   AlphaFadingCurve:
     serializedVersion: 2
     m_Curve:

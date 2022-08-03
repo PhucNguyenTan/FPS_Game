@@ -22,7 +22,7 @@ public class Explosion_base : MonoBehaviour
     private void Start()
     {
         _mate.color = _startColor;
-        Vector3 scale = new Vector3(1f,1f,1f) * _radius;
+        Vector3 scale = Vector3.one * _radius;
         transform.localScale = Vector3.zero;
         _mate.DOFade(0f, _duration).SetEase(_curveAlpha);
         transform.DOScale(scale, _duration).OnComplete(

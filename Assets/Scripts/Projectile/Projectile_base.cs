@@ -13,9 +13,11 @@ public class Projectile_base : MonoBehaviour
     GameObject _shape;
     LayerMask _touchableLayers;
     float _speed;
+    float _scale;
     float _maxLifeSpan;
     Explosion_data _explosionData;
     Rigidbody _rb;
+    
 
     bool _isStopMoving = true;
 
@@ -50,6 +52,7 @@ public class Projectile_base : MonoBehaviour
             }
             transform.position = nextPoint;
         }
+        transform.localScale = Vector3.one * _scale;
         
     }
 
@@ -71,6 +74,30 @@ public class Projectile_base : MonoBehaviour
         return this;
     }
 
+    public Projectile_base SetScale(float scale)
+    {
+        _scale = scale;
+        return this;
+    }
+
+    public Projectile_base AddScale(float addScale)
+    {
+        _scale += addScale;
+        return this;
+    }
+
+    public Projectile_base SetPosition(Vector3 pos)
+    {
+        transform.position = pos;
+        return this;
+    }
+
+    public Projectile_base SetRotation(Quaternion rot)
+    {
+        transform.rotation = rot;
+        return this;
+    }
+
     public Projectile_base Release() {
         _isStopMoving = false;
         return this;
@@ -83,6 +110,7 @@ public class Projectile_base : MonoBehaviour
         _touchableLayers = data.LayerMasks;
         _shape = Instantiate(data.Shape, transform, false);
         _explosionData = data.ExplosionData;
+        _scale = data.Scale;
         return this;
     }
 

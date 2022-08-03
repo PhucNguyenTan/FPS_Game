@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Energy
   m_EditorClassIdentifier: 
   Damage: 0
-  Speed: 100
-  Shape: {fileID: 0}
+  Speed: 30
+  Shape: {fileID: 6965473672656837129, guid: b663081c3674aae4b9ac91ac96cbbd93, type: 3}
   LayerMasks:
     serializedVersion: 2
     m_Bits: 192
   ExplosionData: {fileID: 11400000, guid: 107c590b234db674fa5b3d517482d03d, type: 2}
   MaxLifeSpan: 120
+  Scale: 0.05

@@ -9,7 +9,7 @@ public class Gun_Rocket : Gun_base
     public static UnityAction Shooting;
     [SerializeField] ParticleSystem _muzzle;
     [SerializeField] Projectile_data _projectilteData;
-    [SerializeField] Projectile_base _currentBullet;
+    [SerializeField] Projectile_base _projectile;
     
 
     public Gun_Rocket()
@@ -40,7 +40,7 @@ public class Gun_Rocket : Gun_base
 
         Vector3 direction = isImpacted ? hit.point - transform.position : castDir * 100f - transform.position;
 
-        Projectile_base bullet = Instantiate(_currentBullet, transform.position, transform.rotation)
+        Projectile_base bullet = Instantiate(_projectile, _muzzle.transform.position, _muzzle.transform.rotation)
             .AddDirection(direction.normalized).SetProjectileData(_projectilteData).Release();
 
         
