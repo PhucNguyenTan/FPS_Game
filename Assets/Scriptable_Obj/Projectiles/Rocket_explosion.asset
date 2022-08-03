@@ -13,4 +13,38 @@ MonoBehaviour:
   m_Name: Rocket_explosion
   m_EditorClassIdentifier: 
   BlastRadius: 5
-  Duration: 1
+  Duration: 0.5
+  BlastColor: {r: 0.94084543, g: 0.9433962, b: 0.021359887, a: 1}
+  AlphaFadingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.5481233
+      outSlope: 0.5481233
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.8118981
+      value: 0.4450203
+      inSlope: 1.4717376
+      outSlope: 1.4717376
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.032523114
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2.9504206
+      outSlope: 2.9504206
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
