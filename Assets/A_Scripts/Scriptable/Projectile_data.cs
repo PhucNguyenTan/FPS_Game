@@ -9,13 +9,14 @@ public class Projectile_data : ScriptableObject
     public float Damage;
     public float Speed;
     public GameObject Shape;
-    public LayerMask LayerMasks;
+    public LayerMask Touchable;
+    public LayerMask Damagable;
     public float MaxLifeSpan;
     public float Scale;
-    public TrailRenderer Trail;
 
     [Header("Style")]
     public bool IsExplosive;
+    public bool IsLevelupAble;
     public Explosion_data ExplosionData;
     public Explosion_base Explosion;
     public ParticleSystem ImpactEffect;

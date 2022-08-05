@@ -32,6 +32,12 @@ public class Explosion_base : MonoBehaviour
         return this;
     }
 
+    public Explosion_base AddRadius(float radius)
+    {
+        _radius += radius;
+        return this;
+    }
+
     public Explosion_base SetExplosionData(Explosion_data data)
     {
         _radius = data.BlastRadius;

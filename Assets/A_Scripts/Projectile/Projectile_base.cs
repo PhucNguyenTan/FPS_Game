@@ -12,7 +12,7 @@ public class Projectile_base : MonoBehaviour
 
     GameObject _shape;
     LayerMask _touchableLayers;
-    LayerMask _damageAble;
+    LayerMask _damagable;
     float _speed;
     float _scale;
     float _maxLifeSpan;
@@ -20,6 +20,14 @@ public class Projectile_base : MonoBehaviour
     Explosion_data _explosionData;
     Rigidbody _rb;
     ParticleSystem _bulletImpact;
+    int _level = 0;
+    int _maxLevel = 5;
+
+    bool _isLevelupAble;
+    float _chargeTimer = 0f;
+    float _maxChargeTime = 0.5f;
+
+    float _additionalRadius = 0f;
 
     bool _isExplosive = false;
 
@@ -60,8 +68,16 @@ public class Projectile_base : MonoBehaviour
             
             transform.position = nextPoint;
         }
+        else if (_isStopMoving && _isLevelupAble)
+        {
+            if(_chargeTimer >= _maxChargeTime)
+            {
+                UpLevel();
+                _chargeTimer = 0f;
+            }
+            _chargeTimer += Time.deltaTime;
+        }
         transform.localScale = Vector3.one * _scale;
-        
     }
 
     public Projectile_base AddDirection(Vector3 dir)
@@ -94,6 +110,14 @@ public class Projectile_base : MonoBehaviour
         return this;
     }
 
+    void UpLevel()
+    {
+        if (_level == _maxLevel) return;
+        _level++;
+        _scale += 0.05f;
+        _additionalRadius += 1f;
+    }
+
     public Projectile_base SetPosition(Vector3 pos)
     {
         transform.position = pos;
@@ -108,6 +132,7 @@ public class Projectile_base : MonoBehaviour
 
     public Projectile_base Release() {
         _isStopMoving = false;
+        _isLevelupAble = false;
         return this;
     }
 
@@ -116,13 +141,15 @@ public class Projectile_base : MonoBehaviour
         _damage = data.Damage;
         _speed = data.Speed;
         _maxLifeSpan = data.MaxLifeSpan;
-        _touchableLayers = data.LayerMasks;
+        _touchableLayers = data.Touchable;
         _shape = Instantiate(data.Shape, transform, false);
         _explosionData = data.ExplosionData;
         _scale = data.Scale;
         _bulletImpact = data.ImpactEffect;
         _isExplosive = data.IsExplosive;
         _explosion = data.Explosion;
+        _damagable = data.Damagable;
+        _isLevelupAble = data.IsLevelupAble;
         return this;
     }
 
@@ -131,14 +158,15 @@ public class Projectile_base : MonoBehaviour
         int objLayer = other.gameObject.layer;
         if ((_touchableLayers & (1 << objLayer)) != 0) // ??? This is bit shift, 1 for exclude, 0 for include depend on where 
         {
-            if((_damageAble & (1 << objLayer)) != 0)
+            if((_damagable & (1 << objLayer)) != 0)
             {
                 //objLayer.TakeDamage;
+                other.gameObject.GetComponent<Enemy>().TakeDamage(_damage);
             }
             if (_isExplosive)
             {
                 //Generating explode gameobject here
-                Instantiate(_explosion, transform.position, Quaternion.identity).SetExplosionData(_explosionData);
+                Instantiate(_explosion, transform.position, Quaternion.identity).SetExplosionData(_explosionData).AddRadius(_additionalRadius);
             }
             else
             {

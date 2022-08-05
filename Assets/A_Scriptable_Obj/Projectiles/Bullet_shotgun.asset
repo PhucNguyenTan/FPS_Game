@@ -10,17 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b62ddb091a11e44bb947391261f5d4f, type: 3}
-  m_Name: Bullet
+  m_Name: Bullet_shotgun
   m_EditorClassIdentifier: 
-  Damage: 0
+  Damage: 2
   Speed: 500
   Shape: {fileID: 6836219581195536124, guid: 148999d8b360bfe40b84759477880b03, type: 3}
-  LayerMasks:
+  Touchable:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 448
+  Damagable:
+    serializedVersion: 2
+    m_Bits: 256
   MaxLifeSpan: 120
   Scale: 1
-  Trail: {fileID: 0}
   IsExplosive: 0
   ExplosionData: {fileID: 11400000, guid: 188cf670fdd223743a44d7fa28daa34c, type: 2}
   Explosion: {fileID: 0}

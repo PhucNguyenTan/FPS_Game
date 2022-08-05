@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     public NavMeshAgent agent;
-    private float health = 50f;
+    [SerializeField] float health = 20f;
 
     private Player player;
     private Projectile current_fireball;

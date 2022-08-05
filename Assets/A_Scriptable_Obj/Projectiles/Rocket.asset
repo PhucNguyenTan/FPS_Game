@@ -10,18 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b62ddb091a11e44bb947391261f5d4f, type: 3}
-  m_Name: Energy
+  m_Name: Rocket
   m_EditorClassIdentifier: 
   Damage: 0
-  Speed: 30
-  Shape: {fileID: 6965473672656837129, guid: b663081c3674aae4b9ac91ac96cbbd93, type: 3}
-  LayerMasks:
+  Speed: 20
+  Shape: {fileID: 6502942534180115162, guid: 22f528e0603c004419943b2600c3000d, type: 3}
+  Touchable:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 448
+  Damagable:
+    serializedVersion: 2
+    m_Bits: 256
   MaxLifeSpan: 120
-  Scale: 0.05
-  Trail: {fileID: 0}
+  Scale: 1
   IsExplosive: 1
-  ExplosionData: {fileID: 11400000, guid: 107c590b234db674fa5b3d517482d03d, type: 2}
-  Explosion: {fileID: 8644533382489917013, guid: 3c189ffdf8e25494eba73df6df48459c, type: 3}
+  ExplosionData: {fileID: 11400000, guid: a0e86da3c7076fd459ce0c224cfe0e49, type: 2}
+  Explosion: {fileID: 8644533382489917013, guid: 635243ff99e44124aa3d7f89ffc70bd4, type: 3}
   ImpactEffect: {fileID: 0}

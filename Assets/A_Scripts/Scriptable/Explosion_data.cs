@@ -15,8 +15,4 @@ public class Explosion_data : ScriptableObject
     public Color BlastColor;
     public AnimationCurve AlphaFadingCurve;
     public GameObject Shape;
-
-    [Header("Bullet")]
-    public ParticleSystem ImpactEffect;
-    public bool IsExplosive;
 }

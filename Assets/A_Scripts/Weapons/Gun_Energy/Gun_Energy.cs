@@ -38,21 +38,21 @@ public class Gun_Energy : Gun_base
         if (_currentProjectile != null)
         {
             _currentProjectile = _currentProjectile.SetPosition(_projectileOrigin.position);
-            _chargeTimer += Time.deltaTime;
-            if(_chargeTimer >= 0.5f && _totalChargeTime < _maxChargeTime)
-            {
-                _currentProjectile.AddScale(0.01f);
-                _totalChargeTime += _chargeTimer;
-                _chargeTimer = 0f;
-            }
+            //    _chargeTimer += Time.deltaTime;
+            //    if(_chargeTimer >= 0.5f && _totalChargeTime < _maxChargeTime)
+            //    {
+            //        _currentProjectile.AddScale(0.01f);
+            //        _totalChargeTime += _chargeTimer;
+            //        _chargeTimer = 0f;
+            //    }
         }
     }
 
     private void OnEnable()
     {
-        InputHandler.Instance.HybridCharge += Charging;
-        InputHandler.Instance.HybridShoot += ShootSmall;
-        InputHandler.Instance.HybridChargedShoot += ShootEnergy;
+        InputHandler.Instance.HybridCharge += StartCharging;
+        InputHandler.Instance.HybridShoot += ShootEnergy;
+        InputHandler.Instance.HybridChargedShoot += ShootChargedEnergy;
         InputHandler.Instance.HybridCancel += CancelCharge;
         _projectileOrigin = transform.GetChild(0).GetChild(1).transform;
         ResetUnequip();
@@ -61,13 +61,13 @@ public class Gun_Energy : Gun_base
 
     private void OnDisable()
     {
-        InputHandler.Instance.HybridCharge -= Charging;
-        InputHandler.Instance.HybridShoot -= ShootSmall;
-        InputHandler.Instance.HybridChargedShoot -= ShootEnergy;
+        InputHandler.Instance.HybridCharge -= StartCharging;
+        InputHandler.Instance.HybridShoot -= ShootEnergy;
+        InputHandler.Instance.HybridChargedShoot -= ShootChargedEnergy;
         InputHandler.Instance.HybridCancel -= CancelCharge;
     }
 
-    void ShootEnergy()
+    void ShootChargedEnergy()
     {
         if (!CheckCanShoot() || _isEquiping || _isUnequiping) return;
         AlternateShooting?.Invoke();
@@ -91,7 +91,7 @@ public class Gun_Energy : Gun_base
 
     }
 
-    void ShootSmall()
+    void ShootEnergy()
     {
         if (!CheckCanShoot()) return;
         Shooting?.Invoke();
@@ -113,7 +113,7 @@ public class Gun_Energy : Gun_base
         Destroy(_currentProjectile.gameObject);
     }
 
-    public void Charging()
+    public void StartCharging()
     {
         if (!CheckCanShoot()) return;
         _muzzleCharging.Play();
