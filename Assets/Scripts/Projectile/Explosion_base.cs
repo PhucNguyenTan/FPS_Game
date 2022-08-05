@@ -15,18 +15,15 @@ public class Explosion_base : MonoBehaviour
 
     private void Awake()
     {
-        _render = transform.GetChild(0).transform.GetComponent<Renderer>();
-        _mate = _render.materials[0];
+        
+        
     }
 
     private void Start()
     {
-        _mate.color = _startColor;
-        Vector3 scale = Vector3.one * _radius;
-        transform.localScale = Vector3.zero;
-        _mate.DOFade(0f, _duration).SetEase(_curveAlpha);
-        transform.DOScale(scale, _duration).OnComplete(
-                () => Destroy(this.gameObject));
+        _render = transform.GetChild(0).transform.GetComponent<Renderer>();
+        _mate = _render.materials[0];
+        Exploding();
     }
 
     public Explosion_base SetRadius(float radius)
@@ -40,7 +37,17 @@ public class Explosion_base : MonoBehaviour
         _radius = data.BlastRadius;
         _duration = data.Duration;
         _curveAlpha = data.AlphaFadingCurve;
-        _startColor = data.BlastColor;
+        _startColor = data.BlastColor;  
         return this;
+    }
+
+    void Exploding()
+    {
+        _mate.color = _startColor;
+        Vector3 scale = Vector3.one * _radius;
+        transform.localScale = Vector3.zero;
+        _mate.DOFade(0f, _duration).SetEase(_curveAlpha);
+        transform.DOScale(scale, _duration).OnComplete(
+                () => Destroy(this.gameObject));
     }
 }

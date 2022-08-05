@@ -23,7 +23,6 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
-        _effectSource.volume = 0.1f;
     }
 
     public void PlayEffectOnce(AudioClip clip)

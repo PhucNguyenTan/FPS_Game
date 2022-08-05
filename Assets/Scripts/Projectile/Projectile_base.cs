@@ -7,19 +7,25 @@ public class Projectile_base : MonoBehaviour
 {
     Vector3 _direction;
     Quaternion _rotation;
-    [SerializeField] Explosion_base _explosion;
+    Explosion_base _explosion;
 
 
     GameObject _shape;
     LayerMask _touchableLayers;
+    LayerMask _damageAble;
     float _speed;
     float _scale;
     float _maxLifeSpan;
+    float _damage;
     Explosion_data _explosionData;
     Rigidbody _rb;
-    
+    ParticleSystem _bulletImpact;
+
+    bool _isExplosive = false;
 
     bool _isStopMoving = true;
+
+    Vector3 _impactNormal;
 
 
     private void Awake()
@@ -39,7 +45,7 @@ public class Projectile_base : MonoBehaviour
             Vector3 nextPoint = transform.position + _direction * _speed * Time.deltaTime;
             RaycastHit hit;
             bool touched = Physics.Raycast(transform.position, transform.forward, out hit, 1000f, _touchableLayers);
-            Debug.DrawLine(transform.position, hit.point);
+            //Debug.DrawLine(transform.position, hit.point);
             if (touched)
             {
                 float ab = Vector3.Distance(transform.position, nextPoint);
@@ -48,8 +54,10 @@ public class Projectile_base : MonoBehaviour
                 {
                     nextPoint = hit.point;
                     _isStopMoving = true;
+                    _impactNormal = hit.normal;
                 }
             }
+            
             transform.position = nextPoint;
         }
         transform.localScale = Vector3.one * _scale;
@@ -105,12 +113,16 @@ public class Projectile_base : MonoBehaviour
 
     public Projectile_base SetProjectileData(Projectile_data data)
     {
+        _damage = data.Damage;
         _speed = data.Speed;
         _maxLifeSpan = data.MaxLifeSpan;
         _touchableLayers = data.LayerMasks;
         _shape = Instantiate(data.Shape, transform, false);
         _explosionData = data.ExplosionData;
         _scale = data.Scale;
+        _bulletImpact = data.ImpactEffect;
+        _isExplosive = data.IsExplosive;
+        _explosion = data.Explosion;
         return this;
     }
 
@@ -119,12 +131,22 @@ public class Projectile_base : MonoBehaviour
         int objLayer = other.gameObject.layer;
         if ((_touchableLayers & (1 << objLayer)) != 0) // ??? This is bit shift, 1 for exclude, 0 for include depend on where 
         {
-            //Generating explode gameobject here
-            Instantiate(_explosion, transform.position, Quaternion.identity).SetExplosionData(_explosionData);
-            Destroy(this.gameObject);
+            if((_damageAble & (1 << objLayer)) != 0)
+            {
+                //objLayer.TakeDamage;
+            }
+            if (_isExplosive)
+            {
+                //Generating explode gameobject here
+                Instantiate(_explosion, transform.position, Quaternion.identity).SetExplosionData(_explosionData);
+            }
+            else
+            {
+                ParticleSystem impact = Instantiate(_bulletImpact, transform.position, Quaternion.LookRotation(_impactNormal));
+                impact.Play();
+                Destroy(impact.gameObject, 0.2f);
+            }
+                Destroy(this.gameObject);
         }
     }
-
-
-
 }

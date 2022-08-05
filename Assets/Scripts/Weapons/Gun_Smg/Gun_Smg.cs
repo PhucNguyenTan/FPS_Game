@@ -9,7 +9,8 @@ public class Gun_Smg : Gun_base
     [SerializeField] float _maxSpread = 0.01f;
     [SerializeField] AudioClip _shootAudio;
     [SerializeField] ParticleSystem _muzzleFlash;
-    [SerializeField] ParticleSystem _impactFlash;
+    [SerializeField] Projectile_base _bullet;
+    [SerializeField] Projectile_data _bulletData;
 
 
     public Gun_Smg()
@@ -45,17 +46,15 @@ public class Gun_Smg : Gun_base
                new Vector3(Random.Range(-_maxSpread, _maxSpread),
                            Random.Range(-_maxSpread, _maxSpread),
                            Random.Range(-_maxSpread, _maxSpread));
+
         bool isImpacted = Physics.Raycast(_camTransform.position, dir, out hit);
-        if (isImpacted)
-        {
-            Enemy enemy = hit.transform.GetComponent<Enemy>();
-            if (enemy != null)
-            {
-                enemy.TakeDamage(_data.Damage);
-            }
-        }
-        ParticleSystem impact = Instantiate(_impactFlash, hit.point, Quaternion.LookRotation(hit.normal));
-        impact.Play();
-        Destroy(impact.gameObject, 0.2f);
+
+        Vector3 direction = isImpacted ?  hit.point - transform.position : dir;
+
+        Projectile_base bullet = Instantiate(_bullet, _muzzleFlash.transform.position, _muzzleFlash.transform.rotation)
+            .AddDirection(direction.normalized).SetProjectileData(_bulletData).Release();
+
+
+
     }
 }

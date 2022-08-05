@@ -76,10 +76,10 @@ public class Gun_Energy : Gun_base
         SoundManager.Instance.PlayEffectOnce(_chargeShotAudio);
 
         RaycastHit hit;
-        Vector3 castDir = _camTransform.forward;
-        bool isImpacted = Physics.Raycast(_camTransform.position, castDir, out hit);
+        Vector3 dir = _camTransform.forward;
+        bool isImpacted = Physics.Raycast(_camTransform.position, dir, out hit);
 
-        Vector3 direction = isImpacted ? hit.point - transform.position : castDir * 1000f - transform.position;
+        Vector3 direction = isImpacted ? hit.point - transform.position : dir;
 
 
         _currentProjectile.AddDirection(direction.normalized).SetRotation(_muzzle.transform.rotation).Release();
@@ -98,10 +98,10 @@ public class Gun_Energy : Gun_base
         _muzzle.Play();
         SoundManager.Instance.PlayEffectOnce(_shootAudio);
         RaycastHit hit;
-        Vector3 castDir = _camTransform.forward;
-        bool isImpacted = Physics.Raycast(_camTransform.position, castDir, out hit);
+        Vector3 dir = _camTransform.forward;
+        bool isImpacted = Physics.Raycast(_camTransform.position, dir, out hit);
 
-        Vector3 direction = isImpacted ? hit.point - transform.position : castDir * 100f - transform.position;
+        Vector3 direction = isImpacted ? hit.point - transform.position : dir ;
 
         Projectile_base bullet = Instantiate(_projectile, _projectileOrigin.position, _muzzle.transform.rotation)
             .AddDirection(direction.normalized).SetProjectileData(_projectileData).Release();
