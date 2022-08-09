@@ -3,37 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ProBuilder;
 
-public class Projectile_base : MonoBehaviour
+public abstract class Projectile_base : MonoBehaviour
 {
     Vector3 _direction;
     Quaternion _rotation;
-    Explosion_base _explosion;
-
 
     GameObject _shape;
     LayerMask _touchableLayers;
     LayerMask _damagable;
     float _speed;
-    float _scale;
     float _maxLifeSpan;
     float _damage;
-    Explosion_data _explosionData;
+    protected float _scale;
+
     Rigidbody _rb;
-    ParticleSystem _bulletImpact;
-    int _level = 0;
-    int _maxLevel = 5;
 
-    bool _isLevelupAble;
-    float _chargeTimer = 0f;
-    float _maxChargeTime = 0.5f;
-
-    float _additionalRadius = 0f;
+    
 
     bool _isExplosive = false;
 
     bool _isStopMoving = true;
 
-    Vector3 _impactNormal;
+    protected Vector3 _impactNormal;
 
 
     private void Awake()
@@ -46,77 +37,56 @@ public class Projectile_base : MonoBehaviour
         Destroy(this.gameObject, _maxLifeSpan);
     }
 
-    private void Update()
+    protected virtual void Update()
     {
-        if (!_isStopMoving)
-        {
-            Vector3 nextPoint = transform.position + _direction * _speed * Time.deltaTime;
-            RaycastHit hit;
-            bool touched = Physics.Raycast(transform.position, transform.forward, out hit, 1000f, _touchableLayers);
-            //Debug.DrawLine(transform.position, hit.point);
-            if (touched)
-            {
-                float ab = Vector3.Distance(transform.position, nextPoint);
-                float ac = Vector3.Distance(transform.position, hit.point);
-                if (ab > ac)
-                {
-                    nextPoint = hit.point;
-                    _isStopMoving = true;
-                    _impactNormal = hit.normal;
-                }
-            }
-            
-            transform.position = nextPoint;
-        }
-        else if (_isStopMoving && _isLevelupAble)
-        {
-            if(_chargeTimer >= _maxChargeTime)
-            {
-                UpLevel();
-                _chargeTimer = 0f;
-            }
-            _chargeTimer += Time.deltaTime;
-        }
-        transform.localScale = Vector3.one * _scale;
+        if (!_isStopMoving) MoveProjectileForward();
     }
 
-    public Projectile_base AddDirection(Vector3 dir)
+    public void MoveProjectileForward()
+    {
+        Vector3 nextPoint = transform.position + _direction * _speed * Time.deltaTime;
+        RaycastHit hit;
+        bool touched = Physics.Raycast(transform.position, transform.forward, out hit, 1000f, _touchableLayers);
+        if (touched)
+        {
+            float ab = Vector3.Distance(transform.position, nextPoint);
+            float ac = Vector3.Distance(transform.position, hit.point);
+            if (ab > ac)
+            {
+                nextPoint = hit.point;
+                _isStopMoving = true;
+                _impactNormal = hit.normal;
+            }
+        }
+        transform.position = nextPoint;
+    }
+
+    public void AddDirection(Vector3 dir)
     {
         _direction = dir;
-        return this;
     }
 
-    public Projectile_base CreateShape(GameObject shape)
+    public void CreateShape(GameObject shape)
     {
         _shape = Instantiate(shape, transform, false);
-        return this;
     }
 
-    public Projectile_base SetSpeed(float speed)
+    public void SetSpeed(float speed)
     {
         _speed = speed;
-        return this;
     }
 
-    public Projectile_base SetScale(float scale)
+    public void SetScale(float scale)
     {
         _scale = scale;
-        return this;
     }
 
-    public Projectile_base AddScale(float addScale)
+    public void AddScale(float addScale)
     {
         _scale += addScale;
-        return this;
     }
 
-    void UpLevel()
-    {
-        if (_level == _maxLevel) return;
-        _level++;
-        _scale += 0.05f;
-        _additionalRadius += 1f;
-    }
+    
 
     public Projectile_base SetPosition(Vector3 pos)
     {
@@ -124,57 +94,52 @@ public class Projectile_base : MonoBehaviour
         return this;
     }
 
-    public Projectile_base SetRotation(Quaternion rot)
+    public void SetRotation(Quaternion rot)
     {
         transform.rotation = rot;
-        return this;
     }
 
-    public Projectile_base Release() {
+    public void Release() {
         _isStopMoving = false;
-        _isLevelupAble = false;
-        return this;
     }
 
-    public Projectile_base SetProjectileData(Projectile_data data)
+    protected void SetGeneralData(Projectile_data data)
     {
         _damage = data.Damage;
         _speed = data.Speed;
         _maxLifeSpan = data.MaxLifeSpan;
         _touchableLayers = data.Touchable;
-        _shape = Instantiate(data.Shape, transform, false);
-        _explosionData = data.ExplosionData;
         _scale = data.Scale;
-        _bulletImpact = data.ImpactEffect;
-        _isExplosive = data.IsExplosive;
-        _explosion = data.Explosion;
         _damagable = data.Damagable;
-        _isLevelupAble = data.IsLevelupAble;
+    }
+
+    public Projectile_base SetProjectileData(Projectile_data data)
+    {
+        //_explosionData = data.ExplosionData;
+        //_bulletImpact = data.ImpactEffect;
+        //_isExplosive = data.IsExplosive;
+        //_explosion = data.Explosion;
+        //_isLevelupAble = data.IsLevelupAble;
         return this;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         int objLayer = other.gameObject.layer;
-        if ((_touchableLayers & (1 << objLayer)) != 0) // ??? This is bit shift, 1 for exclude, 0 for include depend on where 
+        bool isCollided = (_touchableLayers & (1 << objLayer)) != 0;
+        bool isCollidWithEnemy = (_damagable & (1 << objLayer)) != 0;
+
+        if (isCollided) 
         {
-            if((_damagable & (1 << objLayer)) != 0)
+            if (isCollidWithEnemy)
             {
-                //objLayer.TakeDamage;
                 other.gameObject.GetComponent<Enemy>().TakeDamage(_damage);
             }
-            if (_isExplosive)
-            {
-                //Generating explode gameobject here
-                Instantiate(_explosion, transform.position, Quaternion.identity).SetExplosionData(_explosionData).AddRadius(_additionalRadius);
-            }
-            else
-            {
-                ParticleSystem impact = Instantiate(_bulletImpact, transform.position, Quaternion.LookRotation(_impactNormal));
-                impact.Play();
-                Destroy(impact.gameObject, 0.2f);
-            }
-                Destroy(this.gameObject);
+            LogicOnColliding();
+            Destroy(this.gameObject);
+
         }
     }
+
+    protected abstract void LogicOnColliding();
 }

@@ -17,9 +17,8 @@ public class Gun_Energy : Gun_base
     [SerializeField] ParticleSystem _muzzle;
     [SerializeField] ParticleSystem _muzzleCharge;
     [SerializeField] ParticleSystem _muzzleCharging;
-    [SerializeField] Projectile_data _projectileData;
-    [SerializeField] Projectile_base _projectile;
-    Projectile_base _currentProjectile;
+    [SerializeField] Explosive_charge_data _energyBallData;
+    Explosive_charge _currentProjectile;
     Transform _projectileOrigin;
 
     bool _isCharging = false;
@@ -37,14 +36,7 @@ public class Gun_Energy : Gun_base
     {
         if (_currentProjectile != null)
         {
-            _currentProjectile = _currentProjectile.SetPosition(_projectileOrigin.position);
-            //    _chargeTimer += Time.deltaTime;
-            //    if(_chargeTimer >= 0.5f && _totalChargeTime < _maxChargeTime)
-            //    {
-            //        _currentProjectile.AddScale(0.01f);
-            //        _totalChargeTime += _chargeTimer;
-            //        _chargeTimer = 0f;
-            //    }
+           _currentProjectile.SetPosition(_projectileOrigin.position);
         }
     }
 
@@ -78,12 +70,13 @@ public class Gun_Energy : Gun_base
         RaycastHit hit;
         Vector3 dir = _camTransform.forward;
         bool isImpacted = Physics.Raycast(_camTransform.position, dir, out hit);
-
         Vector3 direction = isImpacted ? hit.point - transform.position : dir;
 
-
-        _currentProjectile.AddDirection(direction.normalized).SetRotation(_muzzle.transform.rotation).Release();
+        _currentProjectile.SetRotation(_muzzle.transform.rotation);
+        _currentProjectile.AddDirection(direction.normalized);
+        _currentProjectile.Release();
         _currentProjectile = null;
+
         _isCharging = false;
         _chargeTimer = 0f;
         _totalChargeTime = 0f;
@@ -103,8 +96,10 @@ public class Gun_Energy : Gun_base
 
         Vector3 direction = isImpacted ? hit.point - transform.position : dir ;
 
-        Projectile_base bullet = Instantiate(_projectile, _projectileOrigin.position, _muzzle.transform.rotation)
-            .AddDirection(direction.normalized).SetProjectileData(_projectileData).Release();
+        Explosive_charge energyBall = Instantiate(_energyBallData.ExplosivePrefab, _projectileOrigin.position, _muzzle.transform.rotation);
+        energyBall.AddDirection(direction.normalized);
+        energyBall.SetData(_energyBallData);
+        energyBall.Release();
     }
 
     public void CancelCharge()
@@ -117,9 +112,9 @@ public class Gun_Energy : Gun_base
     {
         if (!CheckCanShoot()) return;
         _muzzleCharging.Play();
-        
-        _currentProjectile = Instantiate(_projectile, _projectileOrigin.position, _projectileOrigin.rotation)
-        .SetProjectileData(_projectileData);
+
+        _currentProjectile = Instantiate(_energyBallData.ExplosivePrefab, _projectileOrigin.position, _projectileOrigin.rotation);
+        _currentProjectile.SetData(_energyBallData);
         _isCharging = true;
         _chargeTimer = 0f;
         

@@ -503,8 +503,7 @@ MonoBehaviour:
   _snappiness: 0
   _shootAudio: {fileID: 8300000, guid: f8c6bf6e603965c4ab6685e985328252, type: 3}
   _muzzle: {fileID: 227940242}
-  _projectilteData: {fileID: 11400000, guid: 01ad549b624ef71429eb4231b0d88da9, type: 2}
-  _projectile: {fileID: 228069174514754507, guid: 22f528e0603c004419943b2600c3000d, type: 3}
+  _rocketData: {fileID: 11400000, guid: be4de87218d6f2748871d0f63795b037, type: 2}
 --- !u!1001 &51762252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15342,7 +15341,6 @@ MonoBehaviour:
   _maxSpread: 0.05
   _shootAudio: {fileID: 8300000, guid: 94a4a615bcb49ae449d9c8a0b246628a, type: 3}
   _muzzleFlash: {fileID: 950448425}
-  _bullet: {fileID: -4548169331380611309, guid: 148999d8b360bfe40b84759477880b03, type: 3}
   _bulletData: {fileID: 11400000, guid: 8de007325914fc7459ad034cee924557, type: 2}
 --- !u!1 &705507993
 GameObject:
@@ -16577,8 +16575,7 @@ MonoBehaviour:
   _muzzle: {fileID: 2126364814}
   _muzzleCharge: {fileID: 1617736062}
   _muzzleCharging: {fileID: 1643536044}
-  _projectileData: {fileID: 11400000, guid: e143bed4aa46579458aa19199fd61c2f, type: 2}
-  _projectile: {fileID: 6169017270190928188, guid: b663081c3674aae4b9ac91ac96cbbd93, type: 3}
+  _energyBallData: {fileID: 11400000, guid: e143bed4aa46579458aa19199fd61c2f, type: 2}
 --- !u!43 &934551432
 Mesh:
   m_ObjectHideFlags: 0
@@ -17228,7 +17225,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1396
+  m_Name: pb_Mesh-1716
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -18154,7 +18151,6 @@ MonoBehaviour:
   _maxSpread: 0.01
   _shootAudio: {fileID: 8300000, guid: d3f92dac8947cb247aaec47c840b0467, type: 3}
   _muzzleFlash: {fileID: 11843741}
-  _bullet: {fileID: -4548169331380611309, guid: 148999d8b360bfe40b84759477880b03, type: 3}
   _bulletData: {fileID: 11400000, guid: 18d778cdeefb9f84a91ccd10ee9e0b60, type: 2}
 --- !u!1 &1226093338 stripped
 GameObject:

@@ -48,5 +48,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  ImpactEffect: {fileID: 0}
-  IsExplosive: 1
+  Explosion: {fileID: 8644533382489917013, guid: 3c189ffdf8e25494eba73df6df48459c, type: 3}

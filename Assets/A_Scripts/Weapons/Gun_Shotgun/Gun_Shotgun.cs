@@ -10,8 +10,7 @@ public class Gun_Shotgun : Gun_base
     [SerializeField] float _maxSpread = 0.05f;
     [SerializeField] AudioClip _shootAudio;
     [SerializeField] ParticleSystem _muzzleFlash;
-    [SerializeField] Projectile_base _bullet;
-    [SerializeField] Projectile_data _bulletData;
+    [SerializeField] Bullet_data _bulletData;
 
     public Gun_Shotgun()
     {
@@ -48,8 +47,9 @@ public class Gun_Shotgun : Gun_base
             bool isImpacted = Physics.Raycast(_camTransform.position, dir, out hits[i]);
             Vector3 direction = isImpacted ?  hits[i].point - transform.position : dir;
 
-            Projectile_base bullet = Instantiate(_bullet, _muzzleFlash.transform.position, _muzzleFlash.transform.rotation)
-                .AddDirection(direction.normalized).SetProjectileData(_bulletData).Release();
+            Bullet bullet = Instantiate(_bulletData.BulletObj, _muzzleFlash.transform.position, _muzzleFlash.transform.rotation);
+            bullet.AddDirection(direction.normalized);
+            bullet.SetData(_bulletData).Release();
         }
     }
 }

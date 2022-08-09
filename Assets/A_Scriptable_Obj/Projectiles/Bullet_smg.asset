@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b62ddb091a11e44bb947391261f5d4f, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ddb7c7de4adf7c45913551bed7e1e07, type: 3}
   m_Name: Bullet_smg
   m_EditorClassIdentifier: 
-  Damage: 2
-  Speed: 500
-  Shape: {fileID: 6836219581195536124, guid: 148999d8b360bfe40b84759477880b03, type: 3}
+  Damage: 8
+  Speed: 50
   Touchable:
     serializedVersion: 2
     m_Bits: 448
@@ -23,7 +22,5 @@ MonoBehaviour:
     m_Bits: 256
   MaxLifeSpan: 120
   Scale: 1
-  IsExplosive: 0
-  ExplosionData: {fileID: 11400000, guid: 188cf670fdd223743a44d7fa28daa34c, type: 2}
-  Explosion: {fileID: 0}
-  ImpactEffect: {fileID: 8154098493202264236, guid: 03889fec60e1a3d47b9f239e3242adff, type: 3}
+  ShotImpact: {fileID: 8154098493202264236, guid: 03889fec60e1a3d47b9f239e3242adff, type: 3}
+  BulletObj: {fileID: 5455029414086643965, guid: 148999d8b360bfe40b84759477880b03, type: 3}

@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b62ddb091a11e44bb947391261f5d4f, type: 3}
+  m_Script: {fileID: 11500000, guid: 08aed28ca0f63d04ba6b19c103d738df, type: 3}
   m_Name: Energy
   m_EditorClassIdentifier: 
   Damage: 0
-  Speed: 30
-  Shape: {fileID: 6965473672656837129, guid: b663081c3674aae4b9ac91ac96cbbd93, type: 3}
+  Speed: 10
   Touchable:
     serializedVersion: 2
     m_Bits: 448
@@ -22,9 +21,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   MaxLifeSpan: 120
-  Scale: 0.05
-  IsExplosive: 1
-  IsLevelupAble: 1
+  Scale: 0.1
   ExplosionData: {fileID: 11400000, guid: 107c590b234db674fa5b3d517482d03d, type: 2}
-  Explosion: {fileID: 8644533382489917013, guid: 3c189ffdf8e25494eba73df6df48459c, type: 3}
-  ImpactEffect: {fileID: 0}
+  ExplosivePrefab: {fileID: 1775835880669866946, guid: b663081c3674aae4b9ac91ac96cbbd93, type: 3}
+  MaxLevel: 5
+  MaxChargeTimePerLevel: 0.5
+  RadiusIncremetalPerLevel: 0.1
+  ScaleIncremetalPerLevel: 0.1

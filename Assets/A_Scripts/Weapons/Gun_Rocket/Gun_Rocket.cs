@@ -8,8 +8,7 @@ public class Gun_Rocket : Gun_base
     [SerializeField] AudioClip _shootAudio;
     public static UnityAction Shooting;
     [SerializeField] ParticleSystem _muzzle;
-    [SerializeField] Projectile_data _projectilteData;
-    [SerializeField] Projectile_base _projectile;
+    [SerializeField] Explosive_data _rocketData;
     
 
     public Gun_Rocket()
@@ -40,10 +39,12 @@ public class Gun_Rocket : Gun_base
 
         Vector3 direction = isImpacted ? hit.point - transform.position : dir;
 
-        Projectile_base bullet = Instantiate(_projectile, _muzzle.transform.position, _muzzle.transform.rotation)
-            .AddDirection(direction.normalized).SetProjectileData(_projectilteData).Release();
+        Explosive rocket = Instantiate(_rocketData.ExplosivePrefab, _muzzle.transform.position, _muzzle.transform.rotation);
+        rocket.AddDirection(direction.normalized);
+        rocket.SetData(_rocketData);
+        rocket.Release();
 
-        
+
 
     }
 }
