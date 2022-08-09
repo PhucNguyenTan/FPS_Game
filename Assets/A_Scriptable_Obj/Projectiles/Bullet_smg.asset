@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bullet_smg
   m_EditorClassIdentifier: 
   Damage: 8
-  Speed: 50
+  Speed: 500
   Touchable:
     serializedVersion: 2
     m_Bits: 448

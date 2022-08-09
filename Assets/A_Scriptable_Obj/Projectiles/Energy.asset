@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Energy
   m_EditorClassIdentifier: 
   Damage: 0
-  Speed: 10
+  Speed: 100
   Touchable:
     serializedVersion: 2
     m_Bits: 448
@@ -26,5 +26,5 @@ MonoBehaviour:
   ExplosivePrefab: {fileID: 1775835880669866946, guid: b663081c3674aae4b9ac91ac96cbbd93, type: 3}
   MaxLevel: 5
   MaxChargeTimePerLevel: 0.5
-  RadiusIncremetalPerLevel: 0.1
-  ScaleIncremetalPerLevel: 0.1
+  RadiusIncremetalPerLevel: 0.2
+  ScaleIncremetalPerLevel: 0.05

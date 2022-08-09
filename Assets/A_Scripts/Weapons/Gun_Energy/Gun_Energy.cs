@@ -74,7 +74,7 @@ public class Gun_Energy : Gun_base
 
         _currentProjectile.SetRotation(_muzzle.transform.rotation);
         _currentProjectile.AddDirection(direction.normalized);
-        _currentProjectile.Release();
+        _currentProjectile.ReleaseCharge();
         _currentProjectile = null;
 
         _isCharging = false;
@@ -99,7 +99,7 @@ public class Gun_Energy : Gun_base
         Explosive_charge energyBall = Instantiate(_energyBallData.ExplosivePrefab, _projectileOrigin.position, _muzzle.transform.rotation);
         energyBall.AddDirection(direction.normalized);
         energyBall.SetData(_energyBallData);
-        energyBall.Release();
+        energyBall.ReleaseCharge();
     }
 
     public void CancelCharge()

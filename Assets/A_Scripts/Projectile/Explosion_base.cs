@@ -13,6 +13,8 @@ public class Explosion_base : MonoBehaviour
     Renderer _render;
     AnimationCurve _curveAlpha;
 
+    LayerMask _pushable;
+
     private void Awake()
     {
         
@@ -24,6 +26,7 @@ public class Explosion_base : MonoBehaviour
         _render = transform.GetChild(0).transform.GetComponent<Renderer>();
         _mate = _render.materials[0];
         Exploding();
+        ForcePush();
     }
 
     public Explosion_base SetRadius(float radius)
@@ -43,8 +46,22 @@ public class Explosion_base : MonoBehaviour
         _radius = data.BlastRadius;
         _duration = data.Duration;
         _curveAlpha = data.AlphaFadingCurve;
-        _startColor = data.BlastColor;  
+        _startColor = data.BlastColor;
+        _pushable = data.PushableLayers;
         return this;
+    }
+
+    void ForcePush()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, _radius);
+        foreach(Collider nearbyObj in colliders)
+        {
+            bool isCollided = (_pushable & (1 << nearbyObj.gameObject.layer)) != 0;
+            if (isCollided)
+            {
+                Debug.Log(nearbyObj.name);
+            }
+        }
     }
 
     void Exploding()

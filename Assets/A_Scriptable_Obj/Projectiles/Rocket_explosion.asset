@@ -49,3 +49,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   Explosion: {fileID: 8644533382489917013, guid: 635243ff99e44124aa3d7f89ffc70bd4, type: 3}
+  PushableLayers:
+    serializedVersion: 2
+    m_Bits: 256

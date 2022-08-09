@@ -11,4 +11,5 @@ public class Explosion_data : ScriptableObject
     public Color BlastColor;
     public AnimationCurve AlphaFadingCurve;
     public Explosion_base Explosion;
+    public LayerMask PushableLayers;
 }

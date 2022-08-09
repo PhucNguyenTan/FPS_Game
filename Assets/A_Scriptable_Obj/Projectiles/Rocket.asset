@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Rocket
   m_EditorClassIdentifier: 
   Damage: 0
-  Speed: 10
+  Speed: 75
   Touchable:
     serializedVersion: 2
     m_Bits: 448
@@ -24,6 +24,3 @@ MonoBehaviour:
   Scale: 1
   ExplosionData: {fileID: 11400000, guid: a0e86da3c7076fd459ce0c224cfe0e49, type: 2}
   ExplosivePrefab: {fileID: 6255183804654894032, guid: 22f528e0603c004419943b2600c3000d, type: 3}
-  MaxLevel: 0
-  MaxChargeTimePerLevel: 0
-  RadiusIncremetalPerLevel: 0
