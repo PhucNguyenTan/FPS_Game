@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7200596526722993031}
   - component: {fileID: 1152293754847121691}
   - component: {fileID: 1202571214614197703}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9fe0a856a63e8634ebc7077bc570ea68, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -112,8 +112,8 @@ GameObject:
   - component: {fileID: 2075430565215980239}
   - component: {fileID: 2075430565215980232}
   - component: {fileID: 2075430565215980236}
-  m_Layer: 0
-  m_Name: Enemy
+  m_Layer: 8
+  m_Name: Ground_Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -212,8 +212,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
+  health: 20
   projectile: {fileID: 8956040469519502834, guid: 48bb18fe619cec24aa38f82bcb9615be, type: 3}
-  coolDownTime: 3
+  _explosion: {fileID: 11400000, guid: bb7845c3cd2ea8f4f84a234c1ea92f82, type: 2}
 --- !u!1 &5967105810361037247
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,7 +227,7 @@ GameObject:
   - component: {fileID: 8523938167680789285}
   - component: {fileID: 6805017442284037491}
   - component: {fileID: 516791424570071059}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,7 +277,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3417acbde22ec2a43a5210d240eb089a, type: 2}
+  - {fileID: 2100000, guid: 0f29e3c1c576f6641b9e474f6b194480, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -324,7 +325,7 @@ GameObject:
   - component: {fileID: 3249182647637784165}
   - component: {fileID: 802446066798014523}
   - component: {fileID: 3221658484687100351}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -374,7 +375,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3417acbde22ec2a43a5210d240eb089a, type: 2}
+  - {fileID: 2100000, guid: 0f29e3c1c576f6641b9e474f6b194480, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

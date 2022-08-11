@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Mastermind : MonoBehaviour
 {
-    public e_Difficulty difficulty;
-    public e_GameMode gameMode;
+    [SerializeField] e_Difficulty difficulty;
+    [SerializeField] e_GameMode gameMode;
 
     
 

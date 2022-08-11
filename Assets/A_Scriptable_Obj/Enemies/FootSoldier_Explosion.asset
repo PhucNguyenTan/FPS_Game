@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 293097ae38ce34341ac705b8b4654d25, type: 3}
+  m_Name: FootSoldier_Explosion
+  m_EditorClassIdentifier: 
+  BlastRadius: 3
+  Duration: 1
+  BlastColor: {r: 0, g: 0, b: 0, a: 0}
+  AlphaFadingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.5481233
+      outSlope: 0.5481233
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.8118981
+      value: 0.4450203
+      inSlope: 1.4717376
+      outSlope: 1.4717376
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.032523114
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2.9504206
+      outSlope: 2.9504206
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  Explosion: {fileID: 8644533382489917013, guid: 635243ff99e44124aa3d7f89ffc70bd4, type: 3}
+  PushableLayers:
+    serializedVersion: 2
+    m_Bits: 0

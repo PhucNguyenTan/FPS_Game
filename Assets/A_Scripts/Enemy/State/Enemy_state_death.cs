@@ -19,6 +19,7 @@ public class Enemy_state_death : Enemy_base_state
     public override void Logic()
     {
         base.Logic();
+        enemy.CreateExplosion();
         enemy.DestroyEnemy(0f);
     }
 }

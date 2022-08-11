@@ -6,13 +6,16 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    Player player;
     public NavMeshAgent agent;
     [SerializeField] float health = 20f;
+    Projectile current_fireball;
+    [SerializeField] GameObject projectile;
+    [SerializeField] Explosion_data _explosion;
 
-    private Player player;
-    private Projectile current_fireball;
-    [SerializeField]
-    private GameObject projectile;
+
+    float AggroPoint;
+
 
     #region state variable
     public Enemy_state_patrolling statePatrolling { get; private set; }
@@ -36,10 +39,6 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
-    public void ChasePlayer()
-    {
-        agent.SetDestination(player.transform.position);
-    }
 
     private void Start()
     {
@@ -49,6 +48,11 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.Logic();
+    }
+
+    public void ChasePlayer()
+    {
+        agent.SetDestination(player.transform.position);
     }
 
     public void TakeDamage(float dmg_amount)
@@ -117,5 +121,10 @@ public class Enemy : MonoBehaviour
 
 
     }
-    //test
+
+    public void CreateExplosion()
+    {
+        Instantiate(_explosion.Explosion, transform.position, Quaternion.identity).SetExplosionData(_explosion);
+    }
+
 }
